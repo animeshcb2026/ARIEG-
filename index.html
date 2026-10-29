@@ -3,216 +3,103 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AR India English Group</title>
+  <title>AR India English Group - Exam Portal</title>
   <style>
     :root {
-      --primary: #1e3a8a;
-      --secondary: #3b82f6;
-      --bg: #f1f5f9;
-      --card: #ffffff;
-      --border: #e2e8f0;
-      --success: #16a34a;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --text: #0f172a;
-      --muted: #64748b;
-      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+      --primary:#1e3a8a;
+      --secondary:#3b82f6;
+      --bg:#f1f5f9;
+      --card:#ffffff;
+      --border:#e2e8f0;
+      --success:#16a34a;
+      --warning:#f59e0b;
+      --danger:#ef4444;
+      --text:#0f172a;
+      --muted:#64748b;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
     }
-
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      padding: 12px;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Segoe UI',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      padding:12px;
     }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      background: var(--card);
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      min-height: 92vh;
-      padding: 20px;
+    .container{
+      max-width:1250px;
+      margin:0 auto;
+      background:var(--card);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      min-height:94vh;
+      padding:20px;
     }
-    header {
-      text-align: center;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      border-radius: 12px;
-      padding: 18px 16px;
-      margin-bottom: 16px;
+    header{
+      text-align:center;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      color:white;
+      border-radius:12px;
+      padding:18px 16px;
+      margin-bottom:18px;
     }
-    h1, h2, h3, h4, p { margin: 0; }
-    .screen { display: none; }
-    .screen.active { display: block; }
-
-    .login-wrapper {
-      min-height: 70vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    h1,h2,h3,h4,p{margin:0}
+    .screen{display:none}
+    .screen.active{display:block}
+    .nav-bar{
+      display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+      background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:16px;
     }
-    .login-card {
-      width: 100%;
-      max-width: 420px;
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 26px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-      text-align: center;
+    .btn{
+      background:var(--primary);color:white;border:none;border-radius:8px;padding:9px 14px;font-weight:700;cursor:pointer;
+      transition:transform .12s ease;
     }
-    .login-card h2 { color: var(--primary); margin-bottom: 8px; }
-    .login-card p { color: var(--muted); font-size: 0.8rem; margin: 6px 0 12px; }
-
-    .nav-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      padding: 12px 16px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      margin-bottom: 16px;
+    .btn:hover{transform:translateY(-1px)}
+    .btn-secondary{background:#64748b}
+    .btn-success{background:var(--success)}
+    .btn-danger{background:var(--danger)}
+    .btn-sm{padding:6px 10px;font-size:.8rem}
+    .btn-block{width:100%;margin-top:14px}
+    .login-wrapper{display:flex;align-items:center;justify-content:center;min-height:70vh}
+    .login-card{
+      width:min(420px,100%);background:#f8fafc;border:1px solid var(--border);border-radius:16px;padding:26px;
+      box-shadow:0 8px 25px rgba(0,0,0,.06);text-align:center;
     }
-
-    .btn {
-      border: none;
-      border-radius: 8px;
-      padding: 9px 14px;
-      background: var(--primary);
-      color: white;
-      cursor: pointer;
-      font-weight: 600;
-      transition: transform 0.1s ease;
+    .login-card h2{color:var(--primary);margin-bottom:8px}
+    .login-card p{color:var(--muted);font-size:.8rem;margin:8px 0 16px}
+    .field{margin-top:12px}
+    label{display:block;text-align:left;font-size:.8rem;font-weight:700;color:#334155;margin-bottom:4px}
+    input,select,textarea{
+      width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;background:white;color:var(--text);font:inherit;
     }
-    .btn:hover { transform: translateY(-1px); }
-    .btn-secondary { background: #64748b; }
-    .btn-danger { background: var(--danger); }
-    .btn-success { background: var(--success); }
-    .btn-sm { padding: 6px 10px; font-size: 0.8rem; }
-    .btn-block { width: 100%; margin-top: 14px; }
-
-    label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #334155;
-      text-align: left;
-      margin-bottom: 4px;
-    }
-    input, select {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px;
-      margin-top: 4px;
-      background: #fff;
-      color: var(--text);
-      font-size: 0.95rem;
-    }
-    .field { margin-top: 10px; }
-
-    .section-box {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: #fff;
-      padding: 16px;
-      margin-bottom: 18px;
-    }
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .student-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 12px;
-      margin-top: 12px;
-    }
-    .student-card {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
-      background: white;
-    }
-    .student-card strong { display: block; }
-    .small { font-size: 0.8rem; }
-    .muted { color: var(--muted); }
-
-    .table-container {
-      overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      margin-top: 12px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      text-align: left;
-      padding: 9px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
-    }
-    th { background: #f8fafc; }
-    tbody tr:hover { background: #f8fafc; }
-
-    .add-student-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .full-width { grid-column: 1 / -1; }
-
-    .status-pill {
-      position: fixed;
-      top: 12px;
-      right: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      z-index: 10;
-    }
-    .firebase-connected { background: #dcfce7; color: #15803d; }
-    .firebase-disconnected { background: #fee2e2; color: #991b1b; }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.65);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 20;
-      padding: 12px;
-    }
-    .modal.active { display: flex; }
-    .modal-card {
-      width: min(460px, 95vw);
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-    }
-    .modal-card h3 { margin-bottom: 12px; }
-    .modal-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    @media (max-width: 760px) {
-      .grid-2, .add-student-grid { grid-template-columns: 1fr; }
-    }
+    textarea{min-height:90px;resize:vertical}
+    .section-box{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:18px}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .add-student-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .full-width{grid-column:1 / -1}
+    @media (max-width:760px){.grid-2,.add-student-grid{grid-template-columns:1fr}}
+    .students-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:10px}
+    .student-card{background:white;border:1px solid var(--border);border-radius:12px;padding:12px;border-left:5px solid var(--primary)}
+    .student-card strong{display:block}
+    .small{font-size:.8rem}.muted{color:var(--muted)}
+    .exam-card{border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:12px;background:#fff}
+    .exam-card-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+    .question-builder-item{border:1px solid var(--border);border-radius:12px;padding:14px;background:#f8fafc;margin-top:12px}
+    .question-builder-item h4{margin-bottom:8px}
+    .mcq-option-row{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;margin-top:8px}
+    .mcq-option-row input[type="radio"]{width:auto}
+    .builder-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .table-container{overflow-x:auto;border:1px solid var(--border);border-radius:10px;margin-top:12px}
+    table{width:100%;border-collapse:collapse}th,td{padding:9px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}th{background:#f8fafc}tbody tr:hover{background:#f8fafc}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:999;padding:12px}.modal.active{display:flex}
+    .modal-card{background:white;border-radius:16px;width:min(480px,95vw);padding:20px}.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap}
+    .status-pill{position:fixed;top:12px;right:12px;z-index:1000;padding:6px 10px;border-radius:999px;font-size:.75rem;font-weight:700}.firebase-connected{background:#dcfce7;color:#15803d}.firebase-disconnected{background:#fee2e2;color:#991b1b}
+    .question-area{border:1px solid var(--border);border-radius:12px;background:white;padding:16px;margin-bottom:16px}
+    .question-options{margin-top:12px}.option-box{display:flex;align-items:center;gap:8px;margin-top:10px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:#fafafa}.option-box input[type="radio"]{width:auto}
+    .result-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:16px;margin-top:18px}
+    .badge{display:inline-block;padding:5px 8px;border-radius:6px;font-size:.72rem;font-weight:700}.badge-success{background:#dcfce7;color:#15803d}.badge-warning{background:#fef3c7;color:#b45309}.badge-danger{background:#fee2e2;color:#991b1b}.badge-primary{background:#dbeafe;color:#1e3a8a}
+    @media (max-width:600px){.nav-bar{align-items:flex-start}}
   </style>
 </head>
 <body>
@@ -221,7 +108,7 @@
   <div class="container">
     <header>
       <h1>AR India English Group</h1>
-      <p>Live Exam Portal</p>
+      <p>Exam Portal - Examiner + Student</p>
     </header>
 
     <div id="screen-home" class="screen active">
@@ -229,127 +116,109 @@
         <div class="login-card">
           <h2>Student Login</h2>
           <p>ID + Name + Class</p>
-
-          <div class="field">
-            <label>ID Number</label>
-            <input id="student-id-input" placeholder="Numeric ID" />
-          </div>
-
-          <div class="field">
-            <label>Full Name</label>
-            <input id="student-name-input" placeholder="Enter your full name" />
-          </div>
-
-          <div class="field">
-            <label>Class</label>
-            <select id="student-class-input">
-              <option value="">Select</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-            </select>
-          </div>
-
+          <div class="field"><label>ID Number</label><input id="student-id-input" placeholder="Numeric ID" /></div>
+          <div class="field"><label>Full Name</label><input id="student-name-input" placeholder="Enter full name" /></div>
+          <div class="field"><label>Class</label><select id="student-class-input"><option value="">Select</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
           <button class="btn btn-block" onclick="loginAsStudent()">Login for Exam</button>
-          <p class="small muted" style="margin-top:8px;">✅ Works with Firebase or local browser storage</p>
+          <p class="small muted" style="margin-top:10px;">✅ Works with browser storage and Firebase fallback</p>
         </div>
       </div>
     </div>
 
     <div id="screen-student-dash" class="screen">
       <div class="nav-bar">
-        <div>
-          <strong id="display-student-name">Student</strong> |
-          ID: <span id="display-student-id"></span> |
-          Class <span id="dash-class-label"></span>
-        </div>
-        <div>
-          <button class="btn btn-secondary btn-sm" onclick="openStudentDetails()">My Details</button>
-          <button class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
-        </div>
+        <div><strong id="display-student-name">Student</strong> | ID: <span id="display-student-id"></span> | Class <span id="dash-class-label"></span></div>
+        <div><button class="btn btn-secondary btn-sm" onclick="openStudentDetails()">My Details</button><button class="btn btn-danger btn-sm" onclick="logout()">Logout</button></div>
       </div>
-
       <h3>Available Exams - Class <span id="dash-class-label-main"></span></h3>
-      <div id="available-exams-container" class="section-box" style="margin-top:12px;">
-        <p class="muted">No exams published yet.</p>
-      </div>
-
+      <div id="available-exams-container" class="section-box" style="margin-top:12px;"></div>
       <h3 style="margin-top:20px;">My Performance</h3>
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Exam</th>
-              <th>Score</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody id="student-history-table"></tbody>
-        </table>
+      <div class="table-container"><table><thead><tr><th>Exam</th><th>Score</th><th>Date</th></tr></thead><tbody id="student-history-table"></tbody></table></div>
+    </div>
+
+    <div id="screen-student-exam" class="screen">
+      <div class="nav-bar">
+        <div>Exam: <strong id="display-exam-title"></strong> | <span id="display-student-name-exam"></span></div>
+        <div><span id="exam-timer" style="font-weight:700;color:var(--danger);"></span></div>
+      </div>
+      <div class="grid-2" style="align-items:start;">
+        <div>
+          <div id="single-question-display" class="question-area"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-secondary" onclick="prevQuestion()">Prev</button>
+            <button class="btn btn-secondary" onclick="nextQuestion()">Next</button>
+            <button class="btn btn-secondary" onclick="skipCurrentQuestion()">Skip</button>
+            <button class="btn btn-danger" onclick="exitExam()">Exit</button>
+            <button class="btn btn-success" style="margin-left:auto;" onclick="submitExam()">Submit</button>
+          </div>
+        </div>
+        <div class="section-box">
+          <div class="small muted">Answered / Total</div>
+          <div style="font-size:1.5rem;font-weight:700;margin:6px 0;"><span id="dash-attended">0</span> / <span id="dash-total">0</span></div>
+          <div class="small muted">Skipped</div>
+          <div style="font-size:1.2rem;font-weight:700;margin:6px 0;"><span id="dash-skipped">0</span></div>
+          <div class="small muted" style="margin-top:10px;">Question Palette</div>
+          <div id="question-palette" style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:8px;"></div>
+        </div>
       </div>
     </div>
 
+    <div id="screen-student-results" class="screen">
+      <h2>Result</h2>
+      <div id="result-summary-box" class="result-box"></div>
+      <div style="margin-top:12px;"><button class="btn" onclick="goToStudentDash()">Back to Dashboard</button></div>
+    </div>
+
     <div id="screen-examiner" class="screen">
-      <div class="nav-bar">
-        <div style="font-weight:700;">🛡️ Examiner Panel</div>
-        <div>
-          <button class="btn btn-secondary btn-sm" onclick="logout()">Logout</button>
+      <div class="nav-bar"><div style="font-weight:700;">🛡️ Examiner Panel</div><div><button class="btn btn-secondary btn-sm" onclick="logout()">Logout</button></div></div>
+      <div class="grid-2">
+        <div class="section-box">
+          <h3>📊 Stats</h3>
+          <div class="students-grid" style="margin-top:12px;">
+            <div class="student-card"><div class="small muted">Students</div><strong id="stat-students">0</strong></div>
+            <div class="student-card"><div class="small muted">Exams</div><strong id="stat-exams">0</strong></div>
+            <div class="student-card"><div class="small muted">Submissions</div><strong id="stat-results">0</strong></div>
+          </div>
+        </div>
+        <div class="section-box">
+          <h3>🔐 Change Password</h3>
+          <div class="field"><label>Old Password</label><input id="old-pass-input" type="password" /></div>
+          <div class="field"><label>New Password</label><input id="new-pass-input" type="password" /></div>
+          <div class="field"><label>Confirm Password</label><input id="confirm-pass-input" type="password" /></div>
+          <div style="margin-top:12px;"><button class="btn" onclick="changePasswordInside()">Update Password</button></div>
         </div>
       </div>
 
       <div class="section-box">
         <h3>➕ Add Student</h3>
         <div class="add-student-grid" style="margin-top:12px;">
-          <div>
-            <label>Full Name *</label>
-            <input id="new-student-name" />
-          </div>
-          <div>
-            <label>Guardian Name *</label>
-            <input id="new-student-guardian" />
-          </div>
-          <div>
-            <label>Class *</label>
-            <select id="new-student-class">
-              <option value="">Select</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-            </select>
-          </div>
-          <div>
-            <label>State *</label>
-            <input id="new-student-state" />
-          </div>
-          <div>
-            <label>District *</label>
-            <input id="new-student-district" />
-          </div>
-          <div>
-            <label>Block *</label>
-            <input id="new-student-block" />
-          </div>
-          <div class="full-width">
-            <label>Village *</label>
-            <input id="new-student-village" />
-          </div>
+          <div><label>Full Name *</label><input id="new-student-name" /></div>
+          <div><label>Guardian Name *</label><input id="new-student-guardian" /></div>
+          <div><label>Class *</label><select id="new-student-class"><option value="">Select</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+          <div><label>State *</label><input id="new-student-state" /></div>
+          <div><label>District *</label><input id="new-student-district" /></div>
+          <div><label>Block *</label><input id="new-student-block" /></div>
+          <div class="full-width"><label>Village *</label><input id="new-student-village" /></div>
         </div>
-        <div style="margin-top:12px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-          <button class="btn" onclick="addStudent()">Add Student</button>
-          <span id="last-generated-id" class="small muted"></span>
-        </div>
+        <div style="margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><button class="btn" onclick="addStudent()">Add Student</button><span id="last-generated-id" class="small muted"></span></div>
       </div>
 
       <div class="section-box">
-        <h3>📚 All Students</h3>
-        <div id="student-list-display" class="student-grid"></div>
+        <h3>📝 Create / Edit Exam</h3>
+        <div class="field"><label>Exam Title *</label><input id="exam-title-input" placeholder="e.g. Unit Test 1" /></div>
+        <div class="grid-2" style="margin-top:12px;">
+          <div><label>Class *</label><select id="exam-class-input"><option value="">Select</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+          <div><label>Time (minutes)</label><input id="exam-time-input" type="number" value="30" min="5" /></div>
+        </div>
+        <div style="margin-top:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;"><h4 style="margin:0;">Questions</h4><button class="btn btn-secondary btn-sm" onclick="addQuestionToBuilder()">+ Add Question</button></div>
+          <div id="question-builder-list" style="margin-top:12px;"></div>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;"><button class="btn" onclick="saveExamFromBuilder()">Save Exam</button><button class="btn btn-secondary" onclick="resetExamBuilder()">Reset Builder</button></div>
       </div>
+
+      <div class="section-box"><h3>📚 All Students</h3><div id="student-list-display" class="students-grid"></div></div>
+      <div class="section-box"><h3>📖 Published Exams</h3><div id="exam-list-display"></div></div>
     </div>
   </div>
 
@@ -357,383 +226,82 @@
     <div class="modal-card">
       <h3>🛡️ Examiner Login</h3>
       <label>Password</label>
-      <input type="password" id="examiner-pass-input" onkeydown="if (event.key === 'Enter') loginAsExaminer()" />
-      <div class="modal-actions">
-        <button class="btn" onclick="loginAsExaminer()">Login</button>
-        <button class="btn btn-secondary" onclick="closeExaminerLoginModal()">Cancel</button>
-      </div>
+      <input id="examiner-pass-input" type="password" onkeydown="if (event.key === 'Enter') loginAsExaminer()" />
+      <div class="modal-actions"><button class="btn" onclick="loginAsExaminer()">Login</button><button class="btn btn-secondary" onclick="closeExaminerLoginModal()">Cancel</button></div>
     </div>
   </div>
 
   <div id="details-modal" class="modal" onclick="if (event.target===this) closeDetailsModal()">
-    <div class="modal-card">
-      <div id="details-content"></div>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="closeDetailsModal()">Close</button>
-      </div>
-    </div>
+    <div class="modal-card"><div id="details-content"></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeDetailsModal()">Close</button></div></div>
   </div>
 
-  <button class="btn" style="position:fixed; bottom:18px; right:18px; border-radius:50%; width:52px; height:52px; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 25px rgba(30,58,138,0.35);" onclick="openExaminerLoginModal()">
-    🛡️
-  </button>
+  <button class="btn" style="position:fixed;bottom:18px;right:18px;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 25px rgba(30,58,138,.35);" onclick="openExaminerLoginModal()">🛡️</button>
 
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
   <script>
-    const STORAGE_KEYS = {
-      students: 'arieg_students',
-      exams: 'arieg_exams',
-      results: 'arieg_results',
-      config: 'arieg_config'
-    };
+    const STORAGE_KEYS={students:'arieg_students',exams:'arieg_exams',results:'arieg_results',config:'arieg_config'};
+    const state={students:[],exams:[],results:[],currentStudent:null,currentExam:null,examinerLoggedIn:false,examBuilder:{editId:null,title:'',class:'',time:30,questions:[]},examSession:{examId:null,answers:[],currentIndex:0,startedAt:0,timeLimitMs:0,timer:null,finished:false}};
 
-    const state = {
-      students: [],
-      exams: [],
-      results: [],
-      currentStudent: null,
-      database: null,
-      useFirebase: false,
-      examinerLoggedIn: false
-    };
-
-    const firebaseConfig = {
-      apiKey: 'AIzaSyC11KwxMBWq6WW9kuKU1h4xQMWXyDO6hgg',
-      authDomain: 'arieg-30b46.firebaseapp.com',
-      projectId: 'arieg-30b46',
-      storageBucket: 'arieg-30b46.firebasestorage.app',
-      messagingSenderId: '949904779594',
-      appId: '1:949904779594:web:ab13491374cae1351079b3'
-    };
-
-    function setFirebaseStatus(message, cls) {
-      const el = document.getElementById('firebase-status');
-      if (!el) return;
-      el.textContent = message;
-      el.className = 'status-pill ' + cls;
-    }
-
-    function showScreen(id) {
-      document.querySelectorAll('.screen').forEach((el) => el.classList.remove('active'));
-      const target = document.getElementById(id);
-      if (target) target.classList.add('active');
-    }
-
-    function safeText(value) {
-      return value == null ? '' : String(value);
-    }
-
-    function readLocal(key, fallback) {
-      try {
-        const raw = localStorage.getItem(key);
-        if (!raw) return fallback;
-        return JSON.parse(raw);
-      } catch {
-        return fallback;
-      }
-    }
-
-    function writeLocal(key, value) {
-      localStorage.setItem(key, JSON.stringify(value));
-    }
-
-    function nextNumericIdFromList(list) {
-      const ids = list
-        .map((s) => Number(s.numericId || s.id || 0))
-        .filter((n) => Number.isFinite(n) && n > 0);
-      return ids.length ? Math.max(...ids) + 1 : 1001;
-    }
-
-    function ensureDefaults() {
-      if (!readLocal(STORAGE_KEYS.students, null)) {
-        writeLocal(STORAGE_KEYS.students, []);
-      }
-      if (!readLocal(STORAGE_KEYS.exams, null)) {
-        writeLocal(STORAGE_KEYS.exams, []);
-      }
-      if (!readLocal(STORAGE_KEYS.results, null)) {
-        writeLocal(STORAGE_KEYS.results, []);
-      }
-      if (!readLocal(STORAGE_KEYS.config, null)) {
-        writeLocal(STORAGE_KEYS.config, { password: 'admin123' });
-      }
-    }
-
-    async function initFirebase() {
-      if (!window.firebase || !window.firebase.apps || !window.firebase.apps.length) {
-        return;
-      }
-
-      try {
-        const app = window.firebase.initializeApp(firebaseConfig);
-        state.database = window.firebase.firestore(app);
-        state.useFirebase = true;
-        setFirebaseStatus('🟢 Firebase Connected', 'firebase-connected');
-      } catch (e) {
-        console.error('Firebase init failed:', e);
-        state.useFirebase = false;
-        setFirebaseStatus('🔴 Local mode', 'firebase-disconnected');
-      }
-    }
-
-    function renderStudentList() {
-      const list = document.getElementById('student-list-display');
-      if (!list) return;
-
-      if (!state.students.length) {
-        list.innerHTML = '<div class="muted small">No students added yet.</div>';
-        return;
-      }
-
-      list.innerHTML = state.students
-        .slice()
-        .sort((a, b) => Number(a.numericId || 0) - Number(b.numericId || 0))
-        .map((student) => `
-          <div class="student-card">
-            <strong>${safeText(student.name)}</strong>
-            <div class="small muted">ID: ${safeText(student.numericId || student.id)}</div>
-            <div class="small">Class: ${safeText(student.class)}</div>
-            <div class="small">Guardian: ${safeText(student.guardian)}</div>
-            <div class="small">Village: ${safeText(student.village)}</div>
-          </div>
-        `)
-        .join('');
-    }
-
-    function renderStudentHistory() {
-      const tbody = document.getElementById('student-history-table');
-      if (!tbody) return;
-      const current = state.currentStudent;
-      const studentId = current ? String(current.numericId || current.id || '') : '';
-
-      let rows = state.results.filter((r) => String(r.studentId) === studentId);
-      rows = rows.sort((a, b) => (Number(b.timestamp) || 0) - (Number(a.timestamp) || 0));
-
-      if (!rows.length) {
-        tbody.innerHTML = '<tr><td colspan="3" class="muted small">No exam attempts yet.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = rows.map((r) => `
-        <tr>
-          <td>${safeText(r.examTitle)}</td>
-          <td>${safeText(r.score)}/${safeText(r.total)}</td>
-          <td>${safeText(r.date || new Date(Number(r.timestamp)).toLocaleDateString())}</td>
-        </tr>
-      `).join('');
-    }
-
-    function renderAvailableExams() {
-      const container = document.getElementById('available-exams-container');
-      if (!container) return;
-
-      const studentClass = state.currentStudent ? String(state.currentStudent.class || '') : '';
-      const exams = state.exams.filter((exam) => !exam.class || String(exam.class) === studentClass || exam.class === '' || exam.class == null);
-
-      if (!exams.length) {
-        container.innerHTML = '<p class="muted">No exams published yet.</p>';
-        return;
-      }
-
-      container.innerHTML = exams.map((exam) => `
-        <div class="section-box" style="margin-top:8px;">
-          <h4>${safeText(exam.title)}</h4>
-          <div class="small muted">Class: ${safeText(exam.class)}</div>
-          <div class="small muted">Time: ${safeText(exam.time || 30)} mins</div>
-          <button class="btn btn-sm" style="margin-top:10px;" onclick="alert('Exam module is not active in this build yet. Please create a real exam screen if needed.')">Start Exam</button>
+    function setFirebaseStatus(text,cls){const el=document.getElementById('firebase-status');if(!el)return;el.textContent=text;el.className='status-pill '+cls;}
+    function showScreen(id){document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));const target=document.getElementById(id);if(target)target.classList.add('active');}
+    function safeText(v){return v==null?'':String(v)}
+    function readLocal(key,fallback){try{const raw=localStorage.getItem(key);if(raw===null)return fallback;return JSON.parse(raw);}catch{return fallback;}}
+    function writeLocal(key,val){localStorage.setItem(key,JSON.stringify(val));}
+    function ensureDefaults(){if(readLocal(STORAGE_KEYS.students,null)===null)writeLocal(STORAGE_KEYS.students,[]);if(readLocal(STORAGE_KEYS.exams,null)===null)writeLocal(STORAGE_KEYS.exams,[]);if(readLocal(STORAGE_KEYS.results,null)===null)writeLocal(STORAGE_KEYS.results,[]);if(readLocal(STORAGE_KEYS.config,null)===null)writeLocal(STORAGE_KEYS.config,{password:'admin123'});}
+    function nextStudentId(){const nums=state.students.map(s=>Number(s.numericId||s.id||0)).filter(n=>Number.isFinite(n)&&n>0);return nums.length?Math.max(...nums)+1:1001;}
+    function validateStudentData(student){return !!(student.name && student.guardian && student.class && student.state && student.district && student.block && student.village);}
+    function resetStudentForm(){['new-student-name','new-student-guardian','new-student-class','new-student-state','new-student-district','new-student-block','new-student-village'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});}
+    function renderStudentList(){const el=document.getElementById('student-list-display');if(!el)return;if(!state.students.length){el.innerHTML='<div class="muted small">No students added yet.</div>';return;} el.innerHTML=state.students.slice().sort((a,b)=>Number(a.numericId||a.id||0)-Number(b.numericId||b.id||0)).map(student=>`<div class="student-card"><strong>${safeText(student.name)}</strong><div class="small muted">ID: ${safeText(student.numericId||student.id)}</div><div class="small">Class: ${safeText(student.class)}</div><div class="small">Guardian: ${safeText(student.guardian)}</div><div class="small">Village: ${safeText(student.village)}</div></div>`).join('');}
+    function renderExaminerStats(){document.getElementById('stat-students').textContent=state.students.length;document.getElementById('stat-exams').textContent=state.exams.length;document.getElementById('stat-results').textContent=state.results.length;}
+    function openExaminerLoginModal(){document.getElementById('examiner-login-modal').classList.add('active');}
+    function closeExaminerLoginModal(){document.getElementById('examiner-login-modal').classList.remove('active');document.getElementById('examiner-pass-input').value='';}
+    function loginAsExaminer(){const entered=document.getElementById('examiner-pass-input').value.trim();const config=readLocal(STORAGE_KEYS.config,{password:'admin123'});const expected=config.password||'admin123';if(entered===expected){state.examinerLoggedIn=true;closeExaminerLoginModal();showScreen('screen-examiner');return;}alert('Invalid examiner password.');}
+    function changePasswordInside(){const oldPass=document.getElementById('old-pass-input').value.trim();const newPass=document.getElementById('new-pass-input').value.trim();const confirmPass=document.getElementById('confirm-pass-input').value.trim();const config=readLocal(STORAGE_KEYS.config,{password:'admin123'});if(oldPass !== (config.password||'admin123')){alert('Old password is incorrect.');return;}if(!newPass||newPass.length<4){alert('New password must be at least 4 characters.');return;}if(newPass!==confirmPass){alert('New password and confirm password do not match.');return;}config.password=newPass;writeLocal(STORAGE_KEYS.config,config);document.getElementById('old-pass-input').value='';document.getElementById('new-pass-input').value='';document.getElementById('confirm-pass-input').value='';alert('Password updated successfully.');}
+    function addStudent(){const student={name:document.getElementById('new-student-name').value.trim(),guardian:document.getElementById('new-student-guardian').value.trim(),class:document.getElementById('new-student-class').value.trim(),state:document.getElementById('new-student-state').value.trim(),district:document.getElementById('new-student-district').value.trim(),block:document.getElementById('new-student-block').value.trim(),village:document.getElementById('new-student-village').value.trim()};if(!validateStudentData(student)){alert('Please fill in all required student fields.');return;}const numericId=nextStudentId();const newStudent={...student,numericId,id:String(numericId),createdAt:Date.now()};state.students.push(newStudent);writeLocal(STORAGE_KEYS.students,state.students);document.getElementById('last-generated-id').textContent='Generated ID: '+numericId;resetStudentForm();renderStudentList();renderExaminerStats();alert('Student added successfully.');}
+    function loginAsStudent(){const id=document.getElementById('student-id-input').value.trim();const name=document.getElementById('student-name-input').value.trim();const studentClass=document.getElementById('student-class-input').value.trim();if(!id||!name||!studentClass){alert('Please enter ID, Name and Class.');return;}const student=state.students.find(s=>{const sid=s.numericId||s.id;return String(sid)===String(id) && String(s.name).toLowerCase()===name.toLowerCase() && String(s.class)===studentClass;});if(!student){alert('Student not found. Please add the student first in the examiner panel.');return;}state.currentStudent=student;showScreen('screen-student-dash');renderStudentDashboard();}
+    function logout(){state.currentStudent=null;state.currentExam=null;state.examinerLoggedIn=false;clearExamSession();showScreen('screen-home');closeExaminerLoginModal();}
+    function openStudentDetails(){if(!state.currentStudent)return;const s=state.currentStudent;document.getElementById('details-content').innerHTML=`<div class="student-card" style="border:2px solid var(--primary);"><h3 style="text-align:center;color:var(--primary);margin-bottom:10px;">My Details</h3><div class="small" style="padding:8px 0;border-bottom:1px solid var(--border);"><strong>Numeric ID:</strong> ${safeText(s.numericId||s.id)}</div><div class="small" style="padding:8px 0;border-bottom:1px solid var(--border);"><strong>Name:</strong> ${safeText(s.name)}</div><div class="small" style="padding:8px 0;border-bottom:1px solid var(--border);"><strong>Guardian:</strong> ${safeText(s.guardian)}</div><div class="small" style="padding:8px 0;border-bottom:1px solid var(--border);"><strong>Class:</strong> ${safeText(s.class)}</div><div class="small" style="padding:8px 0;border-bottom:1px solid var(--border);"><strong>State:</strong> ${safeText(s.state)}</div><div class="small" style="padding:8px 0;border-bottom:1px solid var(--border);"><strong>District:</strong> ${safeText(s.district)}</div><div class="small" style="padding:8px 0;border-bottom:1px solid var(--border);"><strong>Block:</strong> ${safeText(s.block)}</div><div class="small" style="padding:8px 0;"><strong>Village:</strong> ${safeText(s.village)}</div></div>`;document.getElementById('details-modal').classList.add('active');}
+    function closeDetailsModal(){document.getElementById('details-modal').classList.remove('active');}
+    function renderStudentDashboard(){if(!state.currentStudent)return;const s=state.currentStudent;document.getElementById('display-student-name').textContent=s.name;document.getElementById('display-student-id').textContent=s.numericId||s.id;document.getElementById('dash-class-label').textContent=s.class;document.getElementById('dash-class-label-main').textContent=s.class;const exams=state.exams.filter(exam=>String(exam.class)===String(s.class));const container=document.getElementById('available-exams-container');if(!exams.length){container.innerHTML='<p class="muted">No exams published yet for your class.</p>';}else{container.innerHTML=exams.map(exam=>`<div class="exam-card"><div class="exam-card-header"><h4 style="margin:0;">${safeText(exam.title)}</h4><span class="badge badge-primary">Class ${safeText(exam.class)}</span></div><div class="small muted">Time: ${safeText(exam.time||30)} mins</div><div class="small muted">Questions: ${safeText(exam.questions?exam.questions.length:0)}</div><button class="btn btn-sm" style="margin-top:10px;" onclick="startStudentExam('${exam.id}')">Start Exam</button></div>`).join('');}const rows=state.results.filter(r=>String(r.studentId)===String(s.numericId||s.id)).sort((a,b)=>Number(b.timestamp||0)-Number(a.timestamp||0));const tbody=document.getElementById('student-history-table');if(!rows.length){tbody.innerHTML='<tr><td colspan="3" class="muted small">No attempted exams yet.</td></tr>';return;}tbody.innerHTML=rows.map(r=>`<tr><td>${safeText(r.examTitle)}</td><td>${safeText(r.score)}/${safeText(r.total)} (${safeText(r.percent)}%)</td><td>${safeText(r.date)}</td></tr>`).join('');}
+    function addQuestionToBuilder(){const q={id:'q_'+Date.now()+'_'+Math.random().toString(16).slice(2),type:'mcq',text:'',options:['','','',''],correct:0,marks:1};state.examBuilder.questions.push(q);renderQuestionBuilder();}
+    function renderQuestionBuilder(){const list=document.getElementById('question-builder-list');if(!list)return;if(!state.examBuilder.questions.length){list.innerHTML='<div class="small muted">No questions added yet.</div>';return;}list.innerHTML=state.examBuilder.questions.map((q,index)=>`
+      <div class="question-builder-item">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <h4 style="margin:0;">Question ${index + 1}</h4>
+          <button class="btn btn-danger btn-sm" onclick="removeQuestionFromBuilder('${q.id}')">Delete</button>
         </div>
-      `).join('');
-    }
-
-    function renderStudentDashboard() {
-      if (!state.currentStudent) return;
-      const currentStudent = state.currentStudent;
-      document.getElementById('display-student-name').textContent = currentStudent.name;
-      document.getElementById('display-student-id').textContent = currentStudent.numericId || currentStudent.id;
-      document.getElementById('dash-class-label').textContent = currentStudent.class;
-      document.getElementById('dash-class-label-main').textContent = currentStudent.class;
-      renderAvailableExams();
-      renderStudentHistory();
-    }
-
-    function openStudentDetails() {
-      if (!state.currentStudent) return;
-      const student = state.currentStudent;
-      document.getElementById('details-content').innerHTML = `
-        <div class="student-card" style="border:2px solid var(--primary);">
-          <h3 style="text-align:center; color: var(--primary); margin-bottom:10px;">My Details</h3>
-          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>Numeric ID:</strong> ${safeText(student.numericId || student.id)}</div>
-          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>Name:</strong> ${safeText(student.name)}</div>
-          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>Guardian:</strong> ${safeText(student.guardian)}</div>
-          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>Class:</strong> ${safeText(student.class)}</div>
-          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>State:</strong> ${safeText(student.state)}</div>
-          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>District:</strong> ${safeText(student.district)}</div>
-          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>Block:</strong> ${safeText(student.block)}</div>
-          <div class="small" style="padding:8px 0;"><strong>Village:</strong> ${safeText(student.village)}</div>
-        </div>
-      `;
-      document.getElementById('details-modal').classList.add('active');
-    }
-
-    function closeDetailsModal() {
-      const modal = document.getElementById('details-modal');
-      if (modal) modal.classList.remove('active');
-    }
-
-    function resetCreateStudentForm() {
-      ['new-student-name', 'new-student-guardian', 'new-student-class', 'new-student-state', 'new-student-district', 'new-student-block', 'new-student-village'].forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) el.value = '';
-      });
-    }
-
-    function validateStudentPayload(student) {
-      if (!student.name || !student.guardian || !student.class || !student.state || !student.district || !student.block || !student.village) {
-        return false;
-      }
-      return true;
-    }
-
-    async function saveStudentToFirestore(student) {
-      const ref = state.database.collection('students').doc(String(student.numericId));
-      await ref.set(student);
-    }
-
-    async function addStudent() {
-      const studentData = {
-        name: document.getElementById('new-student-name').value.trim(),
-        guardian: document.getElementById('new-student-guardian').value.trim(),
-        class: document.getElementById('new-student-class').value.trim(),
-        state: document.getElementById('new-student-state').value.trim(),
-        district: document.getElementById('new-student-district').value.trim(),
-        block: document.getElementById('new-student-block').value.trim(),
-        village: document.getElementById('new-student-village').value.trim()
-      };
-
-      if (!validateStudentPayload(studentData)) {
-        alert('Please fill in all required student fields.');
-        return;
-      }
-
-      const numericId = nextNumericIdFromList(state.students);
-      const student = {
-        ...studentData,
-        numericId,
-        id: String(numericId),
-        createdAt: Date.now()
-      };
-
-      try {
-        if (state.useFirebase && state.database) {
-          await saveStudentToFirestore(student);
-        }
-
-        const currentStudents = readLocal(STORAGE_KEYS.students, []);
-        currentStudents.push(student);
-        writeLocal(STORAGE_KEYS.students, currentStudents);
-        state.students = currentStudents;
-
-        document.getElementById('last-generated-id').textContent = `Generated ID: ${numericId}`;
-        resetCreateStudentForm();
-        renderStudentList();
-        alert('Student added successfully.');
-      } catch (error) {
-        console.error('addStudent error:', error);
-        alert('Student could not be added. Please try again.');
-      }
-    }
-
-    function loadStudentsFromStorage() {
-      ensureDefaults();
-      const saved = readLocal(STORAGE_KEYS.students, []);
-      state.students = Array.isArray(saved) ? saved : [];
-      renderStudentList();
-    }
-
-    function loginAsStudent() {
-      const id = document.getElementById('student-id-input').value.trim();
-      const name = document.getElementById('student-name-input').value.trim();
-      const className = document.getElementById('student-class-input').value.trim();
-
-      if (!id || !name || !className) {
-        alert('Please enter ID, Name and Class.');
-        return;
-      }
-
-      const found = state.students.find((student) => {
-        const numericId = student.numericId || student.id;
-        return String(numericId) === String(id) && String(student.name).toLowerCase() === name.toLowerCase() && String(student.class) === className;
-      });
-
-      if (!found) {
-        alert('Student not found. Please add the student first in the examiner panel.');
-        return;
-      }
-
-      state.currentStudent = found;
-      showScreen('screen-student-dash');
-      renderStudentDashboard();
-    }
-
-    function logout() {
-      state.currentStudent = null;
-      state.examinerLoggedIn = false;
-      showScreen('screen-home');
-      closeExaminerLoginModal();
-    }
-
-    function openExaminerLoginModal() {
-      document.getElementById('examiner-login-modal').classList.add('active');
-    }
-
-    function closeExaminerLoginModal() {
-      document.getElementById('examiner-login-modal').classList.remove('active');
-      document.getElementById('examiner-pass-input').value = '';
-    }
-
-    function loginAsExaminer() {
-      const password = document.getElementById('examiner-pass-input').value.trim();
-      const config = readLocal(STORAGE_KEYS.config, { password: 'admin123' });
-      const expected = config.password || 'admin123';
-
-      if (password === expected) {
-        state.examinerLoggedIn = true;
-        closeExaminerLoginModal();
-        showScreen('screen-examiner');
-        renderStudentList();
-        return;
-      }
-
-      alert('Invalid examiner password.');
-    }
-
-    async function syncFirebaseStudents() {
-      if (!state.useFirebase || !state.database) return;
-      try {
-        const snapshot = await state.database.collection('students').get();
-        const students = [];
-        snapshot.forEach((doc) => students.push({ ...doc.data(), id: String(doc.id), numericId: Number(doc.data().numericId || doc.id) }));
-
-        writeLocal(STORAGE_KEYS.students, students);
-        state.students = students;
-        renderStudentList();
-      } catch (error) {
-        console.error('Firebase sync failed:', error);
-      }
-    }
-
-    async function initApp() {
-      ensureDefaults();
-      await initFirebase();
-      loadStudentsFromStorage();
-
-      if (state.useFirebase && state.database) {
-        await syncFirebaseStudents();
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', initApp);
+        <div class="field"><label>Question Type</label><select data-field="type" data-index="${index}" onchange="updateBuilderQuestion(this)"><option value="mcq" ${q.type==='mcq'?'selected':''}>MCQ</option><option value="tf" ${q.type==='tf'?'selected':''}>True / False</option><option value="fill" ${q.type==='fill'?'selected':''}>Fill in the Blank</option><option value="short" ${q.type==='short'?'selected':''}>Short Answer</option></select></div>
+        <div class="field"><label>Question Text</label><textarea data-field="text" data-index="${index}" oninput="updateBuilderQuestion(this)">${safeText(q.text)}</textarea></div>
+        ${q.type==='mcq'?`<div class="field"><label>Options</label><div>${q.options.map((opt,optionIndex)=>`<div class="mcq-option-row"><input type="radio" name="correct-${q.id}" ${Number(q.correct)===optionIndex?'checked':''} data-field="correct" data-index="${index}" data-option-index="${optionIndex}" onchange="updateBuilderQuestion(this)" /><input type="text" value="${safeText(opt)}" data-field="option" data-index="${index}" data-option-index="${optionIndex}" oninput="updateBuilderQuestion(this)" placeholder="Option ${optionIndex+1}" /></div>`).join('')}</div></div>`:''}
+        ${q.type==='tf'?`<div class="field"><label>Correct Answer</label><select data-field="correct-tf" data-index="${index}" onchange="updateBuilderQuestion(this)"><option value="true" ${String(q.correct)==='true'?'selected':''}>True</option><option value="false" ${String(q.correct)==='false'?'selected':''}>False</option></select></div>`:''}
+        ${(q.type==='fill'||q.type==='short')?`<div class="field"><label>Correct Answer</label><input type="text" value="${safeText(q.correct)}" data-field="correct-text" data-index="${index}" oninput="updateBuilderQuestion(this)" placeholder="Answer" /></div>`:''}
+        <div class="field"><label>Marks</label><input type="number" min="1" value="${safeText(q.marks||1)}" data-field="marks" data-index="${index}" oninput="updateBuilderQuestion(this)" /></div>
+      </div>`).join('');}
+    function updateBuilderQuestion(el){const field=el.dataset.field;const index=Number(el.dataset.index);const q=state.examBuilder.questions[index];if(!q)return;if(field==='type'){q.type=el.value;if(q.type==='mcq'){q.correct=0;q.options=['','','',''];}else if(q.type==='tf'){q.correct='true';q.options=[];}else{q.correct='';q.options=[];}}else if(field==='text')q.text=el.value;else if(field==='option'){const optIndex=Number(el.dataset.optionIndex);q.options[optIndex]=el.value;}else if(field==='correct')q.correct=Number(el.dataset.optionIndex);else if(field==='correct-tf')q.correct=el.value;else if(field==='correct-text')q.correct=el.value;else if(field==='marks')q.marks=Number(el.value)||1;renderQuestionBuilder();}
+    function removeQuestionFromBuilder(questionId){state.examBuilder.questions=state.examBuilder.questions.filter(q=>q.id!==questionId);renderQuestionBuilder();}
+    function resetExamBuilder(){state.examBuilder={editId:null,title:'',class:'',time:30,questions:[]};document.getElementById('exam-title-input').value='';document.getElementById('exam-class-input').value='';document.getElementById('exam-time-input').value=30;renderQuestionBuilder();}
+    function saveExamFromBuilder(){const title=document.getElementById('exam-title-input').value.trim();const examClass=document.getElementById('exam-class-input').value.trim();const time=Number(document.getElementById('exam-time-input').value)||30;if(!title||!examClass){alert('Please enter title and class.');return;}if(!state.examBuilder.questions.length){alert('Please add at least one question.');return;}const cleanedQuestions=state.examBuilder.questions.map(q=>{if(q.type==='mcq'){return{...q,text:q.text.trim(),options:q.options.map(opt=>safeText(opt).trim()),correct:Number(q.correct)||0,marks:Number(q.marks)||1};}if(q.type==='tf'){return{...q,text:q.text.trim(),correct:String(q.correct)==='true'?'true':'false',marks:Number(q.marks)||1,options:[]};}return{...q,text:q.text.trim(),correct:safeText(q.correct).trim(),marks:Number(q.marks)||1,options:[]};}).filter(q=>q.text.trim()!=='');if(!cleanedQuestions.length){alert('At least one valid question is required.');return;}const examPayload={id:state.examBuilder.editId||('exam_'+Date.now()),title,class:examClass,time,questions:cleanedQuestions,createdAt:Date.now()};const existingIndex=state.exams.findIndex(exam=>exam.id===examPayload.id);if(existingIndex>=0){state.exams[existingIndex]=examPayload;}else{state.exams.push(examPayload);}writeLocal(STORAGE_KEYS.exams,state.exams);renderExamList();renderExaminerStats();resetExamBuilder();alert('Exam saved successfully.');}
+    function renderExamList(){const el=document.getElementById('exam-list-display');if(!el)return;if(!state.exams.length){el.innerHTML='<div class="small muted">No exams created yet.</div>';return;}el.innerHTML=state.exams.map(exam=>`<div class="exam-card"><div class="exam-card-header"><h4 style="margin:0;">${safeText(exam.title)}</h4><span class="badge badge-success">Class ${safeText(exam.class)}</span></div><div class="small muted">Questions: ${safeText(exam.questions?exam.questions.length:0)} | Time: ${safeText(exam.time||30)} mins</div><div class="builder-actions"><button class="btn btn-sm" onclick="editExam('${exam.id}')">Edit</button><button class="btn btn-secondary btn-sm" onclick="previewExam('${exam.id}')">Preview</button><button class="btn btn-danger btn-sm" onclick="deleteExam('${exam.id}')">Delete</button></div></div>`).join('');}
+    function editExam(examId){const exam=state.exams.find(item=>item.id===examId);if(!exam)return;state.examBuilder={editId:exam.id,title:exam.title,class:exam.class,time:exam.time||30,questions:Array.isArray(exam.questions)?exam.questions.map(q=>({...q,id:q.id||('q_'+Date.now()+'_'+Math.random().toString(16).slice(2)),options:Array.isArray(q.options)?q.options.slice():['','','',''],correct:q.correct ?? 0,marks:Number(q.marks)||1})):[]};document.getElementById('exam-title-input').value=exam.title;document.getElementById('exam-class-input').value=exam.class;document.getElementById('exam-time-input').value=exam.time||30;renderQuestionBuilder();window.scrollTo({top:0,behavior:'smooth'});}
+    function previewExam(examId){const exam=state.exams.find(item=>item.id===examId);if(!exam)return;alert('Preview: '+exam.title+'\nClass: '+exam.class+'\nQuestions: '+exam.questions.length);}
+    function deleteExam(examId){if(!confirm('Delete this exam?'))return;state.exams=state.exams.filter(exam=>exam.id!==examId);writeLocal(STORAGE_KEYS.exams,state.exams);renderExamList();renderExaminerStats();}
+    function startStudentExam(examId){const exam=state.exams.find(item=>item.id===examId);if(!exam)return;state.currentExam=exam;state.examSession={examId:exam.id,answers:new Array(exam.questions.length).fill(null),currentIndex:0,startedAt:Date.now(),timeLimitMs:(Number(exam.time)||30)*60*1000,timer:null,finished:false};renderExamScreen();showScreen('screen-student-exam');}
+    function clearExamSession(){if(state.examSession.timer)clearInterval(state.examSession.timer);state.examSession={examId:null,answers:[],currentIndex:0,startedAt:0,timeLimitMs:0,timer:null,finished:false};}
+    function renderExamScreen(){const exam=state.currentExam;if(!exam)return;const questions=exam.questions;const currentQuestion=questions[state.examSession.currentIndex];if(!currentQuestion)return;document.getElementById('display-exam-title').textContent=exam.title;document.getElementById('display-student-name-exam').textContent=state.currentStudent?state.currentStudent.name:'';document.getElementById('dash-total').textContent=questions.length;document.getElementById('dash-attended').textContent=questions.filter((_,idx)=>state.examSession.answers[idx]!==null&&state.examSession.answers[idx]!==undefined&&state.examSession.answers[idx]!== '').length;document.getElementById('dash-skipped').textContent=questions.filter((_,idx)=>state.examSession.answers[idx]===null||state.examSession.answers[idx]==='').length;const palette=document.getElementById('question-palette');palette.innerHTML=questions.map((q,idx)=>{const answered=state.examSession.answers[idx]!==null&&state.examSession.answers[idx]!==undefined&&state.examSession.answers[idx]!=='';const current=idx===state.examSession.currentIndex;return `<button class="btn btn-sm ${answered ? 'btn-success' : 'btn-secondary'}" style="min-width:42px;${current ? 'border:2px solid #fff;box-shadow:0 0 0 2px var(--primary);':''}" onclick="jumpToQuestion(${idx})">${idx+1}</button>`;}).join('');document.getElementById('single-question-display').innerHTML=`<div class="small muted" style="margin-bottom:10px;">Question ${state.examSession.currentIndex+1} of ${questions.length}</div><h3>${safeText(currentQuestion.text)}</h3><div class="question-options">${renderAnswerControls(currentQuestion,state.examSession.answers[state.examSession.currentIndex])}</div>`;updateExamTimer();startExamTimer();}
+    function renderAnswerControls(question,selectedValue){const answer=selectedValue;if(question.type==='mcq'){return question.options.map((option,idx)=>`<label class="option-box"><input type="radio" name="q-answer" value="${idx}" ${String(answer)===String(idx)?'checked':''} onchange="recordAnswer(${idx})" /><span>${safeText(option)}</span></label>`).join('');}if(question.type==='tf'){return [`<label class="option-box"><input type="radio" name="q-answer" value="true" ${String(answer)==='true'?'checked':''} onchange="recordAnswer('true')" /> True</label>`,`<label class="option-box"><input type="radio" name="q-answer" value="false" ${String(answer)==='false'?'checked':''} onchange="recordAnswer('false')" /> False</label>`].join('');}if(question.type==='fill'||question.type==='short'){return `<textarea placeholder="Type your answer here..." data-role="text-answer" oninput="recordTextAnswer(this.value)">${safeText(answer)}</textarea>`;}return '<div class="small muted">Unsupported question type.</div>';} 
+    function recordAnswer(value){const idx=state.examSession.currentIndex;state.examSession.answers[idx]=value;renderExamScreen();}
+    function recordTextAnswer(value){const idx=state.examSession.currentIndex;state.examSession.answers[idx]=value;document.getElementById('dash-attended').textContent=state.currentExam.questions.filter((_,i)=>state.examSession.answers[i]!==null&&state.examSession.answers[i]!==undefined&&state.examSession.answers[i]!== '').length;document.getElementById('dash-skipped').textContent=state.currentExam.questions.filter((_,i)=>state.examSession.answers[i]===null||state.examSession.answers[i]==='').length;}
+    function jumpToQuestion(index){if(index<0||index>=state.currentExam.questions.length)return;state.examSession.currentIndex=index;renderExamScreen();}
+    function prevQuestion(){if(state.examSession.currentIndex>0){state.examSession.currentIndex-=1;renderExamScreen();}}
+    function nextQuestion(){if(state.examSession.currentIndex<state.currentExam.questions.length-1){state.examSession.currentIndex+=1;renderExamScreen();}}
+    function skipCurrentQuestion(){const idx=state.examSession.currentIndex;state.examSession.answers[idx]='';if(idx<state.currentExam.questions.length-1)state.examSession.currentIndex+=1;renderExamScreen();}
+    function startExamTimer(){if(state.examSession.timer)clearInterval(state.examSession.timer);state.examSession.timer=setInterval(()=>{if(!state.currentExam)return;const elapsed=Date.now()-state.examSession.startedAt;const remainingMs=state.examSession.timeLimitMs-elapsed;if(remainingMs<=0){clearInterval(state.examSession.timer);submitExam();return;}updateExamTimer();},1000);}
+    function updateExamTimer(){if(!state.currentExam||!state.examSession.timeLimitMs)return;const elapsed=Date.now()-state.examSession.startedAt;const remainingMs=Math.max(0,state.examSession.timeLimitMs-elapsed);const mins=Math.floor(remainingMs/60000);const secs=Math.floor((remainingMs%60000)/1000);document.getElementById('exam-timer').textContent=`⏱ ${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;}
+    function evaluateQuestion(question,answer){if(answer===null||answer===undefined||answer==='')return false;if(question.type==='mcq')return Number(answer)===Number(question.correct);if(question.type==='tf')return String(answer).toLowerCase()===String(question.correct).toLowerCase();if(question.type==='fill'||question.type==='short'){const expected=safeText(question.correct).toLowerCase().trim();const given=safeText(answer).toLowerCase().trim();return expected && given && expected.includes(given);}return false;}
+    function submitExam(){if(!state.currentExam||!state.currentStudent)return;if(state.examSession.timer)clearInterval(state.examSession.timer);const exam=state.currentExam;let score=0;const questions=exam.questions||[];questions.forEach((question,idx)=>{if(evaluateQuestion(question,state.examSession.answers[idx]))score+=Number(question.marks||1);});const total=questions.reduce((sum,q)=>sum+Number(q.marks||1),0);const percent=total?Math.round((score/total)*100):0;const result={id:'res_'+Date.now(),studentId:String(state.currentStudent.numericId||state.currentStudent.id),student:state.currentStudent.name,examId:exam.id,examTitle:exam.title,score,total,percent,date:new Date().toLocaleDateString(),timestamp:Date.now(),answers:state.examSession.answers.slice()};state.results.push(result);writeLocal(STORAGE_KEYS.results,state.results);renderExaminerStats();document.getElementById('result-summary-box').innerHTML=`<h3>${safeText(exam.title)}</h3><p><strong>Student:</strong> ${safeText(state.currentStudent.name)} (${safeText(state.currentStudent.numericId||state.currentStudent.id)})</p><p><strong>Score:</strong> ${score}/${total}</p><p><strong>Percentage:</strong> ${percent}%</p>`;state.currentExam=null;clearExamSession();showScreen('screen-student-results');renderStudentDashboard();}
+    function goToStudentDash(){showScreen('screen-student-dash');renderStudentDashboard();}
+    function exitExam(){if(confirm('Exit without submitting?')){state.currentExam=null;clearExamSession();showScreen('screen-student-dash');renderStudentDashboard();}}
+    function loadState(){ensureDefaults();state.students=readLocal(STORAGE_KEYS.students,[]);state.exams=readLocal(STORAGE_KEYS.exams,[]);state.results=readLocal(STORAGE_KEYS.results,[]);renderStudentList();renderExamList();renderExaminerStats();}
+    document.addEventListener('DOMContentLoaded',()=>{loadState();resetExamBuilder();setFirebaseStatus('🟢 Local mode ready','firebase-disconnected');showScreen('screen-home');});
   </script>
 </body>
 </html>
