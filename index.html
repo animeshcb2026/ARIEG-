@@ -1,617 +1,2051 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AR India English Group - Exam with Firebase</title>
-<style>
-:root{--primary:#1e3a8a;--bg:#f1f5f9;--card:#fff;--border:#e2e8f0;--success:#16a34a;--danger:#ef4444}
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
-body{background:var(--bg);color:#0f172a;padding:12px;min-height:100vh}
-.container{max-width:1250px;margin:0 auto;background:var(--card);padding:20px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.08);min-height:95vh}
-header{text-align:center;padding:15px;margin-bottom:15px;background:linear-gradient(135deg,#1e3a8a,#3b82f6);color:white;border-radius:12px}
-.screen{display:none}.screen.active{display:block}
-.btn{background:var(--primary);color:#fff;padding:8px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:600;margin:2px}.btn-secondary{background:#64748b}.btn-danger{background:var(--danger)}.btn-success{background:var(--success)}.btn-warning{background:#f59e0b;color:#000}.btn-sm{padding:5px 10px;font-size:.82rem}
-.login-wrapper{display:flex;align-items:center;justify-content:center;min-height:70vh}
-.login-card{border:1px solid var(--border);padding:26px;border-radius:16px;background:#f8fafc;text-align:center;width:100%;max-width:420px;box-shadow:0 8px 25px rgba(0,0,0,.06)}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:800px){.grid-2{grid-template-columns:1fr}}
-input,select,textarea{width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;margin-top:4px;background:white}
-label{font-weight:600;font-size:.8rem;display:block;margin-bottom:2px;color:#334155;text-align:left}
-.nav-bar{display:flex;justify-content:space-between;align-items:center;background:white;border:1px solid var(--border);padding:12px 16px;border-radius:10px;margin-bottom:15px;flex-wrap:wrap;gap:10px}
-.question-card{border:1px solid var(--border);padding:14px;border-radius:12px;margin-bottom:10px;background:white}
-.badge{padding:3px 7px;border-radius:6px;font-size:.72rem;font-weight:bold}.badge-success{background:#dcfce7;color:#15803d}.badge-danger{background:#fee2e2;color:#991b1b}.badge-info{background:#dbeafe;color:#1e40af}.badge-warn{background:#fef3c7;color:#92400e}
-.table-container{overflow-x:auto;margin-top:12px;border:1px solid var(--border);border-radius:10px}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid var(--border);text-align:left;font-size:.85rem}th{background:#f8fafc}
-.q-type-tabs{display:flex;gap:6px;margin:8px 0;flex-wrap:wrap}.q-type-tabs button{padding:6px 12px;border:1px solid var(--border);border-radius:20px;cursor:pointer;background:#fff}.q-type-tabs button.active{background:var(--primary);color:#fff}
-.student-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-top:12px;max-height:60vh;overflow-y:auto;padding:5px}
-.student-id-card{border:2px solid var(--border);border-radius:12px;padding:12px;text-align:center;background:white}
-.stat-card{background:linear-gradient(135deg,#1e3a8a,#3b82f6);color:white;padding:16px;border-radius:12px;text-align:center}
-.examiner-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:12px}
-.examiner-section{border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;background:#fff}
-.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:9999;padding:12px}.modal-overlay.active{display:flex}
-.modal-content{background:white;border-radius:16px;padding:20px;max-width:95vw;max-height:95vh;overflow:auto;width:800px}.modal-content.small{width:460px}.modal-content.large{width:980px}
-.search-bar{display:grid;grid-template-columns:1fr 180px 90px;gap:8px;margin:10px 0;padding:10px;background:white;border:1px solid var(--border);border-radius:10px;align-items:end}
-@media(max-width:600px){.search-bar{grid-template-columns:1fr}}
-.leader-filter{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;padding:10px;background:#f8fafc;border:1px solid var(--border);border-radius:10px}
-.student-details-box{width:100%;margin:0 auto;background:white;border:2px solid var(--primary);border-radius:14px;padding:16px}
-.detail-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
-.exam-layout{display:grid;grid-template-columns:1fr 280px;gap:12px}
-@media(max-width:900px){.exam-layout{grid-template-columns:1fr}}
-.exam-sidebar{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:10px;position:sticky;top:10px;height:fit-content}
-.q-palette{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:8px}
-.q-palette div{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:.8rem;background:white}
-.q-palette .attended{background:#dcfce7;border-color:var(--success)}.q-palette .skipped{background:#fee2e2;border-color:var(--danger)}.q-palette .current{border:2px solid var(--primary);font-weight:bold}
-.add-student-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-@media(max-width:600px){.add-student-grid{grid-template-columns:1fr}}
-.date-time-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
-.date-time-group{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:10px}
-.pass-box{background:#f8fafc;border:2px dashed #f59e0b;border-radius:10px;padding:10px;margin-top:10px}
-.examiner-fab{position:fixed;bottom:18px;right:18px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#1e3a8a,#3b82f6);color:white;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(30,58,138,.4);z-index:5000}
-.examiner-fab svg{width:24px;height:24px;fill:white}
-.clickable{cursor:pointer;color:var(--primary);font-weight:700;text-decoration:underline}
-.live-dot{width:8px;height:8px;background:#16a34a;border-radius:50%;display:inline-block;animation:blink 1s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-#firebase-status{position:fixed;top:10px;right:10px;padding:6px 10px;border-radius:20px;font-size:.75rem;font-weight:bold;z-index:9999}
-.firebase-connected{background:#dcfce7;color:#15803d}.firebase-disconnected{background:#fee2e2;color:#991b1b}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AR India English Group - Live Exam Portal</title>
+  <style>
+    :root{
+      --primary:#1e3a8a;
+      --secondary:#3b82f6;
+      --bg:#f1f5f9;
+      --card:#ffffff;
+      --border:#e2e8f0;
+      --success:#16a34a;
+      --warning:#f59e0b;
+      --danger:#ef4444;
+      --text:#0f172a;
+      --muted:#64748b;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
+    html,body{height:100%}
+    body{
+      background:var(--bg);
+      color:var(--text);
+      padding:12px;
+      min-height:100vh;
+    }
+    .container{
+      max-width:1250px;
+      margin:0 auto;
+      background:var(--card);
+      padding:20px;
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      min-height:95vh;
+    }
+    header{
+      text-align:center;
+      padding:18px 16px;
+      margin-bottom:15px;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      color:white;
+      border-radius:12px;
+    }
+    header h1{font-size:clamp(1.5rem,2vw,2.3rem)}
+    .screen{display:none}
+    .screen.active{display:block}
+
+    .btn{
+      background:var(--primary);
+      color:#fff;
+      padding:8px 14px;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+      margin:2px;
+      transition:transform .12s ease, opacity .12s ease;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-secondary{background:#64748b}
+    .btn-danger{background:var(--danger)}
+    .btn-success{background:var(--success)}
+    .btn-sm{padding:6px 10px;font-size:.8rem}
+    .btn-block{width:100%;padding:12px}
+
+    .login-wrapper{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:70vh;
+    }
+    .login-card{
+      border:1px solid var(--border);
+      padding:26px;
+      border-radius:16px;
+      background:#f8fafc;
+      text-align:center;
+      width:100%;
+      max-width:420px;
+      box-shadow:0 8px 25px rgba(0,0,0,.06);
+    }
+    .login-card h2{color:var(--primary);margin-bottom:8px}
+    .login-card p{font-size:.8rem;color:var(--muted);margin:6px 0 12px}
+
+    .nav-bar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:#fff;
+      border:1px solid var(--border);
+      padding:12px 16px;
+      border-radius:10px;
+      margin-bottom:15px;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:800px){.grid-2{grid-template-columns:1fr}}
+
+    input,select,textarea{
+      width:100%;
+      padding:10px;
+      border:1px solid var(--border);
+      border-radius:8px;
+      margin-top:4px;
+      background:#fff;
+      color:var(--text);
+    }
+    label{
+      font-weight:600;
+      font-size:.8rem;
+      display:block;
+      margin-bottom:2px;
+      color:#334155;
+      text-align:left;
+    }
+
+    .question-card{
+      border:1px solid var(--border);
+      padding:14px;
+      border-radius:12px;
+      margin-bottom:10px;
+      background:#fff;
+    }
+    .badge{
+      display:inline-block;
+      padding:3px 7px;
+      border-radius:6px;
+      font-size:.72rem;
+      font-weight:bold;
+    }
+    .badge-success{background:#dcfce7;color:#15803d}
+    .badge-danger{background:#fee2e2;color:#991b1b}
+    .badge-info{background:#dbeafe;color:#1d4ed8}
+    .badge-warn{background:#fef3c7;color:#b45309}
+    .badge-primary{background:#dbeafe;color:#1e3a8a}
+
+    .table-container{overflow-x:auto;margin-top:12px;border:1px solid var(--border);border-radius:10px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:9px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+    th{background:#f8fafc}
+    tbody tr:hover{background:#f8fafc}
+
+    .search-bar{
+      display:grid;
+      grid-template-columns:1fr 180px 90px;
+      gap:8px;
+      margin:10px 0;
+      padding:10px;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:10px;
+      align-items:end;
+    }
+    @media(max-width:600px){.search-bar{grid-template-columns:1fr}}
+
+    .leader-filter{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin:10px 0;
+      padding:10px;
+      background:#f8fafc;
+      border:1px solid var(--border);
+      border-radius:10px;
+    }
+
+    .student-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+      gap:12px;
+      margin-top:12px;
+      max-height:60vh;
+      overflow-y:auto;
+      padding:5px;
+    }
+    .student-id-card{
+      border:2px solid var(--border);
+      border-radius:12px;
+      padding:12px;
+      text-align:center;
+      background:white;
+    }
+
+    .stat-card{
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      color:white;
+      padding:16px;
+      border-radius:12px;
+      text-align:center;
+    }
+    .examiner-stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+      gap:10px;
+      margin-bottom:12px;
+    }
+    .examiner-section{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:16px;
+      margin-bottom:16px;
+      background:#fff;
+    }
+
+    .modal-overlay{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,.65);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:9999;
+      padding:12px;
+    }
+    .modal-overlay.active{display:flex}
+    .modal-content{
+      background:white;
+      border-radius:16px;
+      padding:20px;
+      max-width:95vw;
+      max-height:95vh;
+      overflow:auto;
+      width:800px;
+    }
+    .modal-content.small{width:460px}
+    .modal-content.large{width:980px}
+
+    .student-details-box{
+      width:100%;
+      margin:0 auto;
+      background:#fff;
+      border:2px solid var(--primary);
+      border-radius:14px;
+      padding:16px;
+    }
+    .detail-row{
+      display:flex;
+      justify-content:space-between;
+      padding:10px 0;
+      border-bottom:1px solid var(--border);
+    }
+
+    .exam-layout{display:grid;grid-template-columns:1fr 280px;gap:12px}
+    @media(max-width:900px){.exam-layout{grid-template-columns:1fr}}
+    .exam-sidebar{
+      background:#f8fafc;
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px;
+      position:sticky;
+      top:10px;
+      height:fit-content;
+    }
+    .q-palette{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:5px;
+      margin-top:8px;
+    }
+    .q-palette div{
+      width:34px;height:34px;
+      display:flex;align-items:center;justify-content:center;
+      border:1px solid var(--border);
+      border-radius:6px;
+      cursor:pointer;
+      font-size:.8rem;
+      background:#fff;
+    }
+    .q-palette .attended{background:#dcfce7;border-color:var(--success)}
+    .q-palette .skipped{background:#fee2e2;border-color:var(--danger)}
+    .q-palette .current{border:2px solid var(--primary);font-weight:bold}
+
+    .add-student-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    @media(max-width:600px){.add-student-grid{grid-template-columns:1fr}}
+    .date-time-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+    .date-time-group{
+      background:#f8fafc;
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px;
+    }
+
+    .pass-box{
+      background:#f8fafc;
+      border:2px dashed #f59e0b;
+      border-radius:10px;
+      padding:10px;
+      margin-top:10px;
+    }
+
+    .examiner-fab{
+      position:fixed;
+      bottom:18px;
+      right:18px;
+      width:50px;height:50px;border-radius:50%;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      color:white;border:none;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 10px 25px rgba(30,58,138,.35);
+      z-index:1000;
+    }
+    .examiner-fab svg{width:24px;height:24px;fill:white}
+    .clickable{cursor:pointer;color:var(--primary);font-weight:700;text-decoration:underline}
+    .live-dot{
+      width:8px;height:8px;background:#16a34a;border-radius:50%;
+      display:inline-block;animation:blink 1s infinite;
+      vertical-align:middle;
+    }
+    @keyframes blink{
+      0%,100%{opacity:1}
+      50%{opacity:.3}
+    }
+
+    #firebase-status{
+      position:fixed;
+      top:10px;right:10px;
+      padding:6px 10px;
+      border-radius:20px;
+      font-size:.75rem;
+      font-weight:bold;
+      z-index:9999;
+    }
+    .firebase-connected{background:#dcfce7;color:#15803d}
+    .firebase-disconnected{background:#fee2e2;color:#991b1b}
+
+    .muted{color:var(--muted)}
+    .small{font-size:.8rem}
+    .right{float:right}
+  </style>
 </head>
 <body>
-<div id="firebase-status" class="firebase-disconnected">🔴 Connecting Firebase...</div>
-<div class="container">
-<header><h1>AR India English Group</h1><p>Live Exam Portal - Firebase Auto Sync</p></header>
+  <div id="firebase-status" class="firebase-disconnected">🔴 Connecting Firebase...</div>
 
-<div id="screen-home" class="screen active">
-<div class="login-wrapper">
-<div class="login-card">
-<h2 style="color:var(--primary)">Student Login</h2>
-<p style="font-size:.8rem;color:#64748b;margin:6px 0 12px">ID + Name Only - Data Saved in Cloud</p>
-<div><label>ID Number</label><input id="student-id-input" placeholder="Numeric ID"></div>
-<div style="margin-top:8px;"><label>Full Name</label><input id="student-name-input"></div>
-<div style="margin-top:8px;"><label>Class</label><select id="student-class-input"><option value="">Select</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div>
-<button class="btn" style="margin-top:14px;width:100%;padding:12px;" onclick="loginAsStudent()">Login for Exam</button>
-<p style="font-size:.7rem;color:#16a34a;margin-top:8px;">✅ Live synced via Firebase - No re-upload needed</p>
-</div>
-</div>
-</div>
+  <div class="container">
+    <header>
+      <h1>AR India English Group</h1>
+      <p>Live Exam Portal - Firebase Auto Sync</p>
+    </header>
 
-<div id="screen-student-dash" class="screen">
-<div class="nav-bar"><div><strong id="display-student-name"></strong> | ID: <span id="display-student-id"></span> | Class <span id="dash-class-label"></span></div><div><button class="btn btn-sm btn-success" onclick="openMyDetailsPopup()">My Details</button> <button class="btn btn-sm btn-secondary" onclick="logout()">Logout</button></div></div>
-<h3>Available Exams - Class <span id="dash-class-label-main"></span></h3>
-<div class="search-bar"><div><label>Search</label><input type="text" id="student-search-name" placeholder="Exam name..." oninput="loadStudentDash()"></div><div><label>Date</label><input type="date" id="student-search-date" oninput="loadStudentDash()"></div><div><button class="btn btn-secondary" style="width:100%" onclick="clearStudentSearch()">Clear</button></div></div>
-<div class="grid-2"><div><div id="available-exams-container"></div><h3 style="margin-top:18px;">My Performance</h3><div class="table-container"><table><thead><tr><th>Exam</th><th>Score</th><th>Date</th></tr></thead><tbody id="student-history-table"></tbody></table></div></div>
-<div>
-<h3>🏆 Leaderboard - Filter by Class & Exam</h3>
-<div class="leader-filter">
-<div><label>Class</label><select id="leader-class-filter" onchange="updateLeaderExamFilter(); loadLeaderboardFiltered()"><option value="">All Classes</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div>
-<div><label>Exam</label><select id="leader-exam-filter" onchange="loadLeaderboardFiltered()"><option value="">All Exams</option></select></div>
-</div>
-<div class="table-container"><table><thead><tr><th>Name</th><th>ID</th><th>Class</th><th>Exam</th><th>%</th></tr></thead><tbody id="class-leaderboard"></tbody></table></div>
-</div></div></div>
+    <div id="screen-home" class="screen active">
+      <div class="login-wrapper">
+        <div class="login-card">
+          <h2>Student Login</h2>
+          <p>ID + Name Only - Data Saved in Cloud</p>
 
-<div id="screen-student-exam" class="screen">
-<div class="nav-bar"><div>Exam: <strong id="display-exam-title"></strong> | <span id="display-student-name-exam"></span></div><div><span id="exam-timer" style="font-weight:bold;color:var(--danger)"></span> <button class="btn btn-sm btn-danger" onclick="skipAndExit()">Exit</button></div></div>
-<div class="exam-layout"><div><div id="single-question-display" class="question-card"></div><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;"><button class="btn btn-secondary" onclick="prevQ()">Prev</button><button class="btn btn-secondary" onclick="skipQ()">Skip</button><button class="btn" onclick="nextQ()">Next</button><button class="btn btn-success" onclick="submitExam()">Submit</button></div></div><div class="exam-sidebar"><h4>Dashboard</h4><p style="font-size:.85rem;">Attended: <span id="dash-attended" class="badge badge-success">0</span> Skipped: <span id="dash-skipped" class="badge badge-danger">0</span> Total: <span id="dash-total">0</span></p><div class="q-palette" id="q-palette"></div></div></div></div>
+          <div>
+            <label>ID Number</label>
+            <input id="student-id-input" placeholder="Numeric ID" />
+          </div>
 
-<div id="screen-student-results" class="screen"><h2>Result</h2><div id="result-summary-box" style="background:#f0fdf4;border:1px solid #bbf7d0;padding:15px;border-radius:8px;margin-top:15px;"></div><button class="btn" style="margin-top:15px;" onclick="goToStudentDash()">Back</button></div>
+          <div style="margin-top:8px;">
+            <label>Full Name</label>
+            <input id="student-name-input" />
+          </div>
 
-<div id="screen-examiner" class="screen">
-<div class="nav-bar"><div style="font-weight:700;">🛡️ Examiner Panel - LIVE FIREBASE</div><div><span class="live-dot"></span> <small>Live Sync</small> <button class="btn btn-secondary btn-sm" onclick="logout()">Student View</button></div></div>
-<div class="examiner-stats">
-<div class="stat-card"><h2 id="stat-total-students">0</h2><p>Students</p></div>
-<div class="stat-card" style="background:linear-gradient(135deg,#059669,#10b981)"><h2 id="stat-total-exams">0</h2><p>Exams</p></div>
-<div class="stat-card" style="background:linear-gradient(135deg,#dc2626,#ef4444)"><h2 id="stat-total-results">0</h2><p>Submissions</p></div>
-<div class="stat-card" style="background:linear-gradient(135deg,#7c3aed,#8b5cf6)"><h2 id="stat-classes">0</h2><p>Classes</p></div>
-</div>
-<div class="examiner-section"><h3>🔴 Live Submissions</h3><div class="table-container"><table><thead><tr><th>Name</th><th>ID</th><th>Exam</th><th>Status</th><th>Time</th></tr></thead><tbody id="live-progress-body"></tbody></table></div></div>
-<div class="examiner-section"><h3>📋 Student Dashboard - Click Name/ID</h3><div class="table-container"><table><thead><tr><th>Name (Click)</th><th>ID</th><th>Class</th><th>Total Tests</th><th>Action</th></tr></thead><tbody id="examiner-student-dashboard"></tbody></table></div></div>
-<div class="examiner-section"><h3>🔐 Change Password</h3><div class="pass-box"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;"><div><label>Old</label><input type="password" id="old-pass-input"></div><div><label>New</label><input type="password" id="new-pass-input"></div><div><label>Confirm</label><input type="password" id="confirm-pass-input"></div></div><button class="btn btn-warning" style="margin-top:10px;width:100%" onclick="changePasswordInside()">Change Password</button></div></div>
-<div class="examiner-section"><h3>➕ Add Student - Auto Sync to all</h3><div class="add-student-grid"><div><label>Full Name *</label><input id="new-student-name"></div><div><label>Guardian Name *</label><input id="new-student-guardian"></div><div><label>Class *</label><select id="new-student-class"><option value="">Select</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div><div><label>State *</label><input id="new-student-state"></div><div><label>District *</label><input id="new-student-district"></div><div><label>Block *</label><input id="new-student-block"></div><div><label>Village / City *</label><input id="new-student-village"></div></div><button class="btn" style="margin-top:10px;width:100%" onclick="addStudent()">Generate ID & Add to Cloud</button><div id="last-generated-id" style="margin-top:8px;text-align:center;font-weight:bold;color:var(--success)"></div></div>
-<div class="examiner-section"><h3>📚 All Students - Cloud</h3><div id="student-list-display" class="student-grid"></div></div>
-<div class="examiner-section"><h3>📝 Create Exam - Auto Sync</h3><div style="display:grid;grid-template-columns:1fr 110px 90px;gap:8px;"><div><label>Title *</label><input id="exam-title-input"></div><div><label>Class *</label><select id="exam-class-input"><option value="">Class</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div><div><label>Duration</label><input id="exam-time-input" value="10"></div></div><div class="date-time-grid"><div class="date-time-group"><h4>🟢 OPEN</h4><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div><label>Open Date *</label><input type="date" id="exam-start-date"></div><div><label>Open Time *</label><input type="time" id="exam-start-time-only"></div></div></div><div class="date-time-group"><h4>🔴 CLOSE</h4><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div><label>Close Date *</label><input type="date" id="exam-end-date"></div><div><label>Close Time *</label><input type="time" id="exam-end-time-only"></div></div></div></div><button class="btn btn-success" style="margin-top:10px;" onclick="createExam()">Create Exam in Cloud</button><div id="current-exam-builder" style="display:none;margin-top:15px;border-top:2px solid #f1f5f9;padding-top:15px;"><h4>Building: <span id="builder-exam-title"></span> <span style="font-size:.8rem;color:#16a34a;" id="edit-mode-label"></span></h4><div class="q-type-tabs"><button id="tab-mcq" class="active" onclick="setQType('mcq')">MCQ</button><button id="tab-tf" onclick="setQType('tf')">T/F</button><button id="tab-fill" onclick="setQType('fill')">Fill</button><button id="tab-short" onclick="setQType('short')">Short</button></div><label>Question *</label><textarea id="q-text" rows="2"></textarea><div id="q-area-mcq"><div style="display:grid;grid-template-columns:auto 1fr;gap:5px;margin-top:5px;"><input type="radio" name="correct" value="0" checked><input id="q-opt-0" placeholder="A"><input type="radio" name="correct" value="1"><input id="q-opt-1" placeholder="B"><input type="radio" name="correct" value="2"><input id="q-opt-2" placeholder="C"><input type="radio" name="correct" value="3"><input id="q-opt-3" placeholder="D"></div></div><div id="q-area-tf" style="display:none;"><select id="q-tf-ans"><option value="true">True</option><option value="false">False</option></select></div><div id="q-area-fill" style="display:none;"><input id="q-fill-ans" placeholder="Correct answer"></div><div id="q-area-short" style="display:none;"><input id="q-short-ans" placeholder="Keywords"></div><div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;"><button class="btn" id="add-q-btn" onclick="addQuestionToExam()">Add Q</button><button class="btn btn-secondary" id="cancel-edit-btn" style="display:none;" onclick="cancelEditQ()">Cancel Edit</button><button class="btn btn-secondary" onclick="finishExam()">Publish to Cloud</button></div><div id="builder-question-list" style="margin-top:10px;"></div></div></div>
-<div class="examiner-section"><h3>📖 All Published Exams - Cloud</h3><div class="search-bar"><div><label>Search</label><input type="text" id="examiner-search-name" placeholder="Search..." oninput="loadExaminerExamsList()"></div><div><label>Date</label><input type="date" id="examiner-search-date" oninput="loadExaminerExamsList()"></div><div><button class="btn btn-secondary" style="width:100%" onclick="clearExaminerSearch()">Clear</button></div></div><div id="examiner-exams-list"></div></div>
-</div>
-</div>
+          <div style="margin-top:8px;">
+            <label>Class</label>
+            <select id="student-class-input">
+              <option value="">Select</option>
+              <option>5</option><option>6</option><option>7</option>
+              <option>8</option><option>9</option><option>10</option>
+            </select>
+          </div>
 
-<button class="examiner-fab" onclick="openExaminerLoginModal()"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></button>
+          <button class="btn btn-block" style="margin-top:14px;" onclick="loginAsStudent()">Login for Exam</button>
+          <p style="font-size:.7rem;color:#16a34a;margin-top:8px;">✅ Live synced via Firebase - No re-upload needed</p>
+        </div>
+      </div>
+    </div>
 
-<div id="examiner-login-modal" class="modal-overlay" onclick="if(event.target===this) closeExaminerLoginModal()"><div class="modal-content small" style="text-align:center;"><h3>🛡️ Examiner Login</h3><div style="text-align:left;margin-top:10px;"><label>Password</label><input type="password" id="examiner-pass-input"></div><button class="btn" style="margin-top:12px;width:100%" onclick="loginAsExaminer()">Login</button><button class="btn btn-secondary" style="margin-top:8px;width:100%" onclick="closeExaminerLoginModal()">Cancel</button></div></div>
-<div id="details-modal" class="modal-overlay" onclick="if(event.target===this) closeDetailsModal()"><div class="modal-content small"><div id="modal-details-container"></div><div style="display:flex;justify-content:center;margin-top:12px;"><button class="btn btn-secondary" onclick="closeDetailsModal()">Close</button></div></div></div>
-<div id="student-exams-modal" class="modal-overlay" onclick="if(event.target===this) closeStudentExamsModal()"><div class="modal-content large"><div style="display:flex;justify-content:space-between;align-items:center;"><h3 id="student-exams-title">Student Exams</h3><button class="btn btn-sm btn-secondary" onclick="closeStudentExamsModal()">Close</button></div><p style="font-size:.8rem;color:#64748b;">Click row to see correct/incorrect</p><div class="table-container"><table><thead><tr><th>Exam</th><th>Score</th><th>%</th><th>Date</th><th>View</th></tr></thead><tbody id="student-exams-table-body"></tbody></table></div></div></div>
-<div id="exam-detail-modal" class="modal-overlay" onclick="if(event.target===this) closeExamDetailModal()"><div class="modal-content large"><div style="display:flex;justify-content:space-between;align-items:center;"><h3 id="exam-detail-title">Result Details</h3><button class="btn btn-sm btn-secondary" onclick="closeExamDetailModal()">Close</button></div><div id="exam-detail-body" style="margin-top:12px;"></div></div></div>
-<div id="exam-questions-modal" class="modal-overlay" onclick="if(event.target===this) closeExamQuestionsModal()"><div class="modal-content large"><div style="display:flex;justify-content:space-between;align-items:center;"><h3 id="exam-questions-title">Exam Questions</h3><button class="btn btn-sm btn-secondary" onclick="closeExamQuestionsModal()">Close</button></div><div id="exam-questions-body" style="margin-top:12px;"></div></div></div>
+    <div id="screen-student-dash" class="screen">
+      <div class="nav-bar">
+        <div>
+          <strong id="display-student-name"></strong> |
+          ID: <span id="display-student-id"></span> |
+          Class <span id="dash-class-label"></span>
+        </div>
+        <div>
+          <button class="btn btn-secondary btn-sm" onclick="openMyDetailsPopup()">My Details</button>
+          <button class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
+        </div>
+      </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, doc, setDoc, getDoc, getDocs, onSnapshot, deleteDoc, updateDoc, addDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+      <h3>Available Exams - Class <span id="dash-class-label-main"></span></h3>
+      <div class="search-bar">
+        <div>
+          <label>Search</label>
+          <input type="text" id="student-search-name" placeholder="Exam name..." oninput="renderStudentDashboard()" />
+        </div>
+        <div>
+          <label>Date</label>
+          <input type="date" id="student-search-date" onchange="renderStudentDashboard()" />
+        </div>
+        <div>
+          <button class="btn btn-secondary btn-sm" style="width:100%;" onclick="clearStudentSearch()">Clear</button>
+        </div>
+      </div>
 
-// ===== PASTE YOUR FIREBASE CONFIG HERE ====//
-  const firebaseConfig = {
-    apiKey: "AIzaSyC11KwxMBWq6WW9kuKU1h4xQMWXyDO6hgg",
-    authDomain: "arieg-30b46.firebaseapp.com",
-    projectId: "arieg-30b46",
-    storageBucket: "arieg-30b46.firebasestorage.app",
-    messagingSenderId: "949904779594",
-    appId: "1:949904779594:web:ab13491374cae1351079b3"
-  };
-// ===== END CONFIG =====
+      <div class="grid-2">
+        <div>
+          <div id="available-exams-container"></div>
 
-let db;
-let useFirebase = true;
-try{
-  const app = initializeApp(firebaseConfig);
-  db = getFirestore(app);
-  document.getElementById('firebase-status').className='firebase-connected';
-  document.getElementById('firebase-status').innerText='🟢 Firebase Connected - Live Sync ON';
-}catch(e){
-  useFirebase=false;
-  document.getElementById('firebase-status').className='firebase-disconnected';
-  document.getElementById('firebase-status').innerText='🔴 Firebase config missing - Add your config';
-  console.error(e);
-}
+          <h3 style="margin-top:18px;">My Performance</h3>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Exam</th>
+                  <th>Score</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="student-history-table"></tbody>
+            </table>
+          </div>
+        </div>
 
-const _0xSalt="AR_India_2025_Secure_XYZ_!@#_Animesh_";
-function _hash(p){try{return btoa(_0xSalt+p).split('').reverse().join('')}catch(e){return null}}
-function _unhash(h){try{return atob(h.split('').reverse().join('')).replace(_0xSalt,'')}catch(e){return null}}
+        <div>
+          <h3>🏆 Leaderboard - Filter by Class & Exam</h3>
+          <div class="leader-filter">
+            <div>
+              <label>Class</label>
+              <select id="leader-class-filter" onchange="updateLeaderExamFilter(); renderLeaderboard()">
+                <option value="">All Classes</option>
+                <option>5</option><option>6</option><option>7</option>
+                <option>8</option><option>9</option><option>10</option>
+              </select>
+            </div>
+            <div>
+              <label>Exam</label>
+              <select id="leader-exam-filter" onchange="renderLeaderboard()">
+                <option value="">All Exams</option>
+              </select>
+            </div>
+          </div>
 
-let allStudents=[], allExams=[], allResults=[], allCounters={};
-let currentStudentObj=null,currentExamId=null,currentBuilderId=null,currentQType='mcq',timerInterval=null,studentDashInterval=null,editingQIndex=-1;
-let examState={answers:[],qTimes:[],qStartTime:null,currentIndex:0,skipped:[]};
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th><th>ID</th><th>Class</th><th>Exam</th><th>%</th>
+                </tr>
+              </thead>
+              <tbody id="class-leaderboard"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 
-// FIREBASE LIVE LISTENERS
-if(useFirebase){
-  onSnapshot(collection(db,"students"), (snap)=>{
-    allStudents = snap.docs.map(d=>({id:d.id, ...d.data()}));
-    if(document.getElementById('screen-examiner').classList.contains('active')) loadExaminerPanel();
-    if(document.getElementById('screen-student-dash').classList.contains('active')) loadStudentDash();
-  });
-  onSnapshot(collection(db,"exams"), (snap)=>{
-    allExams = snap.docs.map(d=>({id:d.id, ...d.data()}));
-    if(document.getElementById('screen-examiner').classList.contains('active')) loadExaminerExamsList();
-    if(document.getElementById('screen-student-dash').classList.contains('active')) loadStudentDash();
-    updateLeaderExamFilter();
-  });
-  onSnapshot(collection(db,"results"), (snap)=>{
-    allResults = snap.docs.map(d=>d.data()).sort((a,b)=>a.timestamp-b.timestamp);
-    loadLiveProgress();
-    loadExaminerStudentDashboard();
-    if(document.getElementById('screen-student-dash').classList.contains('active')) loadStudentDash();
-  });
-  onSnapshot(doc(db,"config","main"), async (snap)=>{
-    if(!snap.exists()){
-      await setDoc(doc(db,"config","main"), {passHash:_hash('admin123'), counters:{}});
+    <div id="screen-student-exam" class="screen">
+      <div class="nav-bar">
+        <div>Exam: <strong id="display-exam-title"></strong> | <span id="display-student-name-exam"></span></div>
+        <div><span id="exam-timer" style="font-weight:bold;color:var(--danger)"></span></div>
+      </div>
+
+      <div class="exam-layout">
+        <div>
+          <div id="single-question-display" class="question-card"></div>
+
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+            <button class="btn btn-secondary" onclick="prevQ()">Prev</button>
+            <button class="btn btn-secondary" onclick="nextQ()">Next</button>
+            <button class="btn btn-secondary" onclick="skipQ()">Skip</button>
+            <button class="btn btn-danger" onclick="skipAndExit()">Exit</button>
+            <button class="btn btn-success" style="margin-left:auto;" onclick="submitExam()">Submit</button>
+          </div>
+        </div>
+
+        <div class="exam-sidebar">
+          <div class="small muted">Answered / Total</div>
+          <div style="font-size:1.5rem;font-weight:700;margin:6px 0;">
+            <span id="dash-attended">0</span> / <span id="dash-total">0</span>
+          </div>
+
+          <div class="small muted">Skipped</div>
+          <div style="font-size:1.2rem;font-weight:700;margin:6px 0;">
+            <span id="dash-skipped">0</span>
+          </div>
+
+          <div class="small muted">Question Palette</div>
+          <div id="q-palette" class="q-palette"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="screen-student-results" class="screen">
+      <h2>Result</h2>
+      <div id="result-summary-box" style="background:#f0fdf4;border:1px solid #bbf7d0;padding:15px;border-radius:8px;margin-top:15px;"></div>
+      <div style="margin-top:12px;">
+        <button class="btn" onclick="goToStudentDash()">Back to Dashboard</button>
+      </div>
+    </div>
+
+    <div id="screen-examiner" class="screen">
+      <div class="nav-bar">
+        <div style="font-weight:700;">🛡️ Examiner Panel - LIVE FIREBASE</div>
+        <div>
+          <span class="live-dot"></span>
+          <small>Live Sync</small>
+          <button class="btn btn-secondary btn-sm" onclick="logout()">Logout</button>
+        </div>
+      </div>
+
+      <div class="examiner-stats">
+        <div class="stat-card"><h2 id="stat-total-students">0</h2><p>Students</p></div>
+        <div class="stat-card" style="background:linear-gradient(135deg,#059669,#10b981)"><h2 id="stat-total-exams">0</h2><p>Exams</p></div>
+        <div class="stat-card" style="background:linear-gradient(135deg,#dc2626,#ef4444)"><h2 id="stat-total-results">0</h2><p>Submissions</p></div>
+        <div class="stat-card" style="background:linear-gradient(135deg,#7c3aed,#8b5cf6)"><h2 id="stat-classes">0</h2><p>Classes</p></div>
+      </div>
+
+      <div class="examiner-section">
+        <h3>🔴 Live Submissions</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr><th>Name</th><th>ID</th><th>Exam</th><th>Status</th><th>Time</th></tr>
+            </thead>
+            <tbody id="live-progress-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="examiner-section">
+        <h3>📋 Student Dashboard - Click Name/ID</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr><th>Name (Click)</th><th>ID</th><th>Class</th><th>Total Tests</th><th>Action</th></tr>
+            </thead>
+            <tbody id="examiner-student-dashboard"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="examiner-section">
+        <h3>🔐 Change Password</h3>
+        <div class="pass-box">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+            <div><label>Old</label><input type="password" id="old-pass-input" /></div>
+            <div><label>New</label><input type="password" id="new-pass-input" /></div>
+            <div><label>Confirm</label><input type="password" id="confirm-pass-input" /></div>
+          </div>
+          <div style="margin-top:10px;">
+            <button class="btn" onclick="changePasswordInside()">Update Password</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="examiner-section">
+        <h3>➕ Add Student - Auto Sync to all</h3>
+        <div class="add-student-grid">
+          <div><label>Full Name *</label><input id="new-student-name" /></div>
+          <div><label>Guardian Name *</label><input id="new-student-guardian" /></div>
+          <div><label>Class *</label><select id="new-student-class"><option value="">Select</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+          <div><label>State *</label><input id="new-student-state" /></div>
+          <div><label>District *</label><input id="new-student-district" /></div>
+          <div><label>Block *</label><input id="new-student-block" /></div>
+          <div style="grid-column:1 / -1;"><label>Village *</label><input id="new-student-village" /></div>
+        </div>
+        <div style="margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <button class="btn" onclick="addStudent()">Add Student</button>
+          <span id="last-generated-id" class="small muted"></span>
+        </div>
+      </div>
+
+      <div class="examiner-section">
+        <h3>📚 All Students - Cloud</h3>
+        <div id="student-list-display" class="student-grid"></div>
+      </div>
+
+      <div class="examiner-section">
+        <h3>📝 Create Exam - Auto Sync</h3>
+        <div style="display:grid;grid-template-columns:1fr 110px 90px;gap:8px;">
+          <div><label>Title *</label><input id="exam-title-input" /></div>
+          <div><label>Class *</label><select id="exam-class-input"><option value="">Select</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+          <div><label>Time (min)</label><input id="exam-time-input" type="number" value="30" /></div>
+        </div>
+
+        <div class="date-time-grid">
+          <div class="date-time-group">
+            <label>Open Date</label>
+            <input id="exam-start-date" type="date" />
+          </div>
+          <div class="date-time-group">
+            <label>Open Time</label>
+            <input id="exam-start-time" type="time" />
+          </div>
+          <div class="date-time-group">
+            <label>Close Date</label>
+            <input id="exam-end-date" type="date" />
+          </div>
+          <div class="date-time-group">
+            <label>Close Time</label>
+            <input id="exam-end-time" type="time" />
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <button class="btn" onclick="createExam()">Create Exam</button>
+        </div>
+      </div>
+
+      <div class="examiner-section">
+        <h3>📖 All Published Exams - Cloud</h3>
+        <div class="search-bar">
+          <div>
+            <label>Search</label>
+            <input type="text" id="examiner-search-name" placeholder="Search..." oninput="renderExaminerExamsList()" />
+          </div>
+          <div>
+            <label>Date</label>
+            <input type="date" id="examiner-search-date" onchange="renderExaminerExamsList()" />
+          </div>
+          <div>
+            <button class="btn btn-secondary btn-sm" style="width:100%;" onclick="clearExaminerSearch()">Clear</button>
+          </div>
+        </div>
+        <div id="examiner-exams-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <button class="examiner-fab" onclick="openExaminerLoginModal()">
+    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg>
+  </button>
+
+  <div id="examiner-login-modal" class="modal-overlay" onclick="if(event.target===this) closeExaminerLoginModal()">
+    <div class="modal-content small" style="text-align:center;">
+      <h3>🛡️ Examiner Login</h3>
+      <label>Password</label>
+      <input type="password" id="examiner-pass-input" onkeydown="if(event.key==='Enter') loginAsExaminer()" />
+      <div style="margin-top:12px;">
+        <button class="btn" onclick="loginAsExaminer()">Login</button>
+        <button class="btn btn-secondary" onclick="closeExaminerLoginModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="details-modal" class="modal-overlay" onclick="if(event.target===this) closeDetailsModal()">
+    <div class="modal-content small">
+      <div id="modal-details-container"></div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;">
+        <button class="btn btn-secondary" onclick="closeDetailsModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="student-exams-modal" class="modal-overlay" onclick="if(event.target===this) closeStudentExamsModal()">
+    <div class="modal-content large">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h3 id="student-exams-title">All Tests</h3>
+        <button class="btn btn-secondary btn-sm" onclick="closeStudentExamsModal()">Close</button>
+      </div>
+      <div class="table-container" style="margin-top:10px;">
+        <table>
+          <thead>
+            <tr><th>Exam</th><th>Score</th><th>%</th><th>Date</th></tr>
+          </thead>
+          <tbody id="student-exams-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="exam-detail-modal" class="modal-overlay" onclick="if(event.target===this) closeExamDetailModal()">
+    <div class="modal-content large">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h3 id="exam-detail-title">Exam Details</h3>
+        <button class="btn btn-secondary btn-sm" onclick="closeExamDetailModal()">Close</button>
+      </div>
+      <div id="exam-detail-body" style="margin-top:12px;"></div>
+    </div>
+  </div>
+
+  <div id="exam-questions-modal" class="modal-overlay" onclick="if(event.target===this) closeExamQuestionsModal()">
+    <div class="modal-content large">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h3 id="exam-questions-title">Exam Questions</h3>
+        <button class="btn btn-secondary btn-sm" onclick="closeExamQuestionsModal()">Close</button>
+      </div>
+      <div id="exam-questions-body" style="margin-top:12px;"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      setDoc,
+      getDoc,
+      getDocs,
+      onSnapshot,
+      deleteDoc,
+      updateDoc,
+      addDoc,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC11KwxMBWq6WW9kuKU1h4xQMWXyDO6hgg",
+      authDomain: "arieg-30b46.firebaseapp.com",
+      projectId: "arieg-30b46",
+      storageBucket: "arieg-30b46.firebasestorage.app",
+      messagingSenderId: "949904779594",
+      appId: "1:949904779594:web:ab13491374cae1351079b3"
+    };
+
+    let db = null;
+    let useFirebase = false;
+
+    try {
+      const app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+      useFirebase = true;
+      setFirebaseStatus("🟢 Firebase Connected - Live Sync ON", "firebase-connected");
+    } catch (e) {
+      console.error("Firebase init failed:", e);
+      setFirebaseStatus("🔴 Firebase config missing - Add your config", "firebase-disconnected");
     }
-  });
-}
 
-function getSecurePassSync(){
-  return localStorage.getItem('ar_ex_pass_cache')||'admin123';
-}
-async function getSecurePass(){
-  if(!useFirebase) return getSecurePassSync();
-  const snap = await getDoc(doc(db,"config","main"));
-  if(!snap.exists()) return 'admin123';
-  return _unhash(snap.data().passHash)||'admin123';
-}
-window.changePasswordInside = async function(){
-  const oldP=document.getElementById('old-pass-input').value.trim(),newP=document.getElementById('new-pass-input').value.trim(),confirmP=document.getElementById('confirm-pass-input').value.trim();
-  if(!oldP||!newP||!confirmP){alert('Fill all');return}
-  const cur = await getSecurePass();
-  if(oldP!==cur){alert('Old wrong');return}
-  if(newP!==confirmP){alert('Not match');return}
-  if(useFirebase){
-    await updateDoc(doc(db,"config","main"), {passHash:_hash(newP)});
-  }else{
-    localStorage.setItem('ar_ex_pass_cache',newP);
-  }
-  document.getElementById('old-pass-input').value='';document.getElementById('new-pass-input').value='';document.getElementById('confirm-pass-input').value='';
-  alert('Password changed & synced to cloud!');
-}
+    const state = {
+      students: [],
+      exams: [],
+      results: [],
+      currentStudent: null,
+      currentExamId: null,
+      currentBuilderId: null,
+      currentQType: "mcq",
+      editingQIndex: -1,
+      timerInterval: null,
+      studentDashInterval: null,
+      examState: {
+        answers: [],
+        qTimes: [],
+        qStartTime: 0,
+        currentIndex: 0,
+        skipped: [],
+        startExamTime: 0
+      }
+    };
 
-window.openExaminerLoginModal=function(){document.getElementById('examiner-login-modal').classList.add('active')}
-window.closeExaminerLoginModal=function(){document.getElementById('examiner-login-modal').classList.remove('active');document.getElementById('examiner-pass-input').value='';}
-window.showScreen=function(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-window.setQType=function(t){currentQType=t;document.querySelectorAll('.q-type-tabs button').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.getElementById('q-area-mcq').style.display=t==='mcq'?'block':'none';document.getElementById('q-area-tf').style.display=t==='tf'?'block':'none';document.getElementById('q-area-fill').style.display=t==='fill'?'block':'none';document.getElementById('q-area-short').style.display=t==='short'?'block':'none'}
-function hashStringToNumber(str){let h=0;for(let i=0;i<str.length;i++){h=(h*31+str.charCodeAt(i))%1000}return (h%90)+10;}
-async function generateNumericID(cls,state,district,block,village){
-  const sc=hashStringToNumber(state||'WB'),dc=hashStringToNumber(district||'N24'),bc=hashStringToNumber(block||'Habra'),vc=hashStringToNumber(village||'Gob');
-  if(!useFirebase){
-    let counters=JSON.parse(localStorage.getItem('ar_class_counters')||'{}');
-    const key=`${cls}_${dc}_${bc}`;
-    if(!counters[key]) counters[key]=1;else counters[key]++;
-    localStorage.setItem('ar_class_counters',JSON.stringify(counters));
-    const serial=String(counters[key]).padStart(3,'0');
-    return `${cls}${sc}${dc}${bc}${vc}${serial}`;
-  }else{
-    const configRef=doc(db,"config","main");
-    const snap=await getDoc(configRef);
-    let counters=snap.data()?.counters||{};
-    const key=`${cls}_${dc}_${bc}`;
-    if(!counters[key]) counters[key]=1;else counters[key]++;
-    await updateDoc(configRef,{counters});
-    const serial=String(counters[key]).padStart(3,'0');
-    return `${cls}${sc}${dc}${bc}${vc}${serial}`;
-  }
-}
-function generateDetailsHTML(s){return `<div class="student-details-box"><h3 style="text-align:center;color:#1e3a8a">My Details</h3><div class="detail-row"><span>Numeric ID</span><strong>${s.id}</strong></div><div class="detail-row"><span>Name</span><strong>${s.name||s.id}</strong></div></div>`;}
-window.openDetailsPopupById=function(id){const s=allStudents.find(x=>x.id===id||x.numericId===id);if(!s){const s2={id:id, name:id};document.getElementById('modal-details-container').innerHTML=generateDetailsHTML(s2);document.getElementById('details-modal').classList.add('active');return;}const display={id:s.numericId||s.id, name:s.name};document.getElementById('modal-details-container').innerHTML=generateDetailsHTML(display);document.getElementById('details-modal').classList.add('active')}
-window.openMyDetailsPopup=function(){if(currentStudentObj) openDetailsPopupById(currentStudentObj.numericId||currentStudentObj.id)}
-window.closeDetailsModal=function(){document.getElementById('details-modal').classList.remove('active')}
-window.openStudentExamsModal=function(id){
-  const s=allStudents.find(x=>x.id===id||x.numericId===id)||{name:id, id:id};
-  const results=allResults.filter(r=>r.studentId===id||r.studentId===s.numericId).sort((a,b)=>b.timestamp-a.timestamp);
-  document.getElementById('student-exams-title').innerText=`All Tests - ${s.name} (${s.numericId||s.id})`;
-  const tbody=document.getElementById('student-exams-table-body');
-  tbody.innerHTML=results.length?results.map(r=>`<tr style="cursor:pointer;" onclick="openExamDetailModalByResultId('${r.studentId}','${r.examId}',${r.timestamp})"><td>${r.examTitle}</td><td>${r.score}/${r.total}</td><td><span class="badge ${r.percent>=40?'badge-success':'badge-danger'}">${r.percent}%</span></td><td>${r.date}</td><td><span class="clickable">View Correct/Incorrect</span></td></tr>`).join(''):`<tr><td colspan="5" style="text-align:center;">No exams</td></tr>`;
-  document.getElementById('student-exams-modal').classList.add('active')
-}
-window.closeStudentExamsModal=function(){document.getElementById('student-exams-modal').classList.remove('active')}
-window.openExamDetailModalByResultId=function(sid,eid,ts){const r=allResults.find(x=>x.studentId===sid && x.examId===eid && x.timestamp===ts);if(!r)return;openExamDetailModalResult(r);}
-function openExamDetailModalResult(r){
-  const ex=allExams.find(e=>e.id===r.examId);
-  document.getElementById('exam-detail-title').innerText=`${r.examTitle} - ${r.student} (${r.studentId}) - ${r.percent}%`;
-  let html=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;"><div><p><strong>Name:</strong> ${r.student}</p><p><strong>ID:</strong> ${r.studentId}</p></div><div><p><strong>Score:</strong> ${r.score}/${r.total} (${r.percent}%)</p><p><strong>Date:</strong> ${r.date}</p></div></div><hr><h4 style="margin:12px 0;">Correct / Incorrect</h4><div class="table-container"><table><thead><tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct</th><th>Status</th></tr></thead><tbody>`;
-  if(ex && r.answers){
-    ex.questions.forEach((q,i)=>{
-      const yourAns=r.answers[i];
-      let yourAnsText='Skipped';
-      if(yourAns!==null && yourAns!=='' && yourAns!==undefined){
-        if(q.type==='mcq'){yourAnsText=q.options[yourAns]||yourAns}else{yourAnsText=yourAns}
+    function setFirebaseStatus(text, cls) {
+      const el = document.getElementById("firebase-status");
+      if (!el) return;
+      el.innerText = text;
+      el.className = cls;
+    }
+
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
+      const target = document.getElementById(id);
+      if (target) target.classList.add("active");
+    }
+
+    function safeText(value) {
+      return (value == null ? "" : String(value));
+    }
+
+    function formatLocalDate(dateValue) {
+      const d = new Date(dateValue);
+      if (Number.isNaN(d.getTime())) return "";
+      return d.toLocaleString();
+    }
+
+    function formatDateOnly(dateValue) {
+      const d = new Date(dateValue);
+      if (Number.isNaN(d.getTime())) return "";
+      return d.toLocaleDateString();
+    }
+
+    function hashStringToNumber(str) {
+      let h = 0;
+      for (let i = 0; i < str.length; i++) {
+        h = (h * 31 + str.charCodeAt(i)) % 1000;
       }
-      let correctText=q.type==='mcq'?q.options[q.correct]:q.correct;
-      let isCorrect=false;
-      if(yourAns!==null && yourAns!=='' && yourAns!==undefined){
-        if(q.type==='mcq' && yourAns===q.correct) isCorrect=true;
-        else if(q.type==='tf' && String(yourAns)===String(q.correct)) isCorrect=true;
-        else if(q.type==='fill' && String(yourAns).toLowerCase()===String(q.correct).toLowerCase()) isCorrect=true;
-        else if(q.type==='short'){const ks=String(q.correct).toLowerCase().split(',').map(k=>k.trim());if(ks.some(k=>String(yourAns).toLowerCase().includes(k))) isCorrect=true;}
+      return (h % 90) + 10;
+    }
+
+    function _hash(str) {
+      try {
+        return btoa("AR_India_2025_Secure_XYZ_!@#_Animesh_" + str).split("").reverse().join("");
+      } catch {
+        return null;
       }
-      const status=yourAns===null||yourAns===''?'Skipped':isCorrect?'✅ Correct':'❌ Incorrect';
-      const badge=isCorrect?'badge-success':yourAns===null||yourAns===''?'badge-warn':'badge-danger';
-      html+=`<tr><td>Q${i+1}</td><td><small>${q.text}</small></td><td><small>${yourAnsText}</small></td><td><small>${correctText}</small></td><td><span class="badge ${badge}">${status}</span></td></tr>`;
+    }
+
+    function _unhash(h) {
+      try {
+        return atob(String(h).split("").reverse().join("")).replace("AR_India_2025_Secure_XYZ_!@#_Animesh_", "");
+      } catch {
+        return null;
+      }
+    }
+
+    async function getSecurePass() {
+      if (!useFirebase) return localStorage.getItem("ar_ex_pass_cache") || "admin123";
+      const snap = await getDoc(doc(db, "config", "main"));
+      if (!snap.exists()) return "admin123";
+      return _unhash(snap.data().passHash) || "admin123";
+    }
+
+    function getStudentId(student) {
+      return student.numericId || student.id || "";
+    }
+
+    function getStudentResults(studentId) {
+      return state.results.filter((r) => r.studentId === studentId);
+    }
+
+    function canAttemptExam(examId) {
+      if (!state.currentStudent) return false;
+      const studentId = getStudentId(state.currentStudent);
+      const resultList = state.results.filter((r) => r.studentId === studentId);
+      const attempts = resultList.filter((r) => r.examId === examId);
+      if (!attempts.length) return true;
+      const last = attempts.sort((a, b) => b.timestamp - a.timestamp)[0];
+      return Date.now() > (last.nextAttempt || 0);
+    }
+
+    function setQType(type) {
+      state.currentQType = type;
+      document.querySelectorAll(".q-type-tabs button").forEach((b) => b.classList.remove("active"));
+      const tab = document.getElementById("tab-" + type);
+      if (tab) tab.classList.add("active");
+    }
+
+    function refreshAllData() {
+      if (document.getElementById("screen-examiner")?.classList.contains("active")) {
+        renderExaminerPanel();
+      }
+      if (document.getElementById("screen-student-dash")?.classList.contains("active")) {
+        renderStudentDashboard();
+      }
+      if (document.getElementById("screen-student-exam")?.classList.contains("active")) {
+        renderQuestionPalette();
+      }
+    }
+
+    if (useFirebase) {
+      onSnapshot(collection(db, "students"), (snap) => {
+        state.students = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        refreshAllData();
+      });
+
+      onSnapshot(collection(db, "exams"), (snap) => {
+        state.exams = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        updateLeaderExamFilter();
+        refreshAllData();
+      });
+
+      onSnapshot(collection(db, "results"), (snap) => {
+        state.results = snap.docs.map((d) => d.data()).sort((a, b) => a.timestamp - b.timestamp);
+        refreshAllData();
+      });
+
+      onSnapshot(doc(db, "config", "main"), async (snap) => {
+        if (!snap.exists()) {
+          await setDoc(doc(db, "config", "main"), { passHash: _hash("admin123"), counters: {} });
+        }
+      });
+    }
+
+    function openExaminerLoginModal() {
+      document.getElementById("examiner-login-modal").classList.add("active");
+    }
+
+    function closeExaminerLoginModal() {
+      document.getElementById("examiner-login-modal").classList.remove("active");
+      document.getElementById("examiner-pass-input").value = "";
+    }
+
+    function openDetailsPopupById(id) {
+      const student = state.students.find((x) => x.id === id || x.numericId === id);
+      if (!student) {
+        document.getElementById("modal-details-container").innerHTML = generateDetailsHTML({ id, name: id });
+        document.getElementById("details-modal").classList.add("active");
+        return;
+      }
+      document.getElementById("modal-details-container").innerHTML = generateDetailsHTML(student);
+      document.getElementById("details-modal").classList.add("active");
+    }
+
+    function generateDetailsHTML(student) {
+      const sid = getStudentId(student);
+      return `
+        <div class="student-details-box">
+          <h3 style="text-align:center;color:var(--primary)">My Details</h3>
+          <div class="detail-row"><span>Numeric ID</span><strong>${sid}</strong></div>
+          <div class="detail-row"><span>Name</span><strong>${safeText(student.name)}</strong></div>
+          <div class="detail-row"><span>Guardian</span><strong>${safeText(student.guardian)}</strong></div>
+          <div class="detail-row"><span>Class</span><strong>${safeText(student.class)}</strong></div>
+          <div class="detail-row"><span>State</span><strong>${safeText(student.state)}</strong></div>
+          <div class="detail-row"><span>District</span><strong>${safeText(student.district)}</strong></div>
+          <div class="detail-row"><span>Block</span><strong>${safeText(student.block)}</strong></div>
+          <div class="detail-row"><span>Village</span><strong>${safeText(student.village)}</strong></div>
+        </div>
+      `;
+    }
+
+    function openMyDetailsPopup() {
+      if (!state.currentStudent) return;
+      openDetailsPopupById(getStudentId(state.currentStudent));
+    }
+
+    function closeDetailsModal() {
+      document.getElementById("details-modal").classList.remove("active");
+    }
+
+    function openStudentExamsModal(studentId) {
+      const s = state.students.find((x) => x.id === studentId || x.numericId === studentId) || { name: studentId, id: studentId };
+      const studentKey = getStudentId(s) || studentId;
+      const results = state.results.filter((r) => r.studentId === studentKey).sort((a, b) => b.timestamp - a.timestamp);
+
+      document.getElementById("student-exams-title").innerText = `All Tests - ${s.name} (${studentKey})`;
+      const tbody = document.getElementById("student-exams-table-body");
+      tbody.innerHTML = results.length
+        ? results.map((r) => `
+            <tr style="cursor:pointer;" onclick="openExamDetailModalByResultId('${r.studentId}','${r.examId}',${r.timestamp})">
+              <td>${safeText(r.examTitle)}</td>
+              <td>${safeText(r.score)}/${safeText(r.total)}</td>
+              <td>${safeText(r.percent)}%</td>
+              <td>${safeText(r.date)}</td>
+            </tr>
+          `).join("")
+        : `<tr><td colspan="4" style="text-align:center;color:#64748b;">No tests found</td></tr>`;
+
+      document.getElementById("student-exams-modal").classList.add("active");
+    }
+
+    function closeStudentExamsModal() {
+      document.getElementById("student-exams-modal").classList.remove("active");
+    }
+
+    function openExamDetailModalByResultId(sid, eid, ts) {
+      const r = state.results.find((x) => x.studentId === sid && x.examId === eid && x.timestamp === ts);
+      if (!r) return;
+      openExamDetailModalResult(r);
+    }
+
+    function openExamDetailModalResult(result) {
+      const exam = state.exams.find((e) => e.id === result.examId);
+      document.getElementById("exam-detail-title").innerText = `${result.examTitle} - ${result.student} (${result.studentId}) - ${result.percent}%`;
+
+      let html = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div>
+            <p><strong>Name:</strong> ${safeText(result.student)}</p>
+            <p><strong>ID:</strong> ${safeText(result.studentId)}</p>
+          </div>
+          <div>
+            <p><strong>Exam:</strong> ${safeText(result.examTitle)}</p>
+            <p><strong>Score:</strong> ${safeText(result.score)}/${safeText(result.total)} (${safeText(result.percent)}%)</p>
+          </div>
+        </div>
+      `;
+
+      html += `
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr><th>Q#</th><th>Question</th><th>Your Answer</th><th>Correct</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+      `;
+
+      if (exam && Array.isArray(result.answers)) {
+        exam.questions.forEach((q, i) => {
+          const yourAns = result.answers[i];
+          let yourAnsText = "Skipped";
+          if (yourAns !== null && yourAns !== "" && yourAns !== undefined) {
+            if (q.type === "mcq") {
+              yourAnsText = q.options[Number(yourAns)] ?? String(yourAns);
+            } else {
+              yourAnsText = safeText(yourAns);
+            }
+          }
+
+          let correctText = q.type === "mcq" ? q.options[q.correct] : q.correct;
+          let isCorrect = false;
+
+          if (yourAns !== null && yourAns !== "" && yourAns !== undefined) {
+            if (q.type === "mcq" && Number(yourAns) === q.correct) isCorrect = true;
+            else if (q.type === "tf" && String(yourAns) === String(q.correct)) isCorrect = true;
+            else if (q.type === "fill" && String(yourAns).toLowerCase() === String(q.correct).toLowerCase()) isCorrect = true;
+            else if (q.type === "short") {
+              const keys = String(q.correct).toLowerCase().split(",").map((k) => k.trim());
+              if (keys.some((k) => String(yourAns).toLowerCase().includes(k))) isCorrect = true;
+            }
+          }
+
+          const status = yourAns === null || yourAns === "" ? "Skipped" : isCorrect ? "✅ Correct" : "❌ Incorrect";
+          const badge = isCorrect ? "badge-success" : (yourAns === null || yourAns === "" ? "badge-warn" : "badge-danger");
+
+          html += `
+            <tr>
+              <td>Q${i + 1}</td>
+              <td><small>${safeText(q.text)}</small></td>
+              <td><small>${safeText(yourAnsText)}</small></td>
+              <td><small>${safeText(correctText)}</small></td>
+              <td><span class="badge ${badge}">${status}</span></td>
+            </tr>
+          `;
+        });
+      }
+
+      html += `</tbody></table></div>`;
+      document.getElementById("exam-detail-body").innerHTML = html;
+      document.getElementById("exam-detail-modal").classList.add("active");
+      closeStudentExamsModal();
+    }
+
+    function closeExamDetailModal() {
+      document.getElementById("exam-detail-modal").classList.remove("active");
+    }
+
+    function openExamQuestionsModal(examId) {
+      const ex = state.exams.find((e) => e.id === examId);
+      if (!ex) return;
+
+      document.getElementById("exam-questions-title").innerText = `${ex.title} - ${ex.questions.length} Questions`;
+      let html = `<p><strong>Open:</strong> ${formatLocalDate(ex.startTime)} | <strong>Close:</strong> ${formatLocalDate(ex.endTime)}</p><hr style="margin:10px 0;"><div>`;
+      ex.questions.forEach((q, i) => {
+        let correct = q.type === "mcq" ? `${q.options[q.correct]} (Option ${q.correct + 1})` : q.correct;
+        html += `
+          <div class="question-card">
+            <strong>Q${i + 1} [${q.type}]</strong> - ${safeText(q.text)}<br>
+            ${q.type === "mcq" ? `<small>Options: ${q.options.join(" | ")}</small><br>` : ""}
+            <small style="color:#16a34a;"><strong>Correct:</strong> ${safeText(correct)}</small>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      document.getElementById("exam-questions-body").innerHTML = html;
+      document.getElementById("exam-questions-modal").classList.add("active");
+    }
+
+    function closeExamQuestionsModal() {
+      document.getElementById("exam-questions-modal").classList.remove("active");
+    }
+
+    function loginAsStudent() {
+      const id = document.getElementById("student-id-input").value.trim();
+      const name = document.getElementById("student-name-input").value.trim();
+      const cls = document.getElementById("student-class-input").value;
+
+      if (!id || !name || !cls) {
+        alert("Enter ID, Name, Class");
+        return;
+      }
+
+      const s = state.students.find((x) =>
+        (x.numericId === id || x.id === id) &&
+        String(x.name).toLowerCase() === name.toLowerCase() &&
+        String(x.class) === String(cls)
+      );
+
+      if (!s) {
+        alert("Invalid ID/Name/Class - Check with examiner, data is in cloud");
+        return;
+      }
+
+      state.currentStudent = { ...s, numericId: s.numericId || s.id };
+      document.getElementById("display-student-name").innerText = s.name;
+      document.getElementById("display-student-id").innerText = s.numericId || s.id;
+      document.getElementById("display-student-name-exam").innerText = s.name;
+      document.getElementById("dash-class-label").innerText = s.class;
+      document.getElementById("dash-class-label-main").innerText = s.class;
+      document.getElementById("leader-class-filter").value = s.class;
+
+      renderStudentDashboard();
+      showScreen("screen-student-dash");
+
+      if (state.studentDashInterval) clearInterval(state.studentDashInterval);
+      state.studentDashInterval = setInterval(() => {
+        if (document.getElementById("screen-student-dash")?.classList.contains("active")) {
+          renderStudentDashboard();
+        }
+      }, 5000);
+    }
+
+    async function loginAsExaminer() {
+      const pass = document.getElementById("examiner-pass-input").value;
+      const cur = await getSecurePass();
+      if (pass === cur) {
+        closeExaminerLoginModal();
+        showScreen("screen-examiner");
+        renderExaminerPanel();
+      } else {
+        alert("Wrong password");
+      }
+    }
+
+    function logout() {
+      clearInterval(state.timerInterval);
+      if (state.studentDashInterval) clearInterval(state.studentDashInterval);
+      state.studentDashInterval = null;
+      state.currentStudent = null;
+      state.currentExamId = null;
+      state.currentBuilderId = null;
+      showScreen("screen-home");
+    }
+
+    function updateLeaderExamFilter() {
+      const classValue = document.getElementById("leader-class-filter").value;
+      const sel = document.getElementById("leader-exam-filter");
+      const currentValue = sel ? sel.value : "";
+
+      let filtered = state.exams;
+      if (classValue) filtered = filtered.filter((e) => String(e.class) === String(classValue));
+
+      let options = '<option value="">All Exams</option>';
+      filtered.forEach((e) => {
+        options += `<option value="${e.id}">${safeText(e.title)} (Class ${safeText(e.class)})</option>`;
+      });
+      if (sel) {
+        sel.innerHTML = options;
+        if (filtered.some((e) => e.id === currentValue)) {
+          sel.value = currentValue;
+        }
+      }
+    }
+
+    function renderLeaderboard() {
+      const tbody = document.getElementById("class-leaderboard");
+      if (!tbody) return;
+
+      const classValue = document.getElementById("leader-class-filter").value;
+      const examId = document.getElementById("leader-exam-filter").value;
+
+      let results = [...state.results];
+      if (classValue) results = results.filter((r) => String(r.studentClass) === String(classValue));
+      if (examId) results = results.filter((r) => r.examId === examId);
+
+      results = results.sort((a, b) => b.percent - a.percent).slice(0, 50);
+
+      if (!results.length) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#64748b;">No data for selected Class/Exam</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = results.map((r) => {
+        const badge = r.percent >= 50 ? "badge-success" : "badge-danger";
+        return `
+          <tr>
+            <td>${safeText(r.student)}</td>
+            <td>${safeText(r.studentId)}</td>
+            <td>${safeText(r.studentClass)}</td>
+            <td><small>${safeText(r.examTitle)}</small></td>
+            <td><span class="badge ${badge}">${safeText(r.percent)}%</span></td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function clearStudentSearch() {
+      document.getElementById("student-search-name").value = "";
+      document.getElementById("student-search-date").value = "";
+      renderStudentDashboard();
+    }
+
+    function clearExaminerSearch() {
+      document.getElementById("examiner-search-name").value = "";
+      document.getElementById("examiner-search-date").value = "";
+      renderExaminerExamsList();
+    }
+
+    function renderStudentDashboard() {
+      if (!state.currentStudent) return;
+
+      const className = String(state.currentStudent.class);
+      let exams = state.exams.filter((ex) => String(ex.class) === className);
+
+      const nameFilter = document.getElementById("student-search-name")?.value.trim() || "";
+      const dateFilter = document.getElementById("student-search-date")?.value || "";
+
+      if (nameFilter) {
+        exams = exams.filter((ex) => String(ex.title).toLowerCase().includes(nameFilter.toLowerCase()));
+      }
+
+      if (dateFilter) {
+        exams = exams.filter((ex) => {
+          const d = new Date(ex.startTime);
+          return d.toISOString().slice(0, 10) === dateFilter;
+        });
+      }
+
+      const cont = document.getElementById("available-exams-container");
+      if (!cont) return;
+
+      if (!exams.length) {
+        cont.innerHTML = `<p style="color:#64748b;padding:20px;text-align:center;">No exams</p>`;
+      } else {
+        cont.innerHTML = exams.map((ex) => {
+          const now = Date.now();
+          const start = new Date(ex.startTime).getTime();
+          const end = new Date(ex.endTime).getTime();
+          const studentId = getStudentId(state.currentStudent);
+
+          let statusBadge = "";
+          let btnHtml = "";
+          if (now < start) {
+            statusBadge = '<span class="badge badge-warn">Waiting</span>';
+            btnHtml = `<button class="btn btn-secondary btn-sm" disabled>Not Open</button>`;
+          } else if (now > end) {
+            statusBadge = '<span class="badge badge-danger">Closed</span>';
+            btnHtml = `<button class="btn btn-secondary btn-sm" disabled>Closed</button>`;
+          } else {
+            statusBadge = '<span class="badge badge-success">OPEN</span>';
+            btnHtml = canAttemptExam(ex.id)
+              ? `<button class="btn btn-sm" onclick="startExam('${ex.id}')">Start</button>`
+              : `<button class="btn btn-secondary btn-sm" disabled>Attempted</button>`;
+          }
+
+          return `
+            <div class="question-card">
+              <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:5px;">
+                <strong>${safeText(ex.title)}</strong>
+                <div>${statusBadge}</div>
+              </div>
+              <small>Open: ${formatLocalDate(ex.startTime)} | Close: ${formatLocalDate(ex.endTime)}</small><br>
+              <small>Class: ${safeText(ex.class)} | Time: ${safeText(ex.time)} min</small>
+              <div style="margin-top:10px;">${btnHtml}</div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      const studentResults = state.results.filter((r) => String(r.studentId) === String(getStudentId(state.currentStudent)));
+      const table = document.getElementById("student-history-table");
+      table.innerHTML = studentResults.length
+        ? studentResults.map((r) => `
+            <tr>
+              <td>${safeText(r.examTitle)}</td>
+              <td>${safeText(r.score)}/${safeText(r.total)} (${safeText(r.percent)}%)</td>
+              <td>${safeText(r.date)}</td>
+            </tr>
+          `).join("")
+        : `<tr><td colspan="3" style="text-align:center;color:#64748b;">No attempts yet</td></tr>`;
+
+      updateLeaderExamFilter();
+      renderLeaderboard();
+    }
+
+    function renderLiveProgress() {
+      const tbody = document.getElementById("live-progress-body");
+      if (!tbody) return;
+
+      const recent = [...state.results].reverse().slice(0, 20);
+      if (!recent.length) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#64748b;">No activity yet</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = recent.map((r) => {
+        const badge = r.percent >= 50 ? "badge-success" : "badge-danger";
+        return `
+          <tr>
+            <td class="clickable" onclick="openStudentExamsModal('${r.studentId}')">${safeText(r.student)}</td>
+            <td>${safeText(r.studentId)}</td>
+            <td>${safeText(r.examTitle)}</td>
+            <td><span class="badge ${badge}">${safeText(r.percent)}%</span></td>
+            <td>${safeText(r.date)}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderExaminerStudentDashboard() {
+      const tbody = document.getElementById("examiner-student-dashboard");
+      if (!tbody) return;
+
+      tbody.innerHTML = state.students.length
+        ? state.students.map((s) => {
+            const sid = getStudentId(s);
+            const count = state.results.filter((r) => String(r.studentId) === String(sid)).length;
+            return `
+              <tr>
+                <td><span class="clickable" onclick="openStudentExamsModal('${sid}')">${safeText(s.name)}</span></td>
+                <td><span class="clickable" onclick="openStudentExamsModal('${sid}')">${safeText(sid)}</span></td>
+                <td>${safeText(s.class)}</td>
+                <td>${count}</td>
+                <td>
+                  <button class="btn btn-secondary btn-sm" onclick="openDetailsPopupById('${sid}')">Details</button>
+                </td>
+              </tr>
+            `;
+          }).join("")
+        : `<tr><td colspan="5" style="text-align:center;">No students</td></tr>`;
+    }
+
+    function renderExaminerExamsList() {
+      const div = document.getElementById("examiner-exams-list");
+      if (!div) return;
+
+      let exams = [...state.exams];
+      const nameFilter = document.getElementById("examiner-search-name")?.value.trim() || "";
+      const dateFilter = document.getElementById("examiner-search-date")?.value || "";
+
+      if (nameFilter) {
+        exams = exams.filter((ex) => String(ex.title).toLowerCase().includes(nameFilter.toLowerCase()));
+      }
+
+      if (dateFilter) {
+        exams = exams.filter((ex) => {
+          const d = new Date(ex.startTime);
+          return d.toISOString().slice(0, 10) === dateFilter;
+        });
+      }
+
+      div.innerHTML = exams.length
+        ? exams.map((e) => `
+            <div class="question-card" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+              <div>
+                <strong>${safeText(e.title)}</strong>
+                <span class="badge badge-info">Class ${safeText(e.class)}</span>
+                <div class="small muted">Open: ${formatLocalDate(e.startTime)} | Close: ${formatLocalDate(e.endTime)}</div>
+                <div class="small muted">${safeText(e.questions?.length || 0)} questions</div>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn btn-secondary btn-sm" onclick="openExamQuestionsModal('${e.id}')">View Qs</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteExam('${e.id}')">Delete</button>
+              </div>
+            </div>
+          `).join("")
+        : `<p style="color:#64748b;padding:20px;text-align:center;">No exams match the filter</p>`;
+    }
+
+    function renderExaminerPanel() {
+      const totalStudents = state.students.length;
+      const totalExams = state.exams.length;
+      const totalResults = state.results.length;
+      const totalClasses = [...new Set(state.students.map((x) => String(x.class)))].length;
+
+      document.getElementById("stat-total-students").innerText = totalStudents;
+      document.getElementById("stat-total-exams").innerText = totalExams;
+      document.getElementById("stat-total-results").innerText = totalResults;
+      document.getElementById("stat-classes").innerText = totalClasses;
+
+      const studentListDiv = document.getElementById("student-list-display");
+      studentListDiv.innerHTML = state.students.length
+        ? state.students.map((st) => `
+            <div class="student-id-card">
+              <div style="font-weight:bold;">${safeText(st.name)}</div>
+              <div style="font-size:.85rem;color:#1e3a8a;font-weight:700;margin:4px 0;">${safeText(st.numericId || st.id)}</div>
+              <div style="font-size:.8rem;color:#64748b;">Class ${safeText(st.class)}</div>
+              <div style="margin-top:8px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">
+                <button class="btn btn-secondary btn-sm" onclick="openDetailsPopupById('${st.numericId || st.id}')">View</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteStudent('${st.id}')">Delete</button>
+              </div>
+            </div>
+          `).join("")
+        : `<p style="color:#64748b;padding:20px;text-align:center;">No students</p>`;
+
+      renderExaminerExamsList();
+      renderLiveProgress();
+      renderExaminerStudentDashboard();
+    }
+
+    async function changePasswordInside() {
+      const oldP = document.getElementById("old-pass-input").value.trim();
+      const newP = document.getElementById("new-pass-input").value.trim();
+      const confirmP = document.getElementById("confirm-pass-input").value.trim();
+
+      if (!oldP || !newP || !confirmP) {
+        alert("Fill all fields");
+        return;
+      }
+
+      const cur = await getSecurePass();
+      if (oldP !== cur) {
+        alert("Old password is wrong");
+        return;
+      }
+      if (newP !== confirmP) {
+        alert("New password and confirm password do not match");
+        return;
+      }
+
+      if (useFirebase) {
+        await updateDoc(doc(db, "config", "main"), { passHash: _hash(newP) });
+      } else {
+        localStorage.setItem("ar_ex_pass_cache", newP);
+      }
+
+      document.getElementById("old-pass-input").value = "";
+      document.getElementById("new-pass-input").value = "";
+      document.getElementById("confirm-pass-input").value = "";
+      alert("Password changed & synced to cloud!");
+    }
+
+    async function generateNumericID(cls, stateName, district, block, village) {
+      const sc = hashStringToNumber(stateName || "WB");
+      const dc = hashStringToNumber(district || "N24");
+      const bc = hashStringToNumber(block || "Habra");
+      const vc = hashStringToNumber(village || "Gob");
+
+      if (!useFirebase) {
+        let counters = JSON.parse(localStorage.getItem("ar_class_counters") || "{}");
+        const key = `${cls}_${dc}_${bc}`;
+        counters[key] = (counters[key] || 0) + 1;
+        localStorage.setItem("ar_class_counters", JSON.stringify(counters));
+        const serial = String(counters[key]).padStart(3, "0");
+        return `${cls}${sc}${dc}${bc}${vc}${serial}`;
+      }
+
+      const configRef = doc(db, "config", "main");
+      const snap = await getDoc(configRef);
+      let counters = snap.data()?.counters || {};
+      const key = `${cls}_${dc}_${bc}`;
+      counters[key] = (counters[key] || 0) + 1;
+      await updateDoc(configRef, { counters });
+      const serial = String(counters[key]).padStart(3, "0");
+      return `${cls}${sc}${dc}${bc}${vc}${serial}`;
+    }
+
+    async function addStudent() {
+      const name = document.getElementById("new-student-name").value.trim();
+      const guardian = document.getElementById("new-student-guardian").value.trim();
+      const cls = document.getElementById("new-student-class").value;
+      const stateName = document.getElementById("new-student-state").value.trim();
+      const district = document.getElementById("new-student-district").value.trim();
+      const block = document.getElementById("new-student-block").value.trim();
+      const village = document.getElementById("new-student-village").value.trim();
+
+      if (!name || !guardian || !cls || !stateName || !district || !block || !village) {
+        alert("Fill all fields");
+        return;
+      }
+
+      const numericId = await generateNumericID(cls, stateName, district, block, village);
+      const data = {
+        numericId,
+        name,
+        guardian,
+        class: cls,
+        state: stateName,
+        district,
+        block,
+        village,
+        createdAt: Date.now()
+      };
+
+      if (useFirebase) {
+        await setDoc(doc(db, "students", numericId), data);
+      } else {
+        state.students.push({ id: numericId, ...data });
+      }
+
+      document.getElementById("new-student-name").value = "";
+      document.getElementById("new-student-guardian").value = "";
+      document.getElementById("new-student-class").value = "";
+      document.getElementById("new-student-state").value = "";
+      document.getElementById("new-student-district").value = "";
+      document.getElementById("new-student-block").value = "";
+      document.getElementById("new-student-village").value = "";
+
+      document.getElementById("last-generated-id").innerHTML = `✅ ${name} - ID: ${numericId} - Synced to cloud`;
+      renderExaminerPanel();
+    }
+
+    async function deleteStudent(id) {
+      if (!confirm("Delete " + id + "?")) return;
+
+      if (useFirebase) {
+        await deleteDoc(doc(db, "students", id));
+        const resSnap = await getDocs(collection(db, "results"));
+        for (const d of resSnap.docs) {
+          if (d.data().studentId === id) {
+            await deleteDoc(doc(db, "results", d.id));
+          }
+        }
+      } else {
+        state.students = state.students.filter((x) => x.id !== id && x.numericId !== id);
+        state.results = state.results.filter((x) => x.studentId !== id);
+      }
+
+      renderExaminerPanel();
+    }
+
+    async function createExam() {
+      const title = document.getElementById("exam-title-input").value.trim();
+      const cls = document.getElementById("exam-class-input").value;
+      const time = parseInt(document.getElementById("exam-time-input").value, 10) || 30;
+      const sd = document.getElementById("exam-start-date").value;
+      const st = document.getElementById("exam-start-time").value;
+      const ed = document.getElementById("exam-end-date").value;
+      const et = document.getElementById("exam-end-time").value;
+
+      if (!title || !cls || !sd || !st || !ed || !et) {
+        alert("Fill all exam fields");
+        return;
+      }
+
+      const start = new Date(`${sd}T${st}`);
+      const end = new Date(`${ed}T${et}`);
+
+      if (end <= start) {
+        alert("Close time must be after open time");
+        return;
+      }
+
+      const id = "exam_" + Date.now();
+      const data = {
+        title,
+        class: cls,
+        time,
+        questions: [],
+        startTime: start.toISOString(),
+        endTime: end.toISOString(),
+        createdAt: Date.now()
+      };
+
+      if (useFirebase) {
+        await setDoc(doc(db, "exams", id), data);
+      } else {
+        state.exams.push({ id, ...data });
+      }
+
+      state.currentBuilderId = id;
+      state.editingQIndex = -1;
+
+      document.getElementById("builder-exam-title").innerText = title;
+      document.getElementById("edit-mode-label").innerText = "";
+      document.getElementById("add-q-btn").innerText = "Add Q";
+      document.getElementById("cancel-edit-btn").style.display = "none";
+      document.getElementById("current-exam-builder").style.display = "block";
+      document.getElementById("builder-question-list").innerHTML = "";
+      document.getElementById("exam-title-input").value = "";
+      renderExaminerExamsList();
+    }
+
+    async function addQuestionToExam() {
+      if (!state.currentBuilderId) {
+        alert("Create exam first");
+        return;
+      }
+
+      const text = document.getElementById("q-text").value.trim();
+      if (!text) {
+        alert("Enter question text");
+        return;
+      }
+
+      let q = { text, type: state.currentQType };
+
+      if (state.currentQType === "mcq") {
+        const opts = [
+          document.getElementById("q-opt-0").value.trim(),
+          document.getElementById("q-opt-1").value.trim(),
+          document.getElementById("q-opt-2").value.trim(),
+          document.getElementById("q-opt-3").value.trim()
+        ];
+        if (opts.some((o) => !o)) {
+          alert("Fill all 4 options");
+          return;
+        }
+        const selected = document.querySelector('input[name="correct"]:checked');
+        if (!selected) {
+          alert("Select correct option");
+          return;
+        }
+        q.options = opts;
+        q.correct = parseInt(selected.value, 10);
+      } else if (state.currentQType === "tf") {
+        q.correct = document.getElementById("q-tf-ans").value;
+      } else if (state.currentQType === "fill") {
+        const ans = document.getElementById("q-fill-ans").value.trim();
+        if (!ans) {
+          alert("Enter answer");
+          return;
+        }
+        q.correct = ans;
+      } else if (state.currentQType === "short") {
+        const ans = document.getElementById("q-short-ans").value.trim();
+        if (!ans) {
+          alert("Enter keywords");
+          return;
+        }
+        q.correct = ans;
+      }
+
+      let ex = state.exams.find((x) => x.id === state.currentBuilderId);
+      if (!ex) {
+        alert("Exam not found");
+        return;
+      }
+
+      if (state.editingQIndex >= 0) {
+        ex.questions[state.editingQIndex] = q;
+        state.editingQIndex = -1;
+        document.getElementById("edit-mode-label").innerText = "";
+        document.getElementById("add-q-btn").innerText = "Add Q";
+        document.getElementById("cancel-edit-btn").style.display = "none";
+      } else {
+        ex.questions.push(q);
+      }
+
+      if (useFirebase) {
+        await updateDoc(doc(db, "exams", state.currentBuilderId), { questions: ex.questions });
+      }
+
+      clearQuestionForm();
+      renderBuilderList();
+    }
+
+    function clearQuestionForm() {
+      document.getElementById("q-text").value = "";
+      document.getElementById("q-opt-0").value = "";
+      document.getElementById("q-opt-1").value = "";
+      document.getElementById("q-opt-2").value = "";
+      document.getElementById("q-opt-3").value = "";
+      document.getElementById("q-fill-ans").value = "";
+      document.getElementById("q-short-ans").value = "";
+      document.getElementById("q-tf-ans").value = "true";
+    }
+
+    function renderBuilderList() {
+      const ex = state.exams.find((x) => x.id === state.currentBuilderId);
+      if (!ex) return;
+      const list = document.getElementById("builder-question-list");
+      list.innerHTML = ex.questions.map((q, i) => `
+        <div class="question-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <div>
+            <strong>Q${i + 1}</strong> [${q.type}] - ${safeText(q.text)}
+          </div>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-secondary btn-sm" onclick="editQuestionInBuilder(${i})">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteBuilderQ(${i})">Delete</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function editQuestionInBuilder(index) {
+      const ex = state.exams.find((x) => x.id === state.currentBuilderId);
+      if (!ex) return;
+      const q = ex.questions[index];
+      if (!q) return;
+
+      state.editingQIndex = index;
+      document.getElementById("q-text").value = q.text;
+      setQType(q.type);
+
+      if (q.type === "mcq") {
+        document.getElementById("q-opt-0").value = q.options[0];
+        document.getElementById("q-opt-1").value = q.options[1];
+        document.getElementById("q-opt-2").value = q.options[2];
+        document.getElementById("q-opt-3").value = q.options[3];
+        document.querySelector(`input[name="correct"][value="${q.correct}"]`).checked = true;
+      } else if (q.type === "tf") {
+        document.getElementById("q-tf-ans").value = q.correct;
+      } else if (q.type === "fill") {
+        document.getElementById("q-fill-ans").value = q.correct;
+      } else if (q.type === "short") {
+        document.getElementById("q-short-ans").value = q.correct;
+      }
+
+      document.getElementById("edit-mode-label").innerText = `(Editing Q${index + 1})`;
+      document.getElementById("add-q-btn").innerText = "Update Q";
+      document.getElementById("cancel-edit-btn").style.display = "inline-block";
+    }
+
+    function cancelEditQ() {
+      state.editingQIndex = -1;
+      document.getElementById("edit-mode-label").innerText = "";
+      document.getElementById("add-q-btn").innerText = "Add Q";
+      document.getElementById("cancel-edit-btn").style.display = "none";
+      clearQuestionForm();
+    }
+
+    async function deleteBuilderQ(index) {
+      if (!confirm("Delete question?")) return;
+      const ex = state.exams.find((x) => x.id === state.currentBuilderId);
+      if (!ex) return;
+      ex.questions.splice(index, 1);
+      if (useFirebase) {
+        await updateDoc(doc(db, "exams", state.currentBuilderId), { questions: ex.questions });
+      }
+      if (state.editingQIndex === index) cancelEditQ();
+      renderBuilderList();
+    }
+
+    function finishExam() {
+      state.currentBuilderId = null;
+      state.editingQIndex = -1;
+      document.getElementById("current-exam-builder").style.display = "none";
+      alert("Exam Published to Cloud! All students see it instantly!");
+    }
+
+    async function deleteExam(id) {
+      if (!confirm("Delete exam?")) return;
+      if (useFirebase) {
+        await deleteDoc(doc(db, "exams", id));
+        const resSnap = await getDocs(collection(db, "results"));
+        for (const d of resSnap.docs) {
+          if (d.data().examId === id) {
+            await deleteDoc(doc(db, "results", d.id));
+          }
+        }
+      } else {
+        state.exams = state.exams.filter((x) => x.id !== id);
+        state.results = state.results.filter((r) => r.examId !== id);
+      }
+      renderExaminerExamsList();
+    }
+
+    function startExam(examId) {
+      const exam = state.exams.find((e) => e.id === examId);
+      if (!exam) return;
+
+      const now = Date.now();
+      const start = new Date(exam.startTime).getTime();
+      const end = new Date(exam.endTime).getTime();
+
+      if (now < start || now > end) {
+        alert("Not in exam window");
+        return;
+      }
+
+      state.currentExamId = examId;
+      state.examState = {
+        answers: Array(exam.questions.length).fill(null),
+        qTimes: Array(exam.questions.length).fill(0),
+        qStartTime: Date.now(),
+        currentIndex: 0,
+        skipped: Array(exam.questions.length).fill(false),
+        startExamTime: Date.now()
+      };
+
+      document.getElementById("display-exam-title").innerText = exam.title;
+      document.getElementById("display-student-name-exam").innerText = state.currentStudent.name;
+      document.getElementById("dash-total").innerText = exam.questions.length;
+
+      renderQuestion();
+      renderQuestionPalette();
+      updateExamProgress();
+      showScreen("screen-student-exam");
+
+      let timeLeft = exam.time * 60;
+      clearInterval(state.timerInterval);
+      state.timerInterval = setInterval(() => {
+        const m = Math.floor(timeLeft / 60);
+        const s = timeLeft % 60;
+        document.getElementById("exam-timer").innerText = `Time: ${m}:${s < 10 ? "0" : ""}${s}`;
+
+        if (timeLeft <= 0) {
+          clearInterval(state.timerInterval);
+          submitExam();
+          return;
+        }
+
+        timeLeft--;
+      }, 1000);
+    }
+
+    function saveCurrentQTime() {
+      if (!state.currentExamId) return;
+      const currentIndex = state.examState.currentIndex;
+      if (currentIndex < 0) return;
+      const now = Date.now();
+      state.examState.qTimes[currentIndex] += now - state.examState.qStartTime;
+      state.examState.qStartTime = now;
+    }
+
+    function collectAnswer() {
+      if (!state.currentExamId) return;
+      const exam = state.exams.find((e) => e.id === state.currentExamId);
+      if (!exam) return;
+
+      const q = exam.questions[state.examState.currentIndex];
+      if (!q) return;
+
+      if (q.type === "mcq" || q.type === "tf") {
+        const selected = document.querySelector('input[name="curQ"]:checked');
+        if (selected) {
+          state.examState.answers[state.examState.currentIndex] = q.type === "mcq" ? parseInt(selected.value, 10) : selected.value;
+          state.examState.skipped[state.examState.currentIndex] = false;
+        }
+      } else {
+        const el = document.getElementById("curAns");
+        if (el && el.value.trim()) {
+          state.examState.answers[state.examState.currentIndex] = el.value.trim();
+          state.examState.skipped[state.examState.currentIndex] = false;
+        } else {
+          state.examState.answers[state.examState.currentIndex] = null;
+        }
+      }
+    }
+
+    function renderQuestion() {
+      const exam = state.exams.find((e) => e.id === state.currentExamId);
+      if (!exam) return;
+
+      const q = exam.questions[state.examState.currentIndex];
+      if (!q) return;
+
+      let html = `<p><strong>Q${state.examState.currentIndex + 1} [${q.type.toUpperCase()}]</strong> - ${safeText(q.text)}</p>`;
+
+      if (q.type === "mcq") {
+        html += q.options.map((o, j) => `
+          <div style="margin-top:8px;">
+            <label>
+              <input type="radio" name="curQ" value="${j}" ${state.examState.answers[state.examState.currentIndex] === j ? "checked" : ""} />
+              ${safeText(o)}
+            </label>
+          </div>
+        `).join("");
+      } else if (q.type === "tf") {
+        html += `
+          <div><label><input type="radio" name="curQ" value="true" ${state.examState.answers[state.examState.currentIndex] === "true" ? "checked" : ""} /> True</label></div>
+          <div><label><input type="radio" name="curQ" value="false" ${state.examState.answers[state.examState.currentIndex] === "false" ? "checked" : ""} /> False</label></div>
+        `;
+      } else if (q.type === "fill") {
+        html += `<input type="text" id="curAns" value="${safeText(state.examState.answers[state.examState.currentIndex] || "")}" placeholder="Type answer" />`;
+      } else if (q.type === "short") {
+        html += `<textarea id="curAns" rows="2">${safeText(state.examState.answers[state.examState.currentIndex] || "")}</textarea>`;
+      }
+
+      document.getElementById("single-question-display").innerHTML = html;
+      renderQuestionPalette();
+    }
+
+    function updateExamProgress() {
+      const answered = state.examState.answers.filter((x) => x !== null && x !== "").length;
+      const skipped = state.examState.skipped.filter(Boolean).length;
+      document.getElementById("dash-attended").innerText = answered;
+      document.getElementById("dash-skipped").innerText = skipped;
+    }
+
+    function renderQuestionPalette() {
+      const exam = state.exams.find((e) => e.id === state.currentExamId);
+      if (!exam) return;
+      const pal = document.getElementById("q-palette");
+      if (!pal) return;
+
+      pal.innerHTML = "";
+      exam.questions.forEach((_, i) => {
+        const node = document.createElement("div");
+        node.innerText = i + 1;
+
+        if (state.examState.answers[i] !== null && state.examState.answers[i] !== "") {
+          node.classList.add("attended");
+        }
+
+        if (state.examState.skipped[i]) {
+          node.classList.add("skipped");
+        }
+
+        if (i === state.examState.currentIndex) {
+          node.classList.add("current");
+        }
+
+        node.onclick = () => {
+          saveCurrentQTime();
+          collectAnswer();
+          state.examState.currentIndex = i;
+          state.examState.qStartTime = Date.now();
+          renderQuestion();
+          updateExamProgress();
+        };
+
+        pal.appendChild(node);
+      });
+    }
+
+    function nextQ() {
+      if (!state.currentExamId) return;
+      saveCurrentQTime();
+      collectAnswer();
+      const exam = state.exams.find((e) => e.id === state.currentExamId);
+      if (exam && state.examState.currentIndex < exam.questions.length - 1) {
+        state.examState.currentIndex++;
+        state.examState.qStartTime = Date.now();
+        renderQuestion();
+      }
+      updateExamProgress();
+    }
+
+    function prevQ() {
+      if (!state.currentExamId) return;
+      saveCurrentQTime();
+      collectAnswer();
+      if (state.examState.currentIndex > 0) {
+        state.examState.currentIndex--;
+        state.examState.qStartTime = Date.now();
+        renderQuestion();
+      }
+      updateExamProgress();
+    }
+
+    function skipQ() {
+      if (!state.currentExamId) return;
+      saveCurrentQTime();
+      const idx = state.examState.currentIndex;
+      state.examState.skipped[idx] = true;
+      state.examState.answers[idx] = null;
+
+      const exam = state.exams.find((e) => e.id === state.currentExamId);
+      if (exam && idx < exam.questions.length - 1) {
+        state.examState.currentIndex++;
+        state.examState.qStartTime = Date.now();
+        renderQuestion();
+      }
+      updateExamProgress();
+    }
+
+    function skipAndExit() {
+      if (confirm("Exit exam?")) {
+        clearInterval(state.timerInterval);
+        goToStudentDash();
+      }
+    }
+
+    async function submitExam() {
+      if (!state.currentExamId || !state.currentStudent) return;
+
+      clearInterval(state.timerInterval);
+      saveCurrentQTime();
+      collectAnswer();
+
+      const exam = state.exams.find((e) => e.id === state.currentExamId);
+      if (!exam) return;
+
+      let score = 0;
+      exam.questions.forEach((q, i) => {
+        const ans = state.examState.answers[i];
+        if (ans === null || ans === "") return;
+
+        if (q.type === "mcq" && Number(ans) === q.correct) score++;
+        else if (q.type === "tf" && String(ans) === String(q.correct)) score++;
+        else if (q.type === "fill" && String(ans).toLowerCase() === String(q.correct).toLowerCase()) score++;
+        else if (q.type === "short") {
+          const keys = String(q.correct).toLowerCase().split(",").map((k) => k.trim());
+          if (keys.some((k) => String(ans).toLowerCase().includes(k))) score++;
+        }
+      });
+
+      const total = exam.questions.length;
+      const percent = total ? Math.round((score / total) * 100) : 0;
+
+      const resultData = {
+        student: state.currentStudent.name,
+        studentId: getStudentId(state.currentStudent),
+        studentClass: state.currentStudent.class,
+        examId: exam.id,
+        examTitle: exam.title,
+        examClass: exam.class,
+        score,
+        total,
+        percent,
+        date: new Date().toLocaleString(),
+        timestamp: Date.now(),
+        nextAttempt: Date.now() + 86400000,
+        totalTimeSpent: Math.floor((Date.now() - state.examState.startExamTime) / 60000) + "m",
+        answers: state.examState.answers,
+        qTimesArr: state.examState.qTimes
+      };
+
+      if (useFirebase) {
+        await addDoc(collection(db, "results"), resultData);
+      } else {
+        state.results.push(resultData);
+      }
+
+      document.getElementById("result-summary-box").innerHTML = `
+        <h3>${safeText(exam.title)}</h3>
+        <p><strong>ID:</strong> ${safeText(getStudentId(state.currentStudent))} | <strong>Name:</strong> ${safeText(state.currentStudent.name)}</p>
+        <p><strong>Score:</strong> ${score}/${total} | <strong>Percentage:</strong> ${percent}%</p>
+        <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
+      `;
+
+      state.currentExamId = null;
+      showScreen("screen-student-results");
+      renderStudentDashboard();
+    }
+
+    function goToStudentDash() {
+      renderStudentDashboard();
+      showScreen("screen-student-dash");
+    }
+
+    window.loginAsStudent = loginAsStudent;
+    window.loginAsExaminer = loginAsExaminer;
+    window.logout = logout;
+    window.openExaminerLoginModal = openExaminerLoginModal;
+    window.closeExaminerLoginModal = closeExaminerLoginModal;
+    window.changePasswordInside = changePasswordInside;
+    window.openDetailsPopupById = openDetailsPopupById;
+    window.openMyDetailsPopup = openMyDetailsPopup;
+    window.closeDetailsModal = closeDetailsModal;
+    window.openStudentExamsModal = openStudentExamsModal;
+    window.closeStudentExamsModal = closeStudentExamsModal;
+    window.openExamDetailModalByResultId = openExamDetailModalByResultId;
+    window.openExamDetailModalResult = openExamDetailModalResult;
+    window.closeExamDetailModal = closeExamDetailModal;
+    window.openExamQuestionsModal = openExamQuestionsModal;
+    window.closeExamQuestionsModal = closeExamQuestionsModal;
+    window.renderStudentDashboard = renderStudentDashboard;
+    window.renderExaminerPanel = renderExaminerPanel;
+    window.renderExaminerExamsList = renderExaminerExamsList;
+    window.renderLeaderboard = renderLeaderboard;
+    window.updateLeaderExamFilter = updateLeaderExamFilter;
+    window.clearStudentSearch = clearStudentSearch;
+    window.clearExaminerSearch = clearExaminerSearch;
+    window.addStudent = addStudent;
+    window.deleteStudent = deleteStudent;
+    window.createExam = createExam;
+    window.addQuestionToExam = addQuestionToExam;
+    window.editQuestionInBuilder = editQuestionInBuilder;
+    window.deleteBuilderQ = deleteBuilderQ;
+    window.cancelEditQ = cancelEditQ;
+    window.finishExam = finishExam;
+    window.deleteExam = deleteExam;
+    window.startExam = startExam;
+    window.nextQ = nextQ;
+    window.prevQ = prevQ;
+    window.skipQ = skipQ;
+    window.skipAndExit = skipAndExit;
+    window.submitExam = submitExam;
+    window.goToStudentDash = goToStudentDash;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".q-type-tabs button").forEach((btn) => {
+        btn.onclick = () => setQType(btn.dataset.type);
+      });
+
+      setQType("mcq");
+      renderExaminerPanel();
+      renderStudentDashboard();
+      renderLeaderboard();
+
+      const examBuilder = document.getElementById("current-exam-builder");
+      if (examBuilder) examBuilder.style.display = "none";
+
+      document.getElementById("cancel-edit-btn").style.display = "none";
+      document.getElementById("builder-exam-title").innerText = "No exam created";
     });
-  }
-  html+=`</tbody></table></div>`;
-  document.getElementById('exam-detail-body').innerHTML=html;
-  document.getElementById('exam-detail-modal').classList.add('active');
-  closeStudentExamsModal();
-}
-window.closeExamDetailModal=function(){document.getElementById('exam-detail-modal').classList.remove('active')}
-window.openExamQuestionsModal=function(examId){
-  const ex=allExams.find(e=>e.id===examId);
-  if(!ex)return;
-  document.getElementById('exam-questions-title').innerText=`${ex.title} - ${ex.questions.length} Questions`;
-  let html=`<p><strong>Open:</strong> ${new Date(ex.startTime).toLocaleString()} | <strong>Close:</strong> ${new Date(ex.endTime).toLocaleString()}</p><hr style="margin:10px 0;"><div>`;
-  ex.questions.forEach((q,i)=>{
-    let correct=q.type==='mcq'?`${q.options[q.correct]} (Option ${q.correct+1})`:q.correct;
-    html+=`<div class="question-card"><strong>Q${i+1} [${q.type}]</strong> - ${q.text}<br>`;
-    if(q.type==='mcq'){html+=`<small>Options: ${q.options.join(' | ')}</small><br>`}
-    html+=`<small style="color:#16a34a;"><strong>Correct:</strong> ${correct}</small></div>`;
-  });
-  html+=`</div>`;
-  document.getElementById('exam-questions-body').innerHTML=html;
-  document.getElementById('exam-questions-modal').classList.add('active')
-}
-window.closeExamQuestionsModal=function(){document.getElementById('exam-questions-modal').classList.remove('active')}
-
-window.loginAsStudent=function(){
-  const id=document.getElementById('student-id-input').value.trim(),name=document.getElementById('student-name-input').value.trim(),cls=document.getElementById('student-class-input').value;
-  if(!id||!name||!cls){alert('Enter ID, Name, Class');return}
-  const s=allStudents.find(x=>(x.numericId===id||x.id===id) && x.name.toLowerCase()===name.toLowerCase() && x.class===cls);
-  if(!s){alert('Invalid ID/Name/Class - Check with examiner, data is in cloud');return}
-  currentStudentObj={...s, numericId:s.numericId||s.id};
-  document.getElementById('display-student-name').innerText=s.name;
-  document.getElementById('display-student-id').innerText=s.numericId||s.id;
-  document.getElementById('display-student-name-exam').innerText=s.name;
-  document.getElementById('dash-class-label').innerText=s.class;
-  document.getElementById('dash-class-label-main').innerText=s.class;
-  document.getElementById('leader-class-filter').value=s.class;
-  loadStudentDash();
-  showScreen('screen-student-dash');
-  if(studentDashInterval) clearInterval(studentDashInterval);
-  studentDashInterval=setInterval(()=>{loadStudentDash();},5000);
-}
-window.loginAsExaminer=async function(){
-  const pass=document.getElementById('examiner-pass-input').value;
-  const cur=await getSecurePass();
-  if(pass===cur){closeExaminerLoginModal();loadExaminerPanel();showScreen('screen-examiner');}else alert('Wrong password');
-}
-window.logout=function(){clearInterval(timerInterval);if(studentDashInterval) clearInterval(studentDashInterval);currentStudentObj=null;showScreen('screen-home');}
-function canAttempt(eid){const res=allResults.filter(r=>r.studentId===currentStudentObj.numericId||r.studentId===currentStudentObj.id);const last=res.filter(r=>r.examId===eid).sort((a,b)=>b.timestamp-a.timestamp)[0];if(!last) return {can:true};const diff=Date.now()-last.timestamp;const day=86400000;if(diff<day){return {can:false,nextTime:new Date(last.timestamp+day).toLocaleString()}}return {can:true}}
-function filterExamsBySearch(exams,nq,dq){let f=exams;if(nq){f=f.filter(e=>e.title.toLowerCase().includes(nq.toLowerCase()))}if(dq){f=f.filter(e=>{const d=new Date(e.startTime);return d.toISOString().split('T')[0]===dq})}return f}
-window.clearStudentSearch=function(){document.getElementById('student-search-name').value='';document.getElementById('student-search-date').value='';loadStudentDash()}
-window.clearExaminerSearch=function(){document.getElementById('examiner-search-name').value='';document.getElementById('examiner-search-date').value='';loadExaminerExamsList()}
-window.updateLeaderExamFilter=function(){
-  const cls=document.getElementById('leader-class-filter').value;
-  let filtered=allExams;
-  if(cls){filtered=allExams.filter(e=>e.class===cls);}
-  const sel=document.getElementById('leader-exam-filter');
-  const curVal=sel.value;
-  sel.innerHTML='<option value="">All Exams</option>'+filtered.map(e=>`<option value="${e.id}">${e.title} (Class ${e.class})</option>`).join('');
-  if(filtered.some(e=>e.id===curVal)){sel.value=curVal;}
-}
-window.loadLeaderboardFiltered=function(){
-  const cls=document.getElementById('leader-class-filter').value;
-  const examId=document.getElementById('leader-exam-filter').value;
-  let results=[...allResults];
-  if(cls){results=results.filter(r=>r.studentClass===cls);}
-  if(examId){results=results.filter(r=>r.examId===examId);}
-  results=results.sort((a,b)=>b.percent-a.percent).slice(0,50);
-  const tbody=document.getElementById('class-leaderboard');
-  if(!results.length){tbody.innerHTML=`<tr><td colspan="5" style="text-align:center;color:#64748b;">No data for selected Class/Exam</td></tr>`;return}
-  tbody.innerHTML=results.map(r=>`<tr><td>${r.student}</td><td>${r.studentId}</td><td>${r.studentClass}</td><td><small>${r.examTitle}</small></td><td><span class="badge ${r.percent>=50?'badge-success':'badge-danger'}">${r.percent}%</span></td></tr>`).join('');
-}
-window.loadStudentDash=function(){
-  if(!currentStudentObj) return;
-  let allExamsFiltered=allExams.filter(ex=>ex.class===currentStudentObj.class);
-  allExamsFiltered=filterExamsBySearch(allExamsFiltered, document.getElementById('student-search-name')?.value.trim()||'', document.getElementById('student-search-date')?.value||'');
-  const cont=document.getElementById('available-exams-container');
-  cont.innerHTML='';
-  if(!allExamsFiltered.length){cont.innerHTML=`<p style="color:#64748b;padding:20px;text-align:center;">No exams</p>`;}
-  allExamsFiltered.forEach(ex=>{
-    const chk=canAttempt(ex.id);
-    const now=new Date();const start=new Date(ex.startTime);const end=new Date(ex.endTime);
-    let canByTime=true;let statusBadge='';
-    if(now<start){canByTime=false;statusBadge='<span class="badge badge-warn">Waiting</span>';}
-    else if(now>end){canByTime=false;statusBadge='<span class="badge badge-danger">Closed</span>';}
-    else statusBadge='<span class="badge badge-success">OPEN</span>';
-    const d=document.createElement('div');d.className='question-card';
-    d.innerHTML=`<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:5px;"><strong>${ex.title}</strong><div>${statusBadge}</div></div><small>Open: ${start.toLocaleString()} | Close: ${end.toLocaleString()}</small>${!canByTime?`<p style="color:#ef4444;font-weight:600;">${now<start?'Starts '+start.toLocaleString():'Closed'}</p>`: chk.can?`<button class="btn" onclick="startExam('${ex.id}')">Take Exam</button>`:`<p style="color:#ef4444">Locked 24h - Next: ${chk.nextTime}</p>`}`;
-    cont.appendChild(d);
-  });
-  const results=allResults.filter(r=>r.studentId===currentStudentObj.numericId||r.studentId===currentStudentObj.id);
-  document.getElementById('student-history-table').innerHTML=results.map(r=>`<tr><td>${r.examTitle}</td><td>${r.score}/${r.total} (${r.percent}%)</td><td>${r.date}</td></tr>`).join('')||'<tr><td colspan="3">No history</td></tr>';
-  updateLeaderExamFilter();
-  loadLeaderboardFiltered();
-}
-window.loadLiveProgress=function(){
-  const tbody=document.getElementById('live-progress-body');
-  if(!tbody) return;
-  const recent=[...allResults].reverse().slice(0,20);
-  if(!recent.length){tbody.innerHTML=`<tr><td colspan="5" style="text-align:center;color:#64748b;">No activity yet</td></tr>`;return}
-  tbody.innerHTML=recent.map(r=>`<tr><td class="clickable" onclick="openStudentExamsModal('${r.studentId}')">${r.student}</td><td>${r.studentId}</td><td>${r.examTitle}</td><td><span class="badge badge-success">Submitted</span></td><td>${r.date}</td></tr>`).join('');
-}
-window.loadExaminerStudentDashboard=function(){
-  const tbody=document.getElementById('examiner-student-dashboard');
-  tbody.innerHTML=allStudents.length?allStudents.map(s=>{
-    const count=allResults.filter(r=>r.studentId===s.numericId||r.studentId===s.id).length;
-    return `<tr><td><span class="clickable" onclick="openStudentExamsModal('${s.numericId||s.id}')">${s.name}</span></td><td><span class="clickable" onclick="openStudentExamsModal('${s.numericId||s.id}')">${s.numericId||s.id}</span></td><td>${s.class}</td><td>${count} tests</td><td><button class="btn btn-sm" onclick="openStudentExamsModal('${s.numericId||s.id}')">View Tests</button></td></tr>`
-  }).join(''):`<tr><td colspan="5" style="text-align:center;">No students</td></tr>`;
-}
-window.loadExaminerExamsList=function(){
-  let exams=[...allExams];
-  const nameFilter=document.getElementById('examiner-search-name').value.trim();
-  const dateFilter=document.getElementById('examiner-search-date').value;
-  exams=filterExamsBySearch(exams,nameFilter,dateFilter);
-  const div=document.getElementById('examiner-exams-list');
-  div.innerHTML=exams.length?exams.map(e=>`<div class="question-card" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;"><div><strong>${e.title}</strong> <span class="badge badge-info">Class ${e.class}</span> <span class="badge badge-warn">${e.time} min</span> <span class="badge">${e.questions.length} Qs</span><br><small>Open: ${new Date(e.startTime).toLocaleString()} | Close: ${new Date(e.endTime).toLocaleString()}</small></div><div style="display:flex;gap:5px;"><button class="btn btn-sm btn-success" onclick="openExamQuestionsModal('${e.id}')">View Questions</button><button class="btn btn-danger btn-sm" onclick="deleteExam('${e.id}')">Delete</button></div></div>`).join(''):`<p style="text-align:center;color:#64748b;padding:20px;">No exams</p>`;
-}
-window.loadExaminerPanel=function(){
-  document.getElementById('stat-total-students').innerText=allStudents.length;
-  document.getElementById('stat-total-exams').innerText=allExams.length;
-  document.getElementById('stat-total-results').innerText=allResults.length;
-  document.getElementById('stat-classes').innerText=[...new Set(allStudents.map(x=>x.class))].length;
-  const div=document.getElementById('student-list-display');
-  div.innerHTML=allStudents.length?allStudents.map(st=>`<div class="student-id-card"><div style="font-weight:bold;">${st.name}</div><div style="font-size:.85rem;color:#1e3a8a;font-weight:700;margin:4px 0;">${st.numericId||st.id}</div><div style="font-size:.75rem;color:#64748b;">Class ${st.class}</div><div style="margin-top:8px;display:flex;gap:4px;justify-content:center;flex-wrap:wrap;"><button class="btn btn-sm btn-secondary" onclick="openDetailsPopupById('${st.numericId||st.id}')">View</button><button class="btn btn-sm" onclick="openStudentExamsModal('${st.numericId||st.id}')">Tests</button><button class="btn btn-sm btn-danger" onclick="deleteStudent('${st.numericId||st.id}')">Del</button></div></div>`).join(''):`<p style="grid-column:1/-1;text-align:center;color:#64748b;padding:20px;">No Students</p>`;
-  loadExaminerExamsList();
-  loadLiveProgress();
-  loadExaminerStudentDashboard();
-}
-window.addStudent=async function(){
-  const name=document.getElementById('new-student-name').value.trim(),guardian=document.getElementById('new-student-guardian').value.trim(),cls=document.getElementById('new-student-class').value,state=document.getElementById('new-student-state').value.trim(),district=document.getElementById('new-student-district').value.trim(),block=document.getElementById('new-student-block').value.trim(),village=document.getElementById('new-student-village').value.trim();
-  if(!name||!guardian||!cls||!state||!district||!block||!village){alert('Fill all');return}
-  const numericId=await generateNumericID(cls,state,district,block,village);
-  const docId=numericId;
-  const data={numericId, name, guardian, class:cls, state, district, block, village, createdAt:Date.now()};
-  if(useFirebase){
-    await setDoc(doc(db,"students",docId), data);
-  }else{
-    allStudents.push({id:docId, ...data});
-  }
-  document.getElementById('new-student-name').value='';document.getElementById('new-student-guardian').value='';
-  document.getElementById('last-generated-id').innerHTML=`✅ ${name} - ID: ${numericId} - Synced to cloud`;
-  loadExaminerPanel();
-}
-window.deleteStudent=async function(id){
-  if(!confirm('Delete '+id+'?'))return;
-  if(useFirebase){
-    await deleteDoc(doc(db,"students",id));
-    const resSnap=await getDocs(collection(db,"results"));
-    for(const d of resSnap.docs){if(d.data().studentId===id){await deleteDoc(doc(db,"results",d.id))}}
-  }else{
-    allStudents=allStudents.filter(x=>x.id!==id && x.numericId!==id);
-    allResults=allResults.filter(x=>x.studentId!==id);
-  }
-  loadExaminerPanel();
-}
-window.createExam=async function(){
-  const title=document.getElementById('exam-title-input').value.trim(),cls=document.getElementById('exam-class-input').value,time=parseInt(document.getElementById('exam-time-input').value),sd=document.getElementById('exam-start-date').value,st=document.getElementById('exam-start-time-only').value,ed=document.getElementById('exam-end-date').value,et=document.getElementById('exam-end-time-only').value;
-  if(!title||!cls||!sd||!st||!ed||!et){alert('Fill all');return}
-  const start=new Date(`${sd}T${st}`),end=new Date(`${ed}T${et}`);
-  if(end<=start){alert('Close after Open');return}
-  const id='exam_'+Date.now();
-  const data={title, class:cls, time, questions:[], startTime:start.toISOString(), endTime:end.toISOString(), createdAt:Date.now()};
-  if(useFirebase){
-    await setDoc(doc(db,"exams",id), data);
-  }else{
-    allExams.push({id, ...data});
-  }
-  currentBuilderId=id;
-  editingQIndex=-1;
-  document.getElementById('builder-exam-title').innerText=title;
-  document.getElementById('edit-mode-label').innerText='';
-  document.getElementById('add-q-btn').innerText='Add Q';
-  document.getElementById('cancel-edit-btn').style.display='none';
-  document.getElementById('current-exam-builder').style.display='block';
-  document.getElementById('builder-question-list').innerHTML='';
-  document.getElementById('exam-title-input').value='';
-  loadExaminerExamsList();
-}
-window.addQuestionToExam=async function(){
-  if(!currentBuilderId){alert('Create exam first');return}
-  const text=document.getElementById('q-text').value.trim();
-  if(!text){alert('Enter Q');return}
-  let q={text,type:currentQType};
-  if(currentQType==='mcq'){
-    const opts=[document.getElementById('q-opt-0').value.trim(),document.getElementById('q-opt-1').value.trim(),document.getElementById('q-opt-2').value.trim(),document.getElementById('q-opt-3').value.trim()];
-    if(opts.some(o=>!o)){alert('Fill 4 options');return}
-    q.options=opts;q.correct=parseInt(document.querySelector('input[name="correct"]:checked').value);
-  }else if(currentQType==='tf'){q.correct=document.getElementById('q-tf-ans').value;}
-  else if(currentQType==='fill'){const ans=document.getElementById('q-fill-ans').value.trim();if(!ans){alert('Enter ans');return}q.correct=ans;}
-  else if(currentQType==='short'){const ans=document.getElementById('q-short-ans').value.trim();if(!ans){alert('Enter keywords');return}q.correct=ans;}
-  
-  let ex=allExams.find(x=>x.id===currentBuilderId);
-  if(!ex){alert('Exam not found');return}
-  if(editingQIndex>=0){
-    ex.questions[editingQIndex]=q;
-    editingQIndex=-1;
-    document.getElementById('edit-mode-label').innerText='';
-    document.getElementById('add-q-btn').innerText='Add Q';
-    document.getElementById('cancel-edit-btn').style.display='none';
-  }else{
-    ex.questions.push(q);
-  }
-  if(useFirebase){
-    await updateDoc(doc(db,"exams",currentBuilderId), {questions:ex.questions});
-  }
-  document.getElementById('q-text').value='';document.getElementById('q-opt-0').value='';document.getElementById('q-opt-1').value='';document.getElementById('q-opt-2').value='';document.getElementById('q-opt-3').value='';document.getElementById('q-fill-ans').value='';document.getElementById('q-short-ans').value='';
-  renderBuilderList();
-}
-window.editQuestionInBuilder=function(idx){
-  const ex=allExams.find(x=>x.id===currentBuilderId);
-  const q=ex.questions[idx];
-  editingQIndex=idx;
-  document.getElementById('q-text').value=q.text;
-  setQType(q.type);
-  if(q.type==='mcq'){document.getElementById('q-opt-0').value=q.options[0];document.getElementById('q-opt-1').value=q.options[1];document.getElementById('q-opt-2').value=q.options[2];document.getElementById('q-opt-3').value=q.options[3];document.querySelectorAll('input[name="correct"]').forEach((r,i)=>r.checked=i===q.correct);}
-  else if(q.type==='tf'){document.getElementById('q-tf-ans').value=q.correct;}
-  else if(q.type==='fill'){document.getElementById('q-fill-ans').value=q.correct;}
-  else if(q.type==='short'){document.getElementById('q-short-ans').value=q.correct;}
-  document.getElementById('edit-mode-label').innerText=`(Editing Q${idx+1})`;
-  document.getElementById('add-q-btn').innerText='Update Q';
-  document.getElementById('cancel-edit-btn').style.display='inline-block';
-}
-window.cancelEditQ=function(){editingQIndex=-1;document.getElementById('edit-mode-label').innerText='';document.getElementById('add-q-btn').innerText='Add Q';document.getElementById('cancel-edit-btn').style.display='none';document.getElementById('q-text').value='';}
-function renderBuilderList(){
-  const ex=allExams.find(x=>x.id===currentBuilderId);
-  if(!ex)return;
-  document.getElementById('builder-question-list').innerHTML=ex.questions.map((q,i)=>`<div class="question-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;"><div><strong>Q${i+1} [${q.type}]</strong> ${q.text.substring(0,80)}${q.text.length>80?'...':''}</div><div style="display:flex;gap:4px;"><button class="btn btn-sm btn-warning" onclick="editQuestionInBuilder(${i})">Edit Fix</button><button class="btn btn-danger btn-sm" onclick="deleteBuilderQ(${i})">Del</button></div></div>`).join('');
-}
-window.deleteBuilderQ=async function(i){
-  if(!confirm('Delete Q?'))return;
-  const ex=allExams.find(x=>x.id===currentBuilderId);
-  ex.questions.splice(i,1);
-  if(useFirebase){await updateDoc(doc(db,"exams",currentBuilderId), {questions:ex.questions});}
-  if(editingQIndex===i) cancelEditQ();
-  renderBuilderList();
-}
-window.finishExam=function(){currentBuilderId=null;editingQIndex=-1;document.getElementById('current-exam-builder').style.display='none';alert('Exam Published to Cloud! All students see it instantly!');loadExaminerExamsList();}
-window.deleteExam=async function(id){
-  if(!confirm('Delete exam?'))return;
-  if(useFirebase){
-    await deleteDoc(doc(db,"exams",id));
-    const resSnap=await getDocs(collection(db,"results"));
-    for(const d of resSnap.docs){if(d.data().examId===id){await deleteDoc(doc(db,"results",d.id))}}
-  }else{
-    allExams=allExams.filter(x=>x.id!==id);
-    allResults=allResults.filter(r=>r.examId!==id);
-  }
-  loadExaminerExamsList();
-}
-window.startExam=function(id){
-  const ex=allExams.find(e=>e.id===id);
-  const now=new Date();
-  if(now < new Date(ex.startTime)||now > new Date(ex.endTime)){alert('Not in window');return}
-  currentExamId=id;
-  document.getElementById('display-exam-title').innerText=ex.title;
-  document.getElementById('display-student-name-exam').innerText=currentStudentObj.name;
-  examState={answers:Array(ex.questions.length).fill(null), qTimes:Array(ex.questions.length).fill(0), qStartTime:Date.now(), currentIndex:0, skipped:Array(ex.questions.length).fill(false), startExamTime:Date.now()};
-  document.getElementById('dash-total').innerText=ex.questions.length;
-  renderQuestion();renderPalette();updateDash();showScreen('screen-student-exam');
-  let timeLeft=ex.time*60;
-  clearInterval(timerInterval);
-  timerInterval=setInterval(()=>{let m=Math.floor(timeLeft/60),s=timeLeft%60;document.getElementById('exam-timer').innerText=`Time: ${m}:${s<10?'0':''}${s}`;if(timeLeft--<=0){clearInterval(timerInterval);submitExam()}},1000);
-}
-function saveCurrentQTime(){examState.qTimes[examState.currentIndex]+=Date.now()-examState.qStartTime;examState.qStartTime=Date.now()}
-function renderQuestion(){
-  const ex=allExams.find(e=>e.id===currentExamId);
-  const q=ex.questions[examState.currentIndex];
-  let html=`<p><strong>Q${examState.currentIndex+1} [${q.type.toUpperCase()}]</strong> - ${q.text}</p>`;
-  if(q.type==='mcq'){html+=q.options.map((o,j)=>`<div style="margin-top:8px;"><label><input type="radio" name="curQ" value="${j}" ${examState.answers[examState.currentIndex]==j?'checked':''}> ${o}</label></div>`).join('')}
-  else if(q.type==='tf'){html+=`<div><label><input type="radio" name="curQ" value="true" ${examState.answers[examState.currentIndex]==='true'?'checked':''}> True</label></div><div><label><input type="radio" name="curQ" value="false" ${examState.answers[examState.currentIndex]==='false'?'checked':''}> False</label></div>`}
-  else if(q.type==='fill'){html+=`<input type="text" id="curAns" value="${examState.answers[examState.currentIndex]||''}" placeholder="Type answer">`}
-  else if(q.type==='short'){html+=`<textarea id="curAns" rows="2">${examState.answers[examState.currentIndex]||''}</textarea>`}
-  document.getElementById('single-question-display').innerHTML=html;
-  renderPalette()
-}
-function collectAnswer(){
-  const ex=allExams.find(e=>e.id===currentExamId);
-  const q=ex.questions[examState.currentIndex];
-  if(q.type==='mcq'||q.type==='tf'){const sel=document.querySelector('input[name="curQ"]:checked');if(sel){examState.answers[examState.currentIndex]=q.type==='mcq'?parseInt(sel.value):sel.value;examState.skipped[examState.currentIndex]=false}}
-  else{const el=document.getElementById('curAns');if(el && el.value.trim()){examState.answers[examState.currentIndex]=el.value.trim();examState.skipped[examState.currentIndex]=false}}
-}
-window.nextQ=function(){saveCurrentQTime();collectAnswer();const ex=allExams.find(e=>e.id===currentExamId);if(examState.currentIndex<ex.questions.length-1){examState.currentIndex++;renderQuestion()}updateDash()}
-window.prevQ=function(){saveCurrentQTime();collectAnswer();if(examState.currentIndex>0){examState.currentIndex--;renderQuestion()}updateDash()}
-window.skipQ=function(){saveCurrentQTime();examState.skipped[examState.currentIndex]=true;examState.answers[examState.currentIndex]=null;const ex=allExams.find(e=>e.id===currentExamId);if(examState.currentIndex<ex.questions.length-1)examState.currentIndex++;renderQuestion();updateDash()}
-window.skipAndExit=function(){if(confirm('Exit exam?')){clearInterval(timerInterval);goToStudentDash()}}
-function updateDash(){const a=examState.answers.filter(x=>x!==null && x!=='').length;const s=examState.skipped.filter(x=>x).length;document.getElementById('dash-attended').innerText=a;document.getElementById('dash-skipped').innerText=s}
-function renderPalette(){
-  const ex=allExams.find(e=>e.id===currentExamId);
-  const pal=document.getElementById('q-palette');
-  pal.innerHTML='';
-  ex.questions.forEach((_,i)=>{
-    const d=document.createElement('div');d.innerText=i+1;
-    if(examState.answers[i]!==null && examState.answers[i]!=='') d.classList.add('attended');
-    if(examState.skipped[i]) d.classList.add('skipped');
-    if(i===examState.currentIndex) d.classList.add('current');
-    d.onclick=()=>{saveCurrentQTime();collectAnswer();examState.currentIndex=i;examState.qStartTime=Date.now();renderQuestion()};
-    pal.appendChild(d)
-  })
-}
-window.submitExam=async function(){
-  clearInterval(timerInterval);saveCurrentQTime();collectAnswer();
-  const ex=allExams.find(e=>e.id===currentExamId);
-  let score=0;
-  ex.questions.forEach((q,i)=>{
-    const ans=examState.answers[i];
-    if(ans===null||ans==='')return;
-    if(q.type==='mcq' && ans===q.correct)score++;
-    else if(q.type==='tf' && String(ans)===String(q.correct))score++;
-    else if(q.type==='fill' && String(ans).toLowerCase()===String(q.correct).toLowerCase())score++;
-    else if(q.type==='short'){const ks=String(q.correct).toLowerCase().split(',').map(k=>k.trim());if(ks.some(k=>String(ans).toLowerCase().includes(k)))score++}
-  });
-  const total=ex.questions.length, percent=Math.round((score/total)*100);
-  const now=Date.now();
-  const resultData={
-    student:currentStudentObj.name,
-    studentId:currentStudentObj.numericId||currentStudentObj.id,
-    studentClass:currentStudentObj.class,
-    examId:ex.id,
-    examTitle:ex.title,
-    examClass:ex.class,
-    score,total,percent,
-    date:new Date().toLocaleString(),
-    timestamp:now,
-    nextAttempt:now+86400000,
-    totalTimeSpent:Math.floor((Date.now()-examState.startExamTime)/60000)+'m',
-    answers:examState.answers,
-    qTimesArr:examState.qTimes
-  };
-  if(useFirebase){
-    await addDoc(collection(db,"results"), resultData);
-  }else{
-    allResults.push(resultData);
-  }
-  document.getElementById('result-summary-box').innerHTML=`<h3>${ex.title}</h3><p><strong>ID:</strong> ${currentStudentObj.numericId||currentStudentObj.id} | <strong>Name:</strong> ${currentStudentObj.name}</p><p>Score: ${score}/${total} (${percent}%)</p><p style="color:#16a34a;">✅ Result synced to cloud - Visible in leaderboard for all classes</p>`;
-  showScreen('screen-student-results');
-}
-window.goToStudentDash=function(){loadStudentDash();showScreen('screen-student-dash')}
-
-// Expose for HTML onclick
-window.loadStudentDash=loadStudentDash;
-window.loadLiveProgress=loadLiveProgress;
-window.loadExaminerStudentDashboard=loadExaminerStudentDashboard;
-window.loadExaminerExamsList=loadExaminerExamsList;
-window.loadExaminerPanel=loadExaminerPanel;
-</script>
+  </script>
 </body>
 </html>
