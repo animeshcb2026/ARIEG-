@@ -3,374 +3,258 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AR India English Group - Live Exam Portal</title>
+  <title>AR India English Group</title>
   <style>
-    :root{
-      --primary:#1e3a8a;
-      --secondary:#3b82f6;
-      --bg:#f1f5f9;
-      --card:#ffffff;
-      --border:#e2e8f0;
-      --success:#16a34a;
-      --warning:#f59e0b;
-      --danger:#ef4444;
-      --text:#0f172a;
-      --muted:#64748b;
-      --shadow:0 10px 30px rgba(0,0,0,.08);
+    :root {
+      --primary: #1e3a8a;
+      --secondary: #3b82f6;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text: #0f172a;
+      --muted: #64748b;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
     }
 
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
-    html,body{height:100%}
-    body{
-      background:var(--bg);
-      color:var(--text);
-      padding:12px;
-      min-height:100vh;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 12px;
     }
-    .container{
-      max-width:1250px;
-      margin:0 auto;
-      background:var(--card);
-      padding:20px;
-      border-radius:16px;
-      box-shadow:var(--shadow);
-      min-height:95vh;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      min-height: 92vh;
+      padding: 20px;
     }
-    header{
-      text-align:center;
-      padding:18px 16px;
-      margin-bottom:15px;
-      background:linear-gradient(135deg,var(--primary),var(--secondary));
-      color:white;
-      border-radius:12px;
+    header {
+      text-align: center;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 12px;
+      padding: 18px 16px;
+      margin-bottom: 16px;
     }
-    header h1{font-size:clamp(1.5rem,2vw,2.3rem)}
-    .screen{display:none}
-    .screen.active{display:block}
+    h1, h2, h3, h4, p { margin: 0; }
+    .screen { display: none; }
+    .screen.active { display: block; }
 
-    .btn{
-      background:var(--primary);
-      color:#fff;
-      padding:8px 14px;
-      border:none;
-      border-radius:8px;
-      cursor:pointer;
-      font-weight:600;
-      margin:2px;
-      transition:transform .12s ease, opacity .12s ease;
+    .login-wrapper {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .btn:hover{transform:translateY(-1px)}
-    .btn-secondary{background:#64748b}
-    .btn-danger{background:var(--danger)}
-    .btn-success{background:var(--success)}
-    .btn-sm{padding:6px 10px;font-size:.8rem}
-    .btn-block{width:100%;padding:12px}
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+    .login-card h2 { color: var(--primary); margin-bottom: 8px; }
+    .login-card p { color: var(--muted); font-size: 0.8rem; margin: 6px 0 12px; }
 
-    .login-wrapper{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height:70vh;
-    }
-    .login-card{
-      border:1px solid var(--border);
-      padding:26px;
-      border-radius:16px;
-      background:#f8fafc;
-      text-align:center;
-      width:100%;
-      max-width:420px;
-      box-shadow:0 8px 25px rgba(0,0,0,.06);
-    }
-    .login-card h2{color:var(--primary);margin-bottom:8px}
-    .login-card p{font-size:.8rem;color:var(--muted);margin:6px 0 12px}
-
-    .nav-bar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      background:#fff;
-      border:1px solid var(--border);
-      padding:12px 16px;
-      border-radius:10px;
-      margin-bottom:15px;
-      flex-wrap:wrap;
-      gap:10px;
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 12px 16px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 16px;
     }
 
-    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    @media(max-width:800px){.grid-2{grid-template-columns:1fr}}
+    .btn {
+      border: none;
+      border-radius: 8px;
+      padding: 9px 14px;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.1s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-secondary { background: #64748b; }
+    .btn-danger { background: var(--danger); }
+    .btn-success { background: var(--success); }
+    .btn-sm { padding: 6px 10px; font-size: 0.8rem; }
+    .btn-block { width: 100%; margin-top: 14px; }
 
-    input,select,textarea{
-      width:100%;
-      padding:10px;
-      border:1px solid var(--border);
-      border-radius:8px;
-      margin-top:4px;
-      background:#fff;
-      color:var(--text);
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+      text-align: left;
+      margin-bottom: 4px;
     }
-    label{
-      font-weight:600;
-      font-size:.8rem;
-      display:block;
-      margin-bottom:2px;
-      color:#334155;
-      text-align:left;
+    input, select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 4px;
+      background: #fff;
+      color: var(--text);
+      font-size: 0.95rem;
     }
+    .field { margin-top: 10px; }
 
-    .question-card{
-      border:1px solid var(--border);
-      padding:14px;
-      border-radius:12px;
-      margin-bottom:10px;
-      background:#fff;
+    .section-box {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      padding: 16px;
+      margin-bottom: 18px;
     }
-    .badge{
-      display:inline-block;
-      padding:3px 7px;
-      border-radius:6px;
-      font-size:.72rem;
-      font-weight:bold;
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
     }
-    .badge-success{background:#dcfce7;color:#15803d}
-    .badge-danger{background:#fee2e2;color:#991b1b}
-    .badge-info{background:#dbeafe;color:#1d4ed8}
-    .badge-warn{background:#fef3c7;color:#b45309}
-    .badge-primary{background:#dbeafe;color:#1e3a8a}
+    .student-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .student-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      background: white;
+    }
+    .student-card strong { display: block; }
+    .small { font-size: 0.8rem; }
+    .muted { color: var(--muted); }
 
-    .table-container{overflow-x:auto;margin-top:12px;border:1px solid var(--border);border-radius:10px}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:9px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
-    th{background:#f8fafc}
-    tbody tr:hover{background:#f8fafc}
+    .table-container {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-top: 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      text-align: left;
+      padding: 9px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th { background: #f8fafc; }
+    tbody tr:hover { background: #f8fafc; }
 
-    .search-bar{
-      display:grid;
-      grid-template-columns:1fr 180px 90px;
-      gap:8px;
-      margin:10px 0;
-      padding:10px;
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:10px;
-      align-items:end;
+    .add-student-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
-    @media(max-width:600px){.search-bar{grid-template-columns:1fr}}
+    .full-width { grid-column: 1 / -1; }
 
-    .leader-filter{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-      margin:10px 0;
-      padding:10px;
-      background:#f8fafc;
-      border:1px solid var(--border);
-      border-radius:10px;
+    .status-pill {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      z-index: 10;
     }
+    .firebase-connected { background: #dcfce7; color: #15803d; }
+    .firebase-disconnected { background: #fee2e2; color: #991b1b; }
 
-    .student-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
-      gap:12px;
-      margin-top:12px;
-      max-height:60vh;
-      overflow-y:auto;
-      padding:5px;
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      padding: 12px;
     }
-    .student-id-card{
-      border:2px solid var(--border);
-      border-radius:12px;
-      padding:12px;
-      text-align:center;
-      background:white;
+    .modal.active { display: flex; }
+    .modal-card {
+      width: min(460px, 95vw);
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
     }
-
-    .stat-card{
-      background:linear-gradient(135deg,var(--primary),var(--secondary));
-      color:white;
-      padding:16px;
-      border-radius:12px;
-      text-align:center;
-    }
-    .examiner-stats{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-      gap:10px;
-      margin-bottom:12px;
-    }
-    .examiner-section{
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:16px;
-      margin-bottom:16px;
-      background:#fff;
-    }
-
-    .modal-overlay{
-      position:fixed;
-      inset:0;
-      width:100%;
-      height:100%;
-      background:rgba(0,0,0,.65);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:9999;
-      padding:12px;
-    }
-    .modal-overlay.active{display:flex}
-    .modal-content{
-      background:white;
-      border-radius:16px;
-      padding:20px;
-      max-width:95vw;
-      max-height:95vh;
-      overflow:auto;
-      width:800px;
-    }
-    .modal-content.small{width:460px}
-    .modal-content.large{width:980px}
-
-    .student-details-box{
-      width:100%;
-      margin:0 auto;
-      background:#fff;
-      border:2px solid var(--primary);
-      border-radius:14px;
-      padding:16px;
-    }
-    .detail-row{
-      display:flex;
-      justify-content:space-between;
-      padding:10px 0;
-      border-bottom:1px solid var(--border);
+    .modal-card h3 { margin-bottom: 12px; }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 12px;
     }
 
-    .exam-layout{display:grid;grid-template-columns:1fr 280px;gap:12px}
-    @media(max-width:900px){.exam-layout{grid-template-columns:1fr}}
-    .exam-sidebar{
-      background:#f8fafc;
-      border:1px solid var(--border);
-      border-radius:10px;
-      padding:10px;
-      position:sticky;
-      top:10px;
-      height:fit-content;
+    @media (max-width: 760px) {
+      .grid-2, .add-student-grid { grid-template-columns: 1fr; }
     }
-    .q-palette{
-      display:grid;
-      grid-template-columns:repeat(5,1fr);
-      gap:5px;
-      margin-top:8px;
-    }
-    .q-palette div{
-      width:34px;height:34px;
-      display:flex;align-items:center;justify-content:center;
-      border:1px solid var(--border);
-      border-radius:6px;
-      cursor:pointer;
-      font-size:.8rem;
-      background:#fff;
-    }
-    .q-palette .attended{background:#dcfce7;border-color:var(--success)}
-    .q-palette .skipped{background:#fee2e2;border-color:var(--danger)}
-    .q-palette .current{border:2px solid var(--primary);font-weight:bold}
-
-    .add-student-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    @media(max-width:600px){.add-student-grid{grid-template-columns:1fr}}
-    .date-time-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
-    .date-time-group{
-      background:#f8fafc;
-      border:1px solid var(--border);
-      border-radius:10px;
-      padding:10px;
-    }
-
-    .pass-box{
-      background:#f8fafc;
-      border:2px dashed #f59e0b;
-      border-radius:10px;
-      padding:10px;
-      margin-top:10px;
-    }
-
-    .examiner-fab{
-      position:fixed;
-      bottom:18px;
-      right:18px;
-      width:50px;height:50px;border-radius:50%;
-      background:linear-gradient(135deg,var(--primary),var(--secondary));
-      color:white;border:none;cursor:pointer;
-      display:flex;align-items:center;justify-content:center;
-      box-shadow:0 10px 25px rgba(30,58,138,.35);
-      z-index:1000;
-    }
-    .examiner-fab svg{width:24px;height:24px;fill:white}
-    .clickable{cursor:pointer;color:var(--primary);font-weight:700;text-decoration:underline}
-    .live-dot{
-      width:8px;height:8px;background:#16a34a;border-radius:50%;
-      display:inline-block;animation:blink 1s infinite;
-      vertical-align:middle;
-    }
-    @keyframes blink{
-      0%,100%{opacity:1}
-      50%{opacity:.3}
-    }
-
-    #firebase-status{
-      position:fixed;
-      top:10px;right:10px;
-      padding:6px 10px;
-      border-radius:20px;
-      font-size:.75rem;
-      font-weight:bold;
-      z-index:9999;
-    }
-    .firebase-connected{background:#dcfce7;color:#15803d}
-    .firebase-disconnected{background:#fee2e2;color:#991b1b}
-
-    .muted{color:var(--muted)}
-    .small{font-size:.8rem}
-    .right{float:right}
   </style>
 </head>
 <body>
-  <div id="firebase-status" class="firebase-disconnected">🔴 Connecting Firebase...</div>
+  <div id="firebase-status" class="status-pill firebase-disconnected">🔴 Local mode</div>
 
   <div class="container">
     <header>
       <h1>AR India English Group</h1>
-      <p>Live Exam Portal - Firebase Auto Sync</p>
+      <p>Live Exam Portal</p>
     </header>
 
     <div id="screen-home" class="screen active">
       <div class="login-wrapper">
         <div class="login-card">
           <h2>Student Login</h2>
-          <p>ID + Name Only - Data Saved in Cloud</p>
+          <p>ID + Name + Class</p>
 
-          <div>
+          <div class="field">
             <label>ID Number</label>
             <input id="student-id-input" placeholder="Numeric ID" />
           </div>
 
-          <div style="margin-top:8px;">
+          <div class="field">
             <label>Full Name</label>
-            <input id="student-name-input" />
+            <input id="student-name-input" placeholder="Enter your full name" />
           </div>
 
-          <div style="margin-top:8px;">
+          <div class="field">
             <label>Class</label>
             <select id="student-class-input">
               <option value="">Select</option>
-              <option>5</option><option>6</option><option>7</option>
-              <option>8</option><option>9</option><option>10</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
             </select>
           </div>
 
-          <button class="btn btn-block" style="margin-top:14px;" onclick="loginAsStudent()">Login for Exam</button>
-          <p style="font-size:.7rem;color:#16a34a;margin-top:8px;">✅ Live synced via Firebase - No re-upload needed</p>
+          <button class="btn btn-block" onclick="loginAsStudent()">Login for Exam</button>
+          <p class="small muted" style="margin-top:8px;">✅ Works with Firebase or local browser storage</p>
         </div>
       </div>
     </div>
@@ -378,1674 +262,478 @@
     <div id="screen-student-dash" class="screen">
       <div class="nav-bar">
         <div>
-          <strong id="display-student-name"></strong> |
+          <strong id="display-student-name">Student</strong> |
           ID: <span id="display-student-id"></span> |
           Class <span id="dash-class-label"></span>
         </div>
         <div>
-          <button class="btn btn-secondary btn-sm" onclick="openMyDetailsPopup()">My Details</button>
+          <button class="btn btn-secondary btn-sm" onclick="openStudentDetails()">My Details</button>
           <button class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
         </div>
       </div>
 
       <h3>Available Exams - Class <span id="dash-class-label-main"></span></h3>
-      <div class="search-bar">
-        <div>
-          <label>Search</label>
-          <input type="text" id="student-search-name" placeholder="Exam name..." oninput="renderStudentDashboard()" />
-        </div>
-        <div>
-          <label>Date</label>
-          <input type="date" id="student-search-date" onchange="renderStudentDashboard()" />
-        </div>
-        <div>
-          <button class="btn btn-secondary btn-sm" style="width:100%;" onclick="clearStudentSearch()">Clear</button>
-        </div>
+      <div id="available-exams-container" class="section-box" style="margin-top:12px;">
+        <p class="muted">No exams published yet.</p>
       </div>
 
-      <div class="grid-2">
-        <div>
-          <div id="available-exams-container"></div>
-
-          <h3 style="margin-top:18px;">My Performance</h3>
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Exam</th>
-                  <th>Score</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody id="student-history-table"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div>
-          <h3>🏆 Leaderboard - Filter by Class & Exam</h3>
-          <div class="leader-filter">
-            <div>
-              <label>Class</label>
-              <select id="leader-class-filter" onchange="updateLeaderExamFilter(); renderLeaderboard()">
-                <option value="">All Classes</option>
-                <option>5</option><option>6</option><option>7</option>
-                <option>8</option><option>9</option><option>10</option>
-              </select>
-            </div>
-            <div>
-              <label>Exam</label>
-              <select id="leader-exam-filter" onchange="renderLeaderboard()">
-                <option value="">All Exams</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th><th>ID</th><th>Class</th><th>Exam</th><th>%</th>
-                </tr>
-              </thead>
-              <tbody id="class-leaderboard"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="screen-student-exam" class="screen">
-      <div class="nav-bar">
-        <div>Exam: <strong id="display-exam-title"></strong> | <span id="display-student-name-exam"></span></div>
-        <div><span id="exam-timer" style="font-weight:bold;color:var(--danger)"></span></div>
-      </div>
-
-      <div class="exam-layout">
-        <div>
-          <div id="single-question-display" class="question-card"></div>
-
-          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
-            <button class="btn btn-secondary" onclick="prevQ()">Prev</button>
-            <button class="btn btn-secondary" onclick="nextQ()">Next</button>
-            <button class="btn btn-secondary" onclick="skipQ()">Skip</button>
-            <button class="btn btn-danger" onclick="skipAndExit()">Exit</button>
-            <button class="btn btn-success" style="margin-left:auto;" onclick="submitExam()">Submit</button>
-          </div>
-        </div>
-
-        <div class="exam-sidebar">
-          <div class="small muted">Answered / Total</div>
-          <div style="font-size:1.5rem;font-weight:700;margin:6px 0;">
-            <span id="dash-attended">0</span> / <span id="dash-total">0</span>
-          </div>
-
-          <div class="small muted">Skipped</div>
-          <div style="font-size:1.2rem;font-weight:700;margin:6px 0;">
-            <span id="dash-skipped">0</span>
-          </div>
-
-          <div class="small muted">Question Palette</div>
-          <div id="q-palette" class="q-palette"></div>
-        </div>
-      </div>
-    </div>
-
-    <div id="screen-student-results" class="screen">
-      <h2>Result</h2>
-      <div id="result-summary-box" style="background:#f0fdf4;border:1px solid #bbf7d0;padding:15px;border-radius:8px;margin-top:15px;"></div>
-      <div style="margin-top:12px;">
-        <button class="btn" onclick="goToStudentDash()">Back to Dashboard</button>
+      <h3 style="margin-top:20px;">My Performance</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Exam</th>
+              <th>Score</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="student-history-table"></tbody>
+        </table>
       </div>
     </div>
 
     <div id="screen-examiner" class="screen">
       <div class="nav-bar">
-        <div style="font-weight:700;">🛡️ Examiner Panel - LIVE FIREBASE</div>
+        <div style="font-weight:700;">🛡️ Examiner Panel</div>
         <div>
-          <span class="live-dot"></span>
-          <small>Live Sync</small>
           <button class="btn btn-secondary btn-sm" onclick="logout()">Logout</button>
         </div>
       </div>
 
-      <div class="examiner-stats">
-        <div class="stat-card"><h2 id="stat-total-students">0</h2><p>Students</p></div>
-        <div class="stat-card" style="background:linear-gradient(135deg,#059669,#10b981)"><h2 id="stat-total-exams">0</h2><p>Exams</p></div>
-        <div class="stat-card" style="background:linear-gradient(135deg,#dc2626,#ef4444)"><h2 id="stat-total-results">0</h2><p>Submissions</p></div>
-        <div class="stat-card" style="background:linear-gradient(135deg,#7c3aed,#8b5cf6)"><h2 id="stat-classes">0</h2><p>Classes</p></div>
-      </div>
-
-      <div class="examiner-section">
-        <h3>🔴 Live Submissions</h3>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr><th>Name</th><th>ID</th><th>Exam</th><th>Status</th><th>Time</th></tr>
-            </thead>
-            <tbody id="live-progress-body"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="examiner-section">
-        <h3>📋 Student Dashboard - Click Name/ID</h3>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr><th>Name (Click)</th><th>ID</th><th>Class</th><th>Total Tests</th><th>Action</th></tr>
-            </thead>
-            <tbody id="examiner-student-dashboard"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="examiner-section">
-        <h3>🔐 Change Password</h3>
-        <div class="pass-box">
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
-            <div><label>Old</label><input type="password" id="old-pass-input" /></div>
-            <div><label>New</label><input type="password" id="new-pass-input" /></div>
-            <div><label>Confirm</label><input type="password" id="confirm-pass-input" /></div>
+      <div class="section-box">
+        <h3>➕ Add Student</h3>
+        <div class="add-student-grid" style="margin-top:12px;">
+          <div>
+            <label>Full Name *</label>
+            <input id="new-student-name" />
           </div>
-          <div style="margin-top:10px;">
-            <button class="btn" onclick="changePasswordInside()">Update Password</button>
+          <div>
+            <label>Guardian Name *</label>
+            <input id="new-student-guardian" />
+          </div>
+          <div>
+            <label>Class *</label>
+            <select id="new-student-class">
+              <option value="">Select</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+            </select>
+          </div>
+          <div>
+            <label>State *</label>
+            <input id="new-student-state" />
+          </div>
+          <div>
+            <label>District *</label>
+            <input id="new-student-district" />
+          </div>
+          <div>
+            <label>Block *</label>
+            <input id="new-student-block" />
+          </div>
+          <div class="full-width">
+            <label>Village *</label>
+            <input id="new-student-village" />
           </div>
         </div>
-      </div>
-
-      <div class="examiner-section">
-        <h3>➕ Add Student - Auto Sync to all</h3>
-        <div class="add-student-grid">
-          <div><label>Full Name *</label><input id="new-student-name" /></div>
-          <div><label>Guardian Name *</label><input id="new-student-guardian" /></div>
-          <div><label>Class *</label><select id="new-student-class"><option value="">Select</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
-          <div><label>State *</label><input id="new-student-state" /></div>
-          <div><label>District *</label><input id="new-student-district" /></div>
-          <div><label>Block *</label><input id="new-student-block" /></div>
-          <div style="grid-column:1 / -1;"><label>Village *</label><input id="new-student-village" /></div>
-        </div>
-        <div style="margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <div style="margin-top:12px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
           <button class="btn" onclick="addStudent()">Add Student</button>
           <span id="last-generated-id" class="small muted"></span>
         </div>
       </div>
 
-      <div class="examiner-section">
-        <h3>📚 All Students - Cloud</h3>
+      <div class="section-box">
+        <h3>📚 All Students</h3>
         <div id="student-list-display" class="student-grid"></div>
-      </div>
-
-      <div class="examiner-section">
-        <h3>📝 Create Exam - Auto Sync</h3>
-        <div style="display:grid;grid-template-columns:1fr 110px 90px;gap:8px;">
-          <div><label>Title *</label><input id="exam-title-input" /></div>
-          <div><label>Class *</label><select id="exam-class-input"><option value="">Select</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
-          <div><label>Time (min)</label><input id="exam-time-input" type="number" value="30" /></div>
-        </div>
-
-        <div class="date-time-grid">
-          <div class="date-time-group">
-            <label>Open Date</label>
-            <input id="exam-start-date" type="date" />
-          </div>
-          <div class="date-time-group">
-            <label>Open Time</label>
-            <input id="exam-start-time" type="time" />
-          </div>
-          <div class="date-time-group">
-            <label>Close Date</label>
-            <input id="exam-end-date" type="date" />
-          </div>
-          <div class="date-time-group">
-            <label>Close Time</label>
-            <input id="exam-end-time" type="time" />
-          </div>
-        </div>
-
-        <div style="margin-top:12px;">
-          <button class="btn" onclick="createExam()">Create Exam</button>
-        </div>
-      </div>
-
-      <div class="examiner-section">
-        <h3>📖 All Published Exams - Cloud</h3>
-        <div class="search-bar">
-          <div>
-            <label>Search</label>
-            <input type="text" id="examiner-search-name" placeholder="Search..." oninput="renderExaminerExamsList()" />
-          </div>
-          <div>
-            <label>Date</label>
-            <input type="date" id="examiner-search-date" onchange="renderExaminerExamsList()" />
-          </div>
-          <div>
-            <button class="btn btn-secondary btn-sm" style="width:100%;" onclick="clearExaminerSearch()">Clear</button>
-          </div>
-        </div>
-        <div id="examiner-exams-list"></div>
       </div>
     </div>
   </div>
 
-  <button class="examiner-fab" onclick="openExaminerLoginModal()">
-    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg>
-  </button>
-
-  <div id="examiner-login-modal" class="modal-overlay" onclick="if(event.target===this) closeExaminerLoginModal()">
-    <div class="modal-content small" style="text-align:center;">
+  <div id="examiner-login-modal" class="modal" onclick="if (event.target===this) closeExaminerLoginModal()">
+    <div class="modal-card">
       <h3>🛡️ Examiner Login</h3>
       <label>Password</label>
-      <input type="password" id="examiner-pass-input" onkeydown="if(event.key==='Enter') loginAsExaminer()" />
-      <div style="margin-top:12px;">
+      <input type="password" id="examiner-pass-input" onkeydown="if (event.key === 'Enter') loginAsExaminer()" />
+      <div class="modal-actions">
         <button class="btn" onclick="loginAsExaminer()">Login</button>
         <button class="btn btn-secondary" onclick="closeExaminerLoginModal()">Cancel</button>
       </div>
     </div>
   </div>
 
-  <div id="details-modal" class="modal-overlay" onclick="if(event.target===this) closeDetailsModal()">
-    <div class="modal-content small">
-      <div id="modal-details-container"></div>
-      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;">
+  <div id="details-modal" class="modal" onclick="if (event.target===this) closeDetailsModal()">
+    <div class="modal-card">
+      <div id="details-content"></div>
+      <div class="modal-actions">
         <button class="btn btn-secondary" onclick="closeDetailsModal()">Close</button>
       </div>
     </div>
   </div>
 
-  <div id="student-exams-modal" class="modal-overlay" onclick="if(event.target===this) closeStudentExamsModal()">
-    <div class="modal-content large">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h3 id="student-exams-title">All Tests</h3>
-        <button class="btn btn-secondary btn-sm" onclick="closeStudentExamsModal()">Close</button>
-      </div>
-      <div class="table-container" style="margin-top:10px;">
-        <table>
-          <thead>
-            <tr><th>Exam</th><th>Score</th><th>%</th><th>Date</th></tr>
-          </thead>
-          <tbody id="student-exams-table-body"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+  <button class="btn" style="position:fixed; bottom:18px; right:18px; border-radius:50%; width:52px; height:52px; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 25px rgba(30,58,138,0.35);" onclick="openExaminerLoginModal()">
+    🛡️
+  </button>
 
-  <div id="exam-detail-modal" class="modal-overlay" onclick="if(event.target===this) closeExamDetailModal()">
-    <div class="modal-content large">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h3 id="exam-detail-title">Exam Details</h3>
-        <button class="btn btn-secondary btn-sm" onclick="closeExamDetailModal()">Close</button>
-      </div>
-      <div id="exam-detail-body" style="margin-top:12px;"></div>
-    </div>
-  </div>
-
-  <div id="exam-questions-modal" class="modal-overlay" onclick="if(event.target===this) closeExamQuestionsModal()">
-    <div class="modal-content large">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h3 id="exam-questions-title">Exam Questions</h3>
-        <button class="btn btn-secondary btn-sm" onclick="closeExamQuestionsModal()">Close</button>
-      </div>
-      <div id="exam-questions-body" style="margin-top:12px;"></div>
-    </div>
-  </div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import {
-      getFirestore,
-      collection,
-      doc,
-      setDoc,
-      getDoc,
-      getDocs,
-      onSnapshot,
-      deleteDoc,
-      updateDoc,
-      addDoc,
-      query,
-      orderBy
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC11KwxMBWq6WW9kuKU1h4xQMWXyDO6hgg",
-      authDomain: "arieg-30b46.firebaseapp.com",
-      projectId: "arieg-30b46",
-      storageBucket: "arieg-30b46.firebasestorage.app",
-      messagingSenderId: "949904779594",
-      appId: "1:949904779594:web:ab13491374cae1351079b3"
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script>
+    const STORAGE_KEYS = {
+      students: 'arieg_students',
+      exams: 'arieg_exams',
+      results: 'arieg_results',
+      config: 'arieg_config'
     };
-
-    let db = null;
-    let useFirebase = false;
-
-    try {
-      const app = initializeApp(firebaseConfig);
-      db = getFirestore(app);
-      useFirebase = true;
-      setFirebaseStatus("🟢 Firebase Connected - Live Sync ON", "firebase-connected");
-    } catch (e) {
-      console.error("Firebase init failed:", e);
-      setFirebaseStatus("🔴 Firebase config missing - Add your config", "firebase-disconnected");
-    }
 
     const state = {
       students: [],
       exams: [],
       results: [],
       currentStudent: null,
-      currentExamId: null,
-      currentBuilderId: null,
-      currentQType: "mcq",
-      editingQIndex: -1,
-      timerInterval: null,
-      studentDashInterval: null,
-      examState: {
-        answers: [],
-        qTimes: [],
-        qStartTime: 0,
-        currentIndex: 0,
-        skipped: [],
-        startExamTime: 0
-      }
+      database: null,
+      useFirebase: false,
+      examinerLoggedIn: false
     };
 
-    function setFirebaseStatus(text, cls) {
-      const el = document.getElementById("firebase-status");
+    const firebaseConfig = {
+      apiKey: 'AIzaSyC11KwxMBWq6WW9kuKU1h4xQMWXyDO6hgg',
+      authDomain: 'arieg-30b46.firebaseapp.com',
+      projectId: 'arieg-30b46',
+      storageBucket: 'arieg-30b46.firebasestorage.app',
+      messagingSenderId: '949904779594',
+      appId: '1:949904779594:web:ab13491374cae1351079b3'
+    };
+
+    function setFirebaseStatus(message, cls) {
+      const el = document.getElementById('firebase-status');
       if (!el) return;
-      el.innerText = text;
-      el.className = cls;
+      el.textContent = message;
+      el.className = 'status-pill ' + cls;
     }
 
     function showScreen(id) {
-      document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
+      document.querySelectorAll('.screen').forEach((el) => el.classList.remove('active'));
       const target = document.getElementById(id);
-      if (target) target.classList.add("active");
+      if (target) target.classList.add('active');
     }
 
     function safeText(value) {
-      return (value == null ? "" : String(value));
+      return value == null ? '' : String(value);
     }
 
-    function formatLocalDate(dateValue) {
-      const d = new Date(dateValue);
-      if (Number.isNaN(d.getTime())) return "";
-      return d.toLocaleString();
-    }
-
-    function formatDateOnly(dateValue) {
-      const d = new Date(dateValue);
-      if (Number.isNaN(d.getTime())) return "";
-      return d.toLocaleDateString();
-    }
-
-    function hashStringToNumber(str) {
-      let h = 0;
-      for (let i = 0; i < str.length; i++) {
-        h = (h * 31 + str.charCodeAt(i)) % 1000;
-      }
-      return (h % 90) + 10;
-    }
-
-    function _hash(str) {
+    function readLocal(key, fallback) {
       try {
-        return btoa("AR_India_2025_Secure_XYZ_!@#_Animesh_" + str).split("").reverse().join("");
+        const raw = localStorage.getItem(key);
+        if (!raw) return fallback;
+        return JSON.parse(raw);
       } catch {
-        return null;
+        return fallback;
       }
     }
 
-    function _unhash(h) {
+    function writeLocal(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function nextNumericIdFromList(list) {
+      const ids = list
+        .map((s) => Number(s.numericId || s.id || 0))
+        .filter((n) => Number.isFinite(n) && n > 0);
+      return ids.length ? Math.max(...ids) + 1 : 1001;
+    }
+
+    function ensureDefaults() {
+      if (!readLocal(STORAGE_KEYS.students, null)) {
+        writeLocal(STORAGE_KEYS.students, []);
+      }
+      if (!readLocal(STORAGE_KEYS.exams, null)) {
+        writeLocal(STORAGE_KEYS.exams, []);
+      }
+      if (!readLocal(STORAGE_KEYS.results, null)) {
+        writeLocal(STORAGE_KEYS.results, []);
+      }
+      if (!readLocal(STORAGE_KEYS.config, null)) {
+        writeLocal(STORAGE_KEYS.config, { password: 'admin123' });
+      }
+    }
+
+    async function initFirebase() {
+      if (!window.firebase || !window.firebase.apps || !window.firebase.apps.length) {
+        return;
+      }
+
       try {
-        return atob(String(h).split("").reverse().join("")).replace("AR_India_2025_Secure_XYZ_!@#_Animesh_", "");
-      } catch {
-        return null;
+        const app = window.firebase.initializeApp(firebaseConfig);
+        state.database = window.firebase.firestore(app);
+        state.useFirebase = true;
+        setFirebaseStatus('🟢 Firebase Connected', 'firebase-connected');
+      } catch (e) {
+        console.error('Firebase init failed:', e);
+        state.useFirebase = false;
+        setFirebaseStatus('🔴 Local mode', 'firebase-disconnected');
       }
     }
 
-    async function getSecurePass() {
-      if (!useFirebase) return localStorage.getItem("ar_ex_pass_cache") || "admin123";
-      const snap = await getDoc(doc(db, "config", "main"));
-      if (!snap.exists()) return "admin123";
-      return _unhash(snap.data().passHash) || "admin123";
-    }
+    function renderStudentList() {
+      const list = document.getElementById('student-list-display');
+      if (!list) return;
 
-    function getStudentId(student) {
-      return student.numericId || student.id || "";
-    }
-
-    function getStudentResults(studentId) {
-      return state.results.filter((r) => r.studentId === studentId);
-    }
-
-    function canAttemptExam(examId) {
-      if (!state.currentStudent) return false;
-      const studentId = getStudentId(state.currentStudent);
-      const resultList = state.results.filter((r) => r.studentId === studentId);
-      const attempts = resultList.filter((r) => r.examId === examId);
-      if (!attempts.length) return true;
-      const last = attempts.sort((a, b) => b.timestamp - a.timestamp)[0];
-      return Date.now() > (last.nextAttempt || 0);
-    }
-
-    function setQType(type) {
-      state.currentQType = type;
-      document.querySelectorAll(".q-type-tabs button").forEach((b) => b.classList.remove("active"));
-      const tab = document.getElementById("tab-" + type);
-      if (tab) tab.classList.add("active");
-    }
-
-    function refreshAllData() {
-      if (document.getElementById("screen-examiner")?.classList.contains("active")) {
-        renderExaminerPanel();
-      }
-      if (document.getElementById("screen-student-dash")?.classList.contains("active")) {
-        renderStudentDashboard();
-      }
-      if (document.getElementById("screen-student-exam")?.classList.contains("active")) {
-        renderQuestionPalette();
-      }
-    }
-
-    if (useFirebase) {
-      onSnapshot(collection(db, "students"), (snap) => {
-        state.students = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-        refreshAllData();
-      });
-
-      onSnapshot(collection(db, "exams"), (snap) => {
-        state.exams = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-        updateLeaderExamFilter();
-        refreshAllData();
-      });
-
-      onSnapshot(collection(db, "results"), (snap) => {
-        state.results = snap.docs.map((d) => d.data()).sort((a, b) => a.timestamp - b.timestamp);
-        refreshAllData();
-      });
-
-      onSnapshot(doc(db, "config", "main"), async (snap) => {
-        if (!snap.exists()) {
-          await setDoc(doc(db, "config", "main"), { passHash: _hash("admin123"), counters: {} });
-        }
-      });
-    }
-
-    function openExaminerLoginModal() {
-      document.getElementById("examiner-login-modal").classList.add("active");
-    }
-
-    function closeExaminerLoginModal() {
-      document.getElementById("examiner-login-modal").classList.remove("active");
-      document.getElementById("examiner-pass-input").value = "";
-    }
-
-    function openDetailsPopupById(id) {
-      const student = state.students.find((x) => x.id === id || x.numericId === id);
-      if (!student) {
-        document.getElementById("modal-details-container").innerHTML = generateDetailsHTML({ id, name: id });
-        document.getElementById("details-modal").classList.add("active");
-        return;
-      }
-      document.getElementById("modal-details-container").innerHTML = generateDetailsHTML(student);
-      document.getElementById("details-modal").classList.add("active");
-    }
-
-    function generateDetailsHTML(student) {
-      const sid = getStudentId(student);
-      return `
-        <div class="student-details-box">
-          <h3 style="text-align:center;color:var(--primary)">My Details</h3>
-          <div class="detail-row"><span>Numeric ID</span><strong>${sid}</strong></div>
-          <div class="detail-row"><span>Name</span><strong>${safeText(student.name)}</strong></div>
-          <div class="detail-row"><span>Guardian</span><strong>${safeText(student.guardian)}</strong></div>
-          <div class="detail-row"><span>Class</span><strong>${safeText(student.class)}</strong></div>
-          <div class="detail-row"><span>State</span><strong>${safeText(student.state)}</strong></div>
-          <div class="detail-row"><span>District</span><strong>${safeText(student.district)}</strong></div>
-          <div class="detail-row"><span>Block</span><strong>${safeText(student.block)}</strong></div>
-          <div class="detail-row"><span>Village</span><strong>${safeText(student.village)}</strong></div>
-        </div>
-      `;
-    }
-
-    function openMyDetailsPopup() {
-      if (!state.currentStudent) return;
-      openDetailsPopupById(getStudentId(state.currentStudent));
-    }
-
-    function closeDetailsModal() {
-      document.getElementById("details-modal").classList.remove("active");
-    }
-
-    function openStudentExamsModal(studentId) {
-      const s = state.students.find((x) => x.id === studentId || x.numericId === studentId) || { name: studentId, id: studentId };
-      const studentKey = getStudentId(s) || studentId;
-      const results = state.results.filter((r) => r.studentId === studentKey).sort((a, b) => b.timestamp - a.timestamp);
-
-      document.getElementById("student-exams-title").innerText = `All Tests - ${s.name} (${studentKey})`;
-      const tbody = document.getElementById("student-exams-table-body");
-      tbody.innerHTML = results.length
-        ? results.map((r) => `
-            <tr style="cursor:pointer;" onclick="openExamDetailModalByResultId('${r.studentId}','${r.examId}',${r.timestamp})">
-              <td>${safeText(r.examTitle)}</td>
-              <td>${safeText(r.score)}/${safeText(r.total)}</td>
-              <td>${safeText(r.percent)}%</td>
-              <td>${safeText(r.date)}</td>
-            </tr>
-          `).join("")
-        : `<tr><td colspan="4" style="text-align:center;color:#64748b;">No tests found</td></tr>`;
-
-      document.getElementById("student-exams-modal").classList.add("active");
-    }
-
-    function closeStudentExamsModal() {
-      document.getElementById("student-exams-modal").classList.remove("active");
-    }
-
-    function openExamDetailModalByResultId(sid, eid, ts) {
-      const r = state.results.find((x) => x.studentId === sid && x.examId === eid && x.timestamp === ts);
-      if (!r) return;
-      openExamDetailModalResult(r);
-    }
-
-    function openExamDetailModalResult(result) {
-      const exam = state.exams.find((e) => e.id === result.examId);
-      document.getElementById("exam-detail-title").innerText = `${result.examTitle} - ${result.student} (${result.studentId}) - ${result.percent}%`;
-
-      let html = `
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-          <div>
-            <p><strong>Name:</strong> ${safeText(result.student)}</p>
-            <p><strong>ID:</strong> ${safeText(result.studentId)}</p>
-          </div>
-          <div>
-            <p><strong>Exam:</strong> ${safeText(result.examTitle)}</p>
-            <p><strong>Score:</strong> ${safeText(result.score)}/${safeText(result.total)} (${safeText(result.percent)}%)</p>
-          </div>
-        </div>
-      `;
-
-      html += `
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr><th>Q#</th><th>Question</th><th>Your Answer</th><th>Correct</th><th>Status</th></tr>
-            </thead>
-            <tbody>
-      `;
-
-      if (exam && Array.isArray(result.answers)) {
-        exam.questions.forEach((q, i) => {
-          const yourAns = result.answers[i];
-          let yourAnsText = "Skipped";
-          if (yourAns !== null && yourAns !== "" && yourAns !== undefined) {
-            if (q.type === "mcq") {
-              yourAnsText = q.options[Number(yourAns)] ?? String(yourAns);
-            } else {
-              yourAnsText = safeText(yourAns);
-            }
-          }
-
-          let correctText = q.type === "mcq" ? q.options[q.correct] : q.correct;
-          let isCorrect = false;
-
-          if (yourAns !== null && yourAns !== "" && yourAns !== undefined) {
-            if (q.type === "mcq" && Number(yourAns) === q.correct) isCorrect = true;
-            else if (q.type === "tf" && String(yourAns) === String(q.correct)) isCorrect = true;
-            else if (q.type === "fill" && String(yourAns).toLowerCase() === String(q.correct).toLowerCase()) isCorrect = true;
-            else if (q.type === "short") {
-              const keys = String(q.correct).toLowerCase().split(",").map((k) => k.trim());
-              if (keys.some((k) => String(yourAns).toLowerCase().includes(k))) isCorrect = true;
-            }
-          }
-
-          const status = yourAns === null || yourAns === "" ? "Skipped" : isCorrect ? "✅ Correct" : "❌ Incorrect";
-          const badge = isCorrect ? "badge-success" : (yourAns === null || yourAns === "" ? "badge-warn" : "badge-danger");
-
-          html += `
-            <tr>
-              <td>Q${i + 1}</td>
-              <td><small>${safeText(q.text)}</small></td>
-              <td><small>${safeText(yourAnsText)}</small></td>
-              <td><small>${safeText(correctText)}</small></td>
-              <td><span class="badge ${badge}">${status}</span></td>
-            </tr>
-          `;
-        });
-      }
-
-      html += `</tbody></table></div>`;
-      document.getElementById("exam-detail-body").innerHTML = html;
-      document.getElementById("exam-detail-modal").classList.add("active");
-      closeStudentExamsModal();
-    }
-
-    function closeExamDetailModal() {
-      document.getElementById("exam-detail-modal").classList.remove("active");
-    }
-
-    function openExamQuestionsModal(examId) {
-      const ex = state.exams.find((e) => e.id === examId);
-      if (!ex) return;
-
-      document.getElementById("exam-questions-title").innerText = `${ex.title} - ${ex.questions.length} Questions`;
-      let html = `<p><strong>Open:</strong> ${formatLocalDate(ex.startTime)} | <strong>Close:</strong> ${formatLocalDate(ex.endTime)}</p><hr style="margin:10px 0;"><div>`;
-      ex.questions.forEach((q, i) => {
-        let correct = q.type === "mcq" ? `${q.options[q.correct]} (Option ${q.correct + 1})` : q.correct;
-        html += `
-          <div class="question-card">
-            <strong>Q${i + 1} [${q.type}]</strong> - ${safeText(q.text)}<br>
-            ${q.type === "mcq" ? `<small>Options: ${q.options.join(" | ")}</small><br>` : ""}
-            <small style="color:#16a34a;"><strong>Correct:</strong> ${safeText(correct)}</small>
-          </div>
-        `;
-      });
-      html += `</div>`;
-      document.getElementById("exam-questions-body").innerHTML = html;
-      document.getElementById("exam-questions-modal").classList.add("active");
-    }
-
-    function closeExamQuestionsModal() {
-      document.getElementById("exam-questions-modal").classList.remove("active");
-    }
-
-    function loginAsStudent() {
-      const id = document.getElementById("student-id-input").value.trim();
-      const name = document.getElementById("student-name-input").value.trim();
-      const cls = document.getElementById("student-class-input").value;
-
-      if (!id || !name || !cls) {
-        alert("Enter ID, Name, Class");
+      if (!state.students.length) {
+        list.innerHTML = '<div class="muted small">No students added yet.</div>';
         return;
       }
 
-      const s = state.students.find((x) =>
-        (x.numericId === id || x.id === id) &&
-        String(x.name).toLowerCase() === name.toLowerCase() &&
-        String(x.class) === String(cls)
-      );
-
-      if (!s) {
-        alert("Invalid ID/Name/Class - Check with examiner, data is in cloud");
-        return;
-      }
-
-      state.currentStudent = { ...s, numericId: s.numericId || s.id };
-      document.getElementById("display-student-name").innerText = s.name;
-      document.getElementById("display-student-id").innerText = s.numericId || s.id;
-      document.getElementById("display-student-name-exam").innerText = s.name;
-      document.getElementById("dash-class-label").innerText = s.class;
-      document.getElementById("dash-class-label-main").innerText = s.class;
-      document.getElementById("leader-class-filter").value = s.class;
-
-      renderStudentDashboard();
-      showScreen("screen-student-dash");
-
-      if (state.studentDashInterval) clearInterval(state.studentDashInterval);
-      state.studentDashInterval = setInterval(() => {
-        if (document.getElementById("screen-student-dash")?.classList.contains("active")) {
-          renderStudentDashboard();
-        }
-      }, 5000);
+      list.innerHTML = state.students
+        .slice()
+        .sort((a, b) => Number(a.numericId || 0) - Number(b.numericId || 0))
+        .map((student) => `
+          <div class="student-card">
+            <strong>${safeText(student.name)}</strong>
+            <div class="small muted">ID: ${safeText(student.numericId || student.id)}</div>
+            <div class="small">Class: ${safeText(student.class)}</div>
+            <div class="small">Guardian: ${safeText(student.guardian)}</div>
+            <div class="small">Village: ${safeText(student.village)}</div>
+          </div>
+        `)
+        .join('');
     }
 
-    async function loginAsExaminer() {
-      const pass = document.getElementById("examiner-pass-input").value;
-      const cur = await getSecurePass();
-      if (pass === cur) {
-        closeExaminerLoginModal();
-        showScreen("screen-examiner");
-        renderExaminerPanel();
-      } else {
-        alert("Wrong password");
-      }
-    }
-
-    function logout() {
-      clearInterval(state.timerInterval);
-      if (state.studentDashInterval) clearInterval(state.studentDashInterval);
-      state.studentDashInterval = null;
-      state.currentStudent = null;
-      state.currentExamId = null;
-      state.currentBuilderId = null;
-      showScreen("screen-home");
-    }
-
-    function updateLeaderExamFilter() {
-      const classValue = document.getElementById("leader-class-filter").value;
-      const sel = document.getElementById("leader-exam-filter");
-      const currentValue = sel ? sel.value : "";
-
-      let filtered = state.exams;
-      if (classValue) filtered = filtered.filter((e) => String(e.class) === String(classValue));
-
-      let options = '<option value="">All Exams</option>';
-      filtered.forEach((e) => {
-        options += `<option value="${e.id}">${safeText(e.title)} (Class ${safeText(e.class)})</option>`;
-      });
-      if (sel) {
-        sel.innerHTML = options;
-        if (filtered.some((e) => e.id === currentValue)) {
-          sel.value = currentValue;
-        }
-      }
-    }
-
-    function renderLeaderboard() {
-      const tbody = document.getElementById("class-leaderboard");
+    function renderStudentHistory() {
+      const tbody = document.getElementById('student-history-table');
       if (!tbody) return;
+      const current = state.currentStudent;
+      const studentId = current ? String(current.numericId || current.id || '') : '';
 
-      const classValue = document.getElementById("leader-class-filter").value;
-      const examId = document.getElementById("leader-exam-filter").value;
+      let rows = state.results.filter((r) => String(r.studentId) === studentId);
+      rows = rows.sort((a, b) => (Number(b.timestamp) || 0) - (Number(a.timestamp) || 0));
 
-      let results = [...state.results];
-      if (classValue) results = results.filter((r) => String(r.studentClass) === String(classValue));
-      if (examId) results = results.filter((r) => r.examId === examId);
-
-      results = results.sort((a, b) => b.percent - a.percent).slice(0, 50);
-
-      if (!results.length) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#64748b;">No data for selected Class/Exam</td></tr>`;
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="3" class="muted small">No exam attempts yet.</td></tr>';
         return;
       }
 
-      tbody.innerHTML = results.map((r) => {
-        const badge = r.percent >= 50 ? "badge-success" : "badge-danger";
-        return `
-          <tr>
-            <td>${safeText(r.student)}</td>
-            <td>${safeText(r.studentId)}</td>
-            <td>${safeText(r.studentClass)}</td>
-            <td><small>${safeText(r.examTitle)}</small></td>
-            <td><span class="badge ${badge}">${safeText(r.percent)}%</span></td>
-          </tr>
-        `;
-      }).join("");
+      tbody.innerHTML = rows.map((r) => `
+        <tr>
+          <td>${safeText(r.examTitle)}</td>
+          <td>${safeText(r.score)}/${safeText(r.total)}</td>
+          <td>${safeText(r.date || new Date(Number(r.timestamp)).toLocaleDateString())}</td>
+        </tr>
+      `).join('');
     }
 
-    function clearStudentSearch() {
-      document.getElementById("student-search-name").value = "";
-      document.getElementById("student-search-date").value = "";
-      renderStudentDashboard();
-    }
+    function renderAvailableExams() {
+      const container = document.getElementById('available-exams-container');
+      if (!container) return;
 
-    function clearExaminerSearch() {
-      document.getElementById("examiner-search-name").value = "";
-      document.getElementById("examiner-search-date").value = "";
-      renderExaminerExamsList();
+      const studentClass = state.currentStudent ? String(state.currentStudent.class || '') : '';
+      const exams = state.exams.filter((exam) => !exam.class || String(exam.class) === studentClass || exam.class === '' || exam.class == null);
+
+      if (!exams.length) {
+        container.innerHTML = '<p class="muted">No exams published yet.</p>';
+        return;
+      }
+
+      container.innerHTML = exams.map((exam) => `
+        <div class="section-box" style="margin-top:8px;">
+          <h4>${safeText(exam.title)}</h4>
+          <div class="small muted">Class: ${safeText(exam.class)}</div>
+          <div class="small muted">Time: ${safeText(exam.time || 30)} mins</div>
+          <button class="btn btn-sm" style="margin-top:10px;" onclick="alert('Exam module is not active in this build yet. Please create a real exam screen if needed.')">Start Exam</button>
+        </div>
+      `).join('');
     }
 
     function renderStudentDashboard() {
       if (!state.currentStudent) return;
-
-      const className = String(state.currentStudent.class);
-      let exams = state.exams.filter((ex) => String(ex.class) === className);
-
-      const nameFilter = document.getElementById("student-search-name")?.value.trim() || "";
-      const dateFilter = document.getElementById("student-search-date")?.value || "";
-
-      if (nameFilter) {
-        exams = exams.filter((ex) => String(ex.title).toLowerCase().includes(nameFilter.toLowerCase()));
-      }
-
-      if (dateFilter) {
-        exams = exams.filter((ex) => {
-          const d = new Date(ex.startTime);
-          return d.toISOString().slice(0, 10) === dateFilter;
-        });
-      }
-
-      const cont = document.getElementById("available-exams-container");
-      if (!cont) return;
-
-      if (!exams.length) {
-        cont.innerHTML = `<p style="color:#64748b;padding:20px;text-align:center;">No exams</p>`;
-      } else {
-        cont.innerHTML = exams.map((ex) => {
-          const now = Date.now();
-          const start = new Date(ex.startTime).getTime();
-          const end = new Date(ex.endTime).getTime();
-          const studentId = getStudentId(state.currentStudent);
-
-          let statusBadge = "";
-          let btnHtml = "";
-          if (now < start) {
-            statusBadge = '<span class="badge badge-warn">Waiting</span>';
-            btnHtml = `<button class="btn btn-secondary btn-sm" disabled>Not Open</button>`;
-          } else if (now > end) {
-            statusBadge = '<span class="badge badge-danger">Closed</span>';
-            btnHtml = `<button class="btn btn-secondary btn-sm" disabled>Closed</button>`;
-          } else {
-            statusBadge = '<span class="badge badge-success">OPEN</span>';
-            btnHtml = canAttemptExam(ex.id)
-              ? `<button class="btn btn-sm" onclick="startExam('${ex.id}')">Start</button>`
-              : `<button class="btn btn-secondary btn-sm" disabled>Attempted</button>`;
-          }
-
-          return `
-            <div class="question-card">
-              <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:5px;">
-                <strong>${safeText(ex.title)}</strong>
-                <div>${statusBadge}</div>
-              </div>
-              <small>Open: ${formatLocalDate(ex.startTime)} | Close: ${formatLocalDate(ex.endTime)}</small><br>
-              <small>Class: ${safeText(ex.class)} | Time: ${safeText(ex.time)} min</small>
-              <div style="margin-top:10px;">${btnHtml}</div>
-            </div>
-          `;
-        }).join("");
-      }
-
-      const studentResults = state.results.filter((r) => String(r.studentId) === String(getStudentId(state.currentStudent)));
-      const table = document.getElementById("student-history-table");
-      table.innerHTML = studentResults.length
-        ? studentResults.map((r) => `
-            <tr>
-              <td>${safeText(r.examTitle)}</td>
-              <td>${safeText(r.score)}/${safeText(r.total)} (${safeText(r.percent)}%)</td>
-              <td>${safeText(r.date)}</td>
-            </tr>
-          `).join("")
-        : `<tr><td colspan="3" style="text-align:center;color:#64748b;">No attempts yet</td></tr>`;
-
-      updateLeaderExamFilter();
-      renderLeaderboard();
+      const currentStudent = state.currentStudent;
+      document.getElementById('display-student-name').textContent = currentStudent.name;
+      document.getElementById('display-student-id').textContent = currentStudent.numericId || currentStudent.id;
+      document.getElementById('dash-class-label').textContent = currentStudent.class;
+      document.getElementById('dash-class-label-main').textContent = currentStudent.class;
+      renderAvailableExams();
+      renderStudentHistory();
     }
 
-    function renderLiveProgress() {
-      const tbody = document.getElementById("live-progress-body");
-      if (!tbody) return;
-
-      const recent = [...state.results].reverse().slice(0, 20);
-      if (!recent.length) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#64748b;">No activity yet</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = recent.map((r) => {
-        const badge = r.percent >= 50 ? "badge-success" : "badge-danger";
-        return `
-          <tr>
-            <td class="clickable" onclick="openStudentExamsModal('${r.studentId}')">${safeText(r.student)}</td>
-            <td>${safeText(r.studentId)}</td>
-            <td>${safeText(r.examTitle)}</td>
-            <td><span class="badge ${badge}">${safeText(r.percent)}%</span></td>
-            <td>${safeText(r.date)}</td>
-          </tr>
-        `;
-      }).join("");
+    function openStudentDetails() {
+      if (!state.currentStudent) return;
+      const student = state.currentStudent;
+      document.getElementById('details-content').innerHTML = `
+        <div class="student-card" style="border:2px solid var(--primary);">
+          <h3 style="text-align:center; color: var(--primary); margin-bottom:10px;">My Details</h3>
+          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>Numeric ID:</strong> ${safeText(student.numericId || student.id)}</div>
+          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>Name:</strong> ${safeText(student.name)}</div>
+          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>Guardian:</strong> ${safeText(student.guardian)}</div>
+          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>Class:</strong> ${safeText(student.class)}</div>
+          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>State:</strong> ${safeText(student.state)}</div>
+          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>District:</strong> ${safeText(student.district)}</div>
+          <div class="small" style="padding:8px 0; border-bottom:1px solid var(--border);"><strong>Block:</strong> ${safeText(student.block)}</div>
+          <div class="small" style="padding:8px 0;"><strong>Village:</strong> ${safeText(student.village)}</div>
+        </div>
+      `;
+      document.getElementById('details-modal').classList.add('active');
     }
 
-    function renderExaminerStudentDashboard() {
-      const tbody = document.getElementById("examiner-student-dashboard");
-      if (!tbody) return;
-
-      tbody.innerHTML = state.students.length
-        ? state.students.map((s) => {
-            const sid = getStudentId(s);
-            const count = state.results.filter((r) => String(r.studentId) === String(sid)).length;
-            return `
-              <tr>
-                <td><span class="clickable" onclick="openStudentExamsModal('${sid}')">${safeText(s.name)}</span></td>
-                <td><span class="clickable" onclick="openStudentExamsModal('${sid}')">${safeText(sid)}</span></td>
-                <td>${safeText(s.class)}</td>
-                <td>${count}</td>
-                <td>
-                  <button class="btn btn-secondary btn-sm" onclick="openDetailsPopupById('${sid}')">Details</button>
-                </td>
-              </tr>
-            `;
-          }).join("")
-        : `<tr><td colspan="5" style="text-align:center;">No students</td></tr>`;
+    function closeDetailsModal() {
+      const modal = document.getElementById('details-modal');
+      if (modal) modal.classList.remove('active');
     }
 
-    function renderExaminerExamsList() {
-      const div = document.getElementById("examiner-exams-list");
-      if (!div) return;
-
-      let exams = [...state.exams];
-      const nameFilter = document.getElementById("examiner-search-name")?.value.trim() || "";
-      const dateFilter = document.getElementById("examiner-search-date")?.value || "";
-
-      if (nameFilter) {
-        exams = exams.filter((ex) => String(ex.title).toLowerCase().includes(nameFilter.toLowerCase()));
-      }
-
-      if (dateFilter) {
-        exams = exams.filter((ex) => {
-          const d = new Date(ex.startTime);
-          return d.toISOString().slice(0, 10) === dateFilter;
-        });
-      }
-
-      div.innerHTML = exams.length
-        ? exams.map((e) => `
-            <div class="question-card" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-              <div>
-                <strong>${safeText(e.title)}</strong>
-                <span class="badge badge-info">Class ${safeText(e.class)}</span>
-                <div class="small muted">Open: ${formatLocalDate(e.startTime)} | Close: ${formatLocalDate(e.endTime)}</div>
-                <div class="small muted">${safeText(e.questions?.length || 0)} questions</div>
-              </div>
-              <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                <button class="btn btn-secondary btn-sm" onclick="openExamQuestionsModal('${e.id}')">View Qs</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteExam('${e.id}')">Delete</button>
-              </div>
-            </div>
-          `).join("")
-        : `<p style="color:#64748b;padding:20px;text-align:center;">No exams match the filter</p>`;
+    function resetCreateStudentForm() {
+      ['new-student-name', 'new-student-guardian', 'new-student-class', 'new-student-state', 'new-student-district', 'new-student-block', 'new-student-village'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
     }
 
-    function renderExaminerPanel() {
-      const totalStudents = state.students.length;
-      const totalExams = state.exams.length;
-      const totalResults = state.results.length;
-      const totalClasses = [...new Set(state.students.map((x) => String(x.class)))].length;
-
-      document.getElementById("stat-total-students").innerText = totalStudents;
-      document.getElementById("stat-total-exams").innerText = totalExams;
-      document.getElementById("stat-total-results").innerText = totalResults;
-      document.getElementById("stat-classes").innerText = totalClasses;
-
-      const studentListDiv = document.getElementById("student-list-display");
-      studentListDiv.innerHTML = state.students.length
-        ? state.students.map((st) => `
-            <div class="student-id-card">
-              <div style="font-weight:bold;">${safeText(st.name)}</div>
-              <div style="font-size:.85rem;color:#1e3a8a;font-weight:700;margin:4px 0;">${safeText(st.numericId || st.id)}</div>
-              <div style="font-size:.8rem;color:#64748b;">Class ${safeText(st.class)}</div>
-              <div style="margin-top:8px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">
-                <button class="btn btn-secondary btn-sm" onclick="openDetailsPopupById('${st.numericId || st.id}')">View</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteStudent('${st.id}')">Delete</button>
-              </div>
-            </div>
-          `).join("")
-        : `<p style="color:#64748b;padding:20px;text-align:center;">No students</p>`;
-
-      renderExaminerExamsList();
-      renderLiveProgress();
-      renderExaminerStudentDashboard();
+    function validateStudentPayload(student) {
+      if (!student.name || !student.guardian || !student.class || !student.state || !student.district || !student.block || !student.village) {
+        return false;
+      }
+      return true;
     }
 
-    async function changePasswordInside() {
-      const oldP = document.getElementById("old-pass-input").value.trim();
-      const newP = document.getElementById("new-pass-input").value.trim();
-      const confirmP = document.getElementById("confirm-pass-input").value.trim();
-
-      if (!oldP || !newP || !confirmP) {
-        alert("Fill all fields");
-        return;
-      }
-
-      const cur = await getSecurePass();
-      if (oldP !== cur) {
-        alert("Old password is wrong");
-        return;
-      }
-      if (newP !== confirmP) {
-        alert("New password and confirm password do not match");
-        return;
-      }
-
-      if (useFirebase) {
-        await updateDoc(doc(db, "config", "main"), { passHash: _hash(newP) });
-      } else {
-        localStorage.setItem("ar_ex_pass_cache", newP);
-      }
-
-      document.getElementById("old-pass-input").value = "";
-      document.getElementById("new-pass-input").value = "";
-      document.getElementById("confirm-pass-input").value = "";
-      alert("Password changed & synced to cloud!");
-    }
-
-    async function generateNumericID(cls, stateName, district, block, village) {
-      const sc = hashStringToNumber(stateName || "WB");
-      const dc = hashStringToNumber(district || "N24");
-      const bc = hashStringToNumber(block || "Habra");
-      const vc = hashStringToNumber(village || "Gob");
-
-      if (!useFirebase) {
-        let counters = JSON.parse(localStorage.getItem("ar_class_counters") || "{}");
-        const key = `${cls}_${dc}_${bc}`;
-        counters[key] = (counters[key] || 0) + 1;
-        localStorage.setItem("ar_class_counters", JSON.stringify(counters));
-        const serial = String(counters[key]).padStart(3, "0");
-        return `${cls}${sc}${dc}${bc}${vc}${serial}`;
-      }
-
-      const configRef = doc(db, "config", "main");
-      const snap = await getDoc(configRef);
-      let counters = snap.data()?.counters || {};
-      const key = `${cls}_${dc}_${bc}`;
-      counters[key] = (counters[key] || 0) + 1;
-      await updateDoc(configRef, { counters });
-      const serial = String(counters[key]).padStart(3, "0");
-      return `${cls}${sc}${dc}${bc}${vc}${serial}`;
+    async function saveStudentToFirestore(student) {
+      const ref = state.database.collection('students').doc(String(student.numericId));
+      await ref.set(student);
     }
 
     async function addStudent() {
-      const name = document.getElementById("new-student-name").value.trim();
-      const guardian = document.getElementById("new-student-guardian").value.trim();
-      const cls = document.getElementById("new-student-class").value;
-      const stateName = document.getElementById("new-student-state").value.trim();
-      const district = document.getElementById("new-student-district").value.trim();
-      const block = document.getElementById("new-student-block").value.trim();
-      const village = document.getElementById("new-student-village").value.trim();
+      const studentData = {
+        name: document.getElementById('new-student-name').value.trim(),
+        guardian: document.getElementById('new-student-guardian').value.trim(),
+        class: document.getElementById('new-student-class').value.trim(),
+        state: document.getElementById('new-student-state').value.trim(),
+        district: document.getElementById('new-student-district').value.trim(),
+        block: document.getElementById('new-student-block').value.trim(),
+        village: document.getElementById('new-student-village').value.trim()
+      };
 
-      if (!name || !guardian || !cls || !stateName || !district || !block || !village) {
-        alert("Fill all fields");
+      if (!validateStudentPayload(studentData)) {
+        alert('Please fill in all required student fields.');
         return;
       }
 
-      const numericId = await generateNumericID(cls, stateName, district, block, village);
-      const data = {
+      const numericId = nextNumericIdFromList(state.students);
+      const student = {
+        ...studentData,
         numericId,
-        name,
-        guardian,
-        class: cls,
-        state: stateName,
-        district,
-        block,
-        village,
+        id: String(numericId),
         createdAt: Date.now()
       };
 
-      if (useFirebase) {
-        await setDoc(doc(db, "students", numericId), data);
-      } else {
-        state.students.push({ id: numericId, ...data });
-      }
-
-      document.getElementById("new-student-name").value = "";
-      document.getElementById("new-student-guardian").value = "";
-      document.getElementById("new-student-class").value = "";
-      document.getElementById("new-student-state").value = "";
-      document.getElementById("new-student-district").value = "";
-      document.getElementById("new-student-block").value = "";
-      document.getElementById("new-student-village").value = "";
-
-      document.getElementById("last-generated-id").innerHTML = `✅ ${name} - ID: ${numericId} - Synced to cloud`;
-      renderExaminerPanel();
-    }
-
-    async function deleteStudent(id) {
-      if (!confirm("Delete " + id + "?")) return;
-
-      if (useFirebase) {
-        await deleteDoc(doc(db, "students", id));
-        const resSnap = await getDocs(collection(db, "results"));
-        for (const d of resSnap.docs) {
-          if (d.data().studentId === id) {
-            await deleteDoc(doc(db, "results", d.id));
-          }
+      try {
+        if (state.useFirebase && state.database) {
+          await saveStudentToFirestore(student);
         }
-      } else {
-        state.students = state.students.filter((x) => x.id !== id && x.numericId !== id);
-        state.results = state.results.filter((x) => x.studentId !== id);
-      }
 
-      renderExaminerPanel();
+        const currentStudents = readLocal(STORAGE_KEYS.students, []);
+        currentStudents.push(student);
+        writeLocal(STORAGE_KEYS.students, currentStudents);
+        state.students = currentStudents;
+
+        document.getElementById('last-generated-id').textContent = `Generated ID: ${numericId}`;
+        resetCreateStudentForm();
+        renderStudentList();
+        alert('Student added successfully.');
+      } catch (error) {
+        console.error('addStudent error:', error);
+        alert('Student could not be added. Please try again.');
+      }
     }
 
-    async function createExam() {
-      const title = document.getElementById("exam-title-input").value.trim();
-      const cls = document.getElementById("exam-class-input").value;
-      const time = parseInt(document.getElementById("exam-time-input").value, 10) || 30;
-      const sd = document.getElementById("exam-start-date").value;
-      const st = document.getElementById("exam-start-time").value;
-      const ed = document.getElementById("exam-end-date").value;
-      const et = document.getElementById("exam-end-time").value;
+    function loadStudentsFromStorage() {
+      ensureDefaults();
+      const saved = readLocal(STORAGE_KEYS.students, []);
+      state.students = Array.isArray(saved) ? saved : [];
+      renderStudentList();
+    }
 
-      if (!title || !cls || !sd || !st || !ed || !et) {
-        alert("Fill all exam fields");
+    function loginAsStudent() {
+      const id = document.getElementById('student-id-input').value.trim();
+      const name = document.getElementById('student-name-input').value.trim();
+      const className = document.getElementById('student-class-input').value.trim();
+
+      if (!id || !name || !className) {
+        alert('Please enter ID, Name and Class.');
         return;
       }
 
-      const start = new Date(`${sd}T${st}`);
-      const end = new Date(`${ed}T${et}`);
-
-      if (end <= start) {
-        alert("Close time must be after open time");
-        return;
-      }
-
-      const id = "exam_" + Date.now();
-      const data = {
-        title,
-        class: cls,
-        time,
-        questions: [],
-        startTime: start.toISOString(),
-        endTime: end.toISOString(),
-        createdAt: Date.now()
-      };
-
-      if (useFirebase) {
-        await setDoc(doc(db, "exams", id), data);
-      } else {
-        state.exams.push({ id, ...data });
-      }
-
-      state.currentBuilderId = id;
-      state.editingQIndex = -1;
-
-      document.getElementById("builder-exam-title").innerText = title;
-      document.getElementById("edit-mode-label").innerText = "";
-      document.getElementById("add-q-btn").innerText = "Add Q";
-      document.getElementById("cancel-edit-btn").style.display = "none";
-      document.getElementById("current-exam-builder").style.display = "block";
-      document.getElementById("builder-question-list").innerHTML = "";
-      document.getElementById("exam-title-input").value = "";
-      renderExaminerExamsList();
-    }
-
-    async function addQuestionToExam() {
-      if (!state.currentBuilderId) {
-        alert("Create exam first");
-        return;
-      }
-
-      const text = document.getElementById("q-text").value.trim();
-      if (!text) {
-        alert("Enter question text");
-        return;
-      }
-
-      let q = { text, type: state.currentQType };
-
-      if (state.currentQType === "mcq") {
-        const opts = [
-          document.getElementById("q-opt-0").value.trim(),
-          document.getElementById("q-opt-1").value.trim(),
-          document.getElementById("q-opt-2").value.trim(),
-          document.getElementById("q-opt-3").value.trim()
-        ];
-        if (opts.some((o) => !o)) {
-          alert("Fill all 4 options");
-          return;
-        }
-        const selected = document.querySelector('input[name="correct"]:checked');
-        if (!selected) {
-          alert("Select correct option");
-          return;
-        }
-        q.options = opts;
-        q.correct = parseInt(selected.value, 10);
-      } else if (state.currentQType === "tf") {
-        q.correct = document.getElementById("q-tf-ans").value;
-      } else if (state.currentQType === "fill") {
-        const ans = document.getElementById("q-fill-ans").value.trim();
-        if (!ans) {
-          alert("Enter answer");
-          return;
-        }
-        q.correct = ans;
-      } else if (state.currentQType === "short") {
-        const ans = document.getElementById("q-short-ans").value.trim();
-        if (!ans) {
-          alert("Enter keywords");
-          return;
-        }
-        q.correct = ans;
-      }
-
-      let ex = state.exams.find((x) => x.id === state.currentBuilderId);
-      if (!ex) {
-        alert("Exam not found");
-        return;
-      }
-
-      if (state.editingQIndex >= 0) {
-        ex.questions[state.editingQIndex] = q;
-        state.editingQIndex = -1;
-        document.getElementById("edit-mode-label").innerText = "";
-        document.getElementById("add-q-btn").innerText = "Add Q";
-        document.getElementById("cancel-edit-btn").style.display = "none";
-      } else {
-        ex.questions.push(q);
-      }
-
-      if (useFirebase) {
-        await updateDoc(doc(db, "exams", state.currentBuilderId), { questions: ex.questions });
-      }
-
-      clearQuestionForm();
-      renderBuilderList();
-    }
-
-    function clearQuestionForm() {
-      document.getElementById("q-text").value = "";
-      document.getElementById("q-opt-0").value = "";
-      document.getElementById("q-opt-1").value = "";
-      document.getElementById("q-opt-2").value = "";
-      document.getElementById("q-opt-3").value = "";
-      document.getElementById("q-fill-ans").value = "";
-      document.getElementById("q-short-ans").value = "";
-      document.getElementById("q-tf-ans").value = "true";
-    }
-
-    function renderBuilderList() {
-      const ex = state.exams.find((x) => x.id === state.currentBuilderId);
-      if (!ex) return;
-      const list = document.getElementById("builder-question-list");
-      list.innerHTML = ex.questions.map((q, i) => `
-        <div class="question-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-          <div>
-            <strong>Q${i + 1}</strong> [${q.type}] - ${safeText(q.text)}
-          </div>
-          <div style="display:flex;gap:6px;">
-            <button class="btn btn-secondary btn-sm" onclick="editQuestionInBuilder(${i})">Edit</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteBuilderQ(${i})">Delete</button>
-          </div>
-        </div>
-      `).join("");
-    }
-
-    function editQuestionInBuilder(index) {
-      const ex = state.exams.find((x) => x.id === state.currentBuilderId);
-      if (!ex) return;
-      const q = ex.questions[index];
-      if (!q) return;
-
-      state.editingQIndex = index;
-      document.getElementById("q-text").value = q.text;
-      setQType(q.type);
-
-      if (q.type === "mcq") {
-        document.getElementById("q-opt-0").value = q.options[0];
-        document.getElementById("q-opt-1").value = q.options[1];
-        document.getElementById("q-opt-2").value = q.options[2];
-        document.getElementById("q-opt-3").value = q.options[3];
-        document.querySelector(`input[name="correct"][value="${q.correct}"]`).checked = true;
-      } else if (q.type === "tf") {
-        document.getElementById("q-tf-ans").value = q.correct;
-      } else if (q.type === "fill") {
-        document.getElementById("q-fill-ans").value = q.correct;
-      } else if (q.type === "short") {
-        document.getElementById("q-short-ans").value = q.correct;
-      }
-
-      document.getElementById("edit-mode-label").innerText = `(Editing Q${index + 1})`;
-      document.getElementById("add-q-btn").innerText = "Update Q";
-      document.getElementById("cancel-edit-btn").style.display = "inline-block";
-    }
-
-    function cancelEditQ() {
-      state.editingQIndex = -1;
-      document.getElementById("edit-mode-label").innerText = "";
-      document.getElementById("add-q-btn").innerText = "Add Q";
-      document.getElementById("cancel-edit-btn").style.display = "none";
-      clearQuestionForm();
-    }
-
-    async function deleteBuilderQ(index) {
-      if (!confirm("Delete question?")) return;
-      const ex = state.exams.find((x) => x.id === state.currentBuilderId);
-      if (!ex) return;
-      ex.questions.splice(index, 1);
-      if (useFirebase) {
-        await updateDoc(doc(db, "exams", state.currentBuilderId), { questions: ex.questions });
-      }
-      if (state.editingQIndex === index) cancelEditQ();
-      renderBuilderList();
-    }
-
-    function finishExam() {
-      state.currentBuilderId = null;
-      state.editingQIndex = -1;
-      document.getElementById("current-exam-builder").style.display = "none";
-      alert("Exam Published to Cloud! All students see it instantly!");
-    }
-
-    async function deleteExam(id) {
-      if (!confirm("Delete exam?")) return;
-      if (useFirebase) {
-        await deleteDoc(doc(db, "exams", id));
-        const resSnap = await getDocs(collection(db, "results"));
-        for (const d of resSnap.docs) {
-          if (d.data().examId === id) {
-            await deleteDoc(doc(db, "results", d.id));
-          }
-        }
-      } else {
-        state.exams = state.exams.filter((x) => x.id !== id);
-        state.results = state.results.filter((r) => r.examId !== id);
-      }
-      renderExaminerExamsList();
-    }
-
-    function startExam(examId) {
-      const exam = state.exams.find((e) => e.id === examId);
-      if (!exam) return;
-
-      const now = Date.now();
-      const start = new Date(exam.startTime).getTime();
-      const end = new Date(exam.endTime).getTime();
-
-      if (now < start || now > end) {
-        alert("Not in exam window");
-        return;
-      }
-
-      state.currentExamId = examId;
-      state.examState = {
-        answers: Array(exam.questions.length).fill(null),
-        qTimes: Array(exam.questions.length).fill(0),
-        qStartTime: Date.now(),
-        currentIndex: 0,
-        skipped: Array(exam.questions.length).fill(false),
-        startExamTime: Date.now()
-      };
-
-      document.getElementById("display-exam-title").innerText = exam.title;
-      document.getElementById("display-student-name-exam").innerText = state.currentStudent.name;
-      document.getElementById("dash-total").innerText = exam.questions.length;
-
-      renderQuestion();
-      renderQuestionPalette();
-      updateExamProgress();
-      showScreen("screen-student-exam");
-
-      let timeLeft = exam.time * 60;
-      clearInterval(state.timerInterval);
-      state.timerInterval = setInterval(() => {
-        const m = Math.floor(timeLeft / 60);
-        const s = timeLeft % 60;
-        document.getElementById("exam-timer").innerText = `Time: ${m}:${s < 10 ? "0" : ""}${s}`;
-
-        if (timeLeft <= 0) {
-          clearInterval(state.timerInterval);
-          submitExam();
-          return;
-        }
-
-        timeLeft--;
-      }, 1000);
-    }
-
-    function saveCurrentQTime() {
-      if (!state.currentExamId) return;
-      const currentIndex = state.examState.currentIndex;
-      if (currentIndex < 0) return;
-      const now = Date.now();
-      state.examState.qTimes[currentIndex] += now - state.examState.qStartTime;
-      state.examState.qStartTime = now;
-    }
-
-    function collectAnswer() {
-      if (!state.currentExamId) return;
-      const exam = state.exams.find((e) => e.id === state.currentExamId);
-      if (!exam) return;
-
-      const q = exam.questions[state.examState.currentIndex];
-      if (!q) return;
-
-      if (q.type === "mcq" || q.type === "tf") {
-        const selected = document.querySelector('input[name="curQ"]:checked');
-        if (selected) {
-          state.examState.answers[state.examState.currentIndex] = q.type === "mcq" ? parseInt(selected.value, 10) : selected.value;
-          state.examState.skipped[state.examState.currentIndex] = false;
-        }
-      } else {
-        const el = document.getElementById("curAns");
-        if (el && el.value.trim()) {
-          state.examState.answers[state.examState.currentIndex] = el.value.trim();
-          state.examState.skipped[state.examState.currentIndex] = false;
-        } else {
-          state.examState.answers[state.examState.currentIndex] = null;
-        }
-      }
-    }
-
-    function renderQuestion() {
-      const exam = state.exams.find((e) => e.id === state.currentExamId);
-      if (!exam) return;
-
-      const q = exam.questions[state.examState.currentIndex];
-      if (!q) return;
-
-      let html = `<p><strong>Q${state.examState.currentIndex + 1} [${q.type.toUpperCase()}]</strong> - ${safeText(q.text)}</p>`;
-
-      if (q.type === "mcq") {
-        html += q.options.map((o, j) => `
-          <div style="margin-top:8px;">
-            <label>
-              <input type="radio" name="curQ" value="${j}" ${state.examState.answers[state.examState.currentIndex] === j ? "checked" : ""} />
-              ${safeText(o)}
-            </label>
-          </div>
-        `).join("");
-      } else if (q.type === "tf") {
-        html += `
-          <div><label><input type="radio" name="curQ" value="true" ${state.examState.answers[state.examState.currentIndex] === "true" ? "checked" : ""} /> True</label></div>
-          <div><label><input type="radio" name="curQ" value="false" ${state.examState.answers[state.examState.currentIndex] === "false" ? "checked" : ""} /> False</label></div>
-        `;
-      } else if (q.type === "fill") {
-        html += `<input type="text" id="curAns" value="${safeText(state.examState.answers[state.examState.currentIndex] || "")}" placeholder="Type answer" />`;
-      } else if (q.type === "short") {
-        html += `<textarea id="curAns" rows="2">${safeText(state.examState.answers[state.examState.currentIndex] || "")}</textarea>`;
-      }
-
-      document.getElementById("single-question-display").innerHTML = html;
-      renderQuestionPalette();
-    }
-
-    function updateExamProgress() {
-      const answered = state.examState.answers.filter((x) => x !== null && x !== "").length;
-      const skipped = state.examState.skipped.filter(Boolean).length;
-      document.getElementById("dash-attended").innerText = answered;
-      document.getElementById("dash-skipped").innerText = skipped;
-    }
-
-    function renderQuestionPalette() {
-      const exam = state.exams.find((e) => e.id === state.currentExamId);
-      if (!exam) return;
-      const pal = document.getElementById("q-palette");
-      if (!pal) return;
-
-      pal.innerHTML = "";
-      exam.questions.forEach((_, i) => {
-        const node = document.createElement("div");
-        node.innerText = i + 1;
-
-        if (state.examState.answers[i] !== null && state.examState.answers[i] !== "") {
-          node.classList.add("attended");
-        }
-
-        if (state.examState.skipped[i]) {
-          node.classList.add("skipped");
-        }
-
-        if (i === state.examState.currentIndex) {
-          node.classList.add("current");
-        }
-
-        node.onclick = () => {
-          saveCurrentQTime();
-          collectAnswer();
-          state.examState.currentIndex = i;
-          state.examState.qStartTime = Date.now();
-          renderQuestion();
-          updateExamProgress();
-        };
-
-        pal.appendChild(node);
-      });
-    }
-
-    function nextQ() {
-      if (!state.currentExamId) return;
-      saveCurrentQTime();
-      collectAnswer();
-      const exam = state.exams.find((e) => e.id === state.currentExamId);
-      if (exam && state.examState.currentIndex < exam.questions.length - 1) {
-        state.examState.currentIndex++;
-        state.examState.qStartTime = Date.now();
-        renderQuestion();
-      }
-      updateExamProgress();
-    }
-
-    function prevQ() {
-      if (!state.currentExamId) return;
-      saveCurrentQTime();
-      collectAnswer();
-      if (state.examState.currentIndex > 0) {
-        state.examState.currentIndex--;
-        state.examState.qStartTime = Date.now();
-        renderQuestion();
-      }
-      updateExamProgress();
-    }
-
-    function skipQ() {
-      if (!state.currentExamId) return;
-      saveCurrentQTime();
-      const idx = state.examState.currentIndex;
-      state.examState.skipped[idx] = true;
-      state.examState.answers[idx] = null;
-
-      const exam = state.exams.find((e) => e.id === state.currentExamId);
-      if (exam && idx < exam.questions.length - 1) {
-        state.examState.currentIndex++;
-        state.examState.qStartTime = Date.now();
-        renderQuestion();
-      }
-      updateExamProgress();
-    }
-
-    function skipAndExit() {
-      if (confirm("Exit exam?")) {
-        clearInterval(state.timerInterval);
-        goToStudentDash();
-      }
-    }
-
-    async function submitExam() {
-      if (!state.currentExamId || !state.currentStudent) return;
-
-      clearInterval(state.timerInterval);
-      saveCurrentQTime();
-      collectAnswer();
-
-      const exam = state.exams.find((e) => e.id === state.currentExamId);
-      if (!exam) return;
-
-      let score = 0;
-      exam.questions.forEach((q, i) => {
-        const ans = state.examState.answers[i];
-        if (ans === null || ans === "") return;
-
-        if (q.type === "mcq" && Number(ans) === q.correct) score++;
-        else if (q.type === "tf" && String(ans) === String(q.correct)) score++;
-        else if (q.type === "fill" && String(ans).toLowerCase() === String(q.correct).toLowerCase()) score++;
-        else if (q.type === "short") {
-          const keys = String(q.correct).toLowerCase().split(",").map((k) => k.trim());
-          if (keys.some((k) => String(ans).toLowerCase().includes(k))) score++;
-        }
+      const found = state.students.find((student) => {
+        const numericId = student.numericId || student.id;
+        return String(numericId) === String(id) && String(student.name).toLowerCase() === name.toLowerCase() && String(student.class) === className;
       });
 
-      const total = exam.questions.length;
-      const percent = total ? Math.round((score / total) * 100) : 0;
-
-      const resultData = {
-        student: state.currentStudent.name,
-        studentId: getStudentId(state.currentStudent),
-        studentClass: state.currentStudent.class,
-        examId: exam.id,
-        examTitle: exam.title,
-        examClass: exam.class,
-        score,
-        total,
-        percent,
-        date: new Date().toLocaleString(),
-        timestamp: Date.now(),
-        nextAttempt: Date.now() + 86400000,
-        totalTimeSpent: Math.floor((Date.now() - state.examState.startExamTime) / 60000) + "m",
-        answers: state.examState.answers,
-        qTimesArr: state.examState.qTimes
-      };
-
-      if (useFirebase) {
-        await addDoc(collection(db, "results"), resultData);
-      } else {
-        state.results.push(resultData);
+      if (!found) {
+        alert('Student not found. Please add the student first in the examiner panel.');
+        return;
       }
 
-      document.getElementById("result-summary-box").innerHTML = `
-        <h3>${safeText(exam.title)}</h3>
-        <p><strong>ID:</strong> ${safeText(getStudentId(state.currentStudent))} | <strong>Name:</strong> ${safeText(state.currentStudent.name)}</p>
-        <p><strong>Score:</strong> ${score}/${total} | <strong>Percentage:</strong> ${percent}%</p>
-        <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
-      `;
-
-      state.currentExamId = null;
-      showScreen("screen-student-results");
+      state.currentStudent = found;
+      showScreen('screen-student-dash');
       renderStudentDashboard();
     }
 
-    function goToStudentDash() {
-      renderStudentDashboard();
-      showScreen("screen-student-dash");
+    function logout() {
+      state.currentStudent = null;
+      state.examinerLoggedIn = false;
+      showScreen('screen-home');
+      closeExaminerLoginModal();
     }
 
-    window.loginAsStudent = loginAsStudent;
-    window.loginAsExaminer = loginAsExaminer;
-    window.logout = logout;
-    window.openExaminerLoginModal = openExaminerLoginModal;
-    window.closeExaminerLoginModal = closeExaminerLoginModal;
-    window.changePasswordInside = changePasswordInside;
-    window.openDetailsPopupById = openDetailsPopupById;
-    window.openMyDetailsPopup = openMyDetailsPopup;
-    window.closeDetailsModal = closeDetailsModal;
-    window.openStudentExamsModal = openStudentExamsModal;
-    window.closeStudentExamsModal = closeStudentExamsModal;
-    window.openExamDetailModalByResultId = openExamDetailModalByResultId;
-    window.openExamDetailModalResult = openExamDetailModalResult;
-    window.closeExamDetailModal = closeExamDetailModal;
-    window.openExamQuestionsModal = openExamQuestionsModal;
-    window.closeExamQuestionsModal = closeExamQuestionsModal;
-    window.renderStudentDashboard = renderStudentDashboard;
-    window.renderExaminerPanel = renderExaminerPanel;
-    window.renderExaminerExamsList = renderExaminerExamsList;
-    window.renderLeaderboard = renderLeaderboard;
-    window.updateLeaderExamFilter = updateLeaderExamFilter;
-    window.clearStudentSearch = clearStudentSearch;
-    window.clearExaminerSearch = clearExaminerSearch;
-    window.addStudent = addStudent;
-    window.deleteStudent = deleteStudent;
-    window.createExam = createExam;
-    window.addQuestionToExam = addQuestionToExam;
-    window.editQuestionInBuilder = editQuestionInBuilder;
-    window.deleteBuilderQ = deleteBuilderQ;
-    window.cancelEditQ = cancelEditQ;
-    window.finishExam = finishExam;
-    window.deleteExam = deleteExam;
-    window.startExam = startExam;
-    window.nextQ = nextQ;
-    window.prevQ = prevQ;
-    window.skipQ = skipQ;
-    window.skipAndExit = skipAndExit;
-    window.submitExam = submitExam;
-    window.goToStudentDash = goToStudentDash;
+    function openExaminerLoginModal() {
+      document.getElementById('examiner-login-modal').classList.add('active');
+    }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll(".q-type-tabs button").forEach((btn) => {
-        btn.onclick = () => setQType(btn.dataset.type);
-      });
+    function closeExaminerLoginModal() {
+      document.getElementById('examiner-login-modal').classList.remove('active');
+      document.getElementById('examiner-pass-input').value = '';
+    }
 
-      setQType("mcq");
-      renderExaminerPanel();
-      renderStudentDashboard();
-      renderLeaderboard();
+    function loginAsExaminer() {
+      const password = document.getElementById('examiner-pass-input').value.trim();
+      const config = readLocal(STORAGE_KEYS.config, { password: 'admin123' });
+      const expected = config.password || 'admin123';
 
-      const examBuilder = document.getElementById("current-exam-builder");
-      if (examBuilder) examBuilder.style.display = "none";
+      if (password === expected) {
+        state.examinerLoggedIn = true;
+        closeExaminerLoginModal();
+        showScreen('screen-examiner');
+        renderStudentList();
+        return;
+      }
 
-      document.getElementById("cancel-edit-btn").style.display = "none";
-      document.getElementById("builder-exam-title").innerText = "No exam created";
-    });
+      alert('Invalid examiner password.');
+    }
+
+    async function syncFirebaseStudents() {
+      if (!state.useFirebase || !state.database) return;
+      try {
+        const snapshot = await state.database.collection('students').get();
+        const students = [];
+        snapshot.forEach((doc) => students.push({ ...doc.data(), id: String(doc.id), numericId: Number(doc.data().numericId || doc.id) }));
+
+        writeLocal(STORAGE_KEYS.students, students);
+        state.students = students;
+        renderStudentList();
+      } catch (error) {
+        console.error('Firebase sync failed:', error);
+      }
+    }
+
+    async function initApp() {
+      ensureDefaults();
+      await initFirebase();
+      loadStudentsFromStorage();
+
+      if (state.useFirebase && state.database) {
+        await syncFirebaseStudents();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
 </html>
